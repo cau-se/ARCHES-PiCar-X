@@ -1,0 +1,20 @@
+<launch>
+     <arg name="motor2_name" default="motor_right" />
+     <arg name="motor2_direction_pin" default="23" />
+     <arg name="motor2_pwm_pin" default="P13" />
+     <arg name="motor2_i2c_port" default="/dev/i2c-0" />
+     <arg name="motor2_motor_side" default="1" />
+     <arg name="motor2_command_topic" default="$(arg motor2_name)/speed" />
+     <arg name="motor2_status_topic" default="$(arg motor2_name)/status" />
+
+     <include file="$(find picarx_dcmotor_driver)/launch/dcmotor_driver.launch">
+          <arg name="name" value="$(arg motor2_name)" />
+          <arg name="direction_pin" value="$(arg motor2_direction_pin)" />
+          <arg name="pwm_pin" value="$(arg motor2_pwm_pin)" />
+          <arg name="i2c_port" value="$(arg motor2_i2c_port)" />
+          <arg name="motor_side" value="$(arg motor2_motor_side)" />
+          <arg name="command_topic" value="$(arg motor2_command_topic)" />
+          <arg name="status_topic" value="$(arg motor2_status_topic)" />
+     </include>
+
+</launch>

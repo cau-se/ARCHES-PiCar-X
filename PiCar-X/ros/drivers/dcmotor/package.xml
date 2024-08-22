@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>picarx_dcmotor_driver</name>
+  <version>0.0.0</version>
+  <description>The picarx_dcmotor_driver package to run a DCMotore Driver Node</description>
+
+  <maintainer email="alexanderbarbie@gmx.de">Alexander Barbie</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>picarx_msgs</exec_depend>
+
+
+</package>

@@ -1,0 +1,21 @@
+<launch>
+    <arg name="name" />
+    <arg name="direction_pin" />
+    <arg name="pwm_pin"/>
+    <arg name="i2c_port"/>
+    <arg name="motor_side"/>
+    <arg name="clutchgear_topic"/>
+
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="$(arg name)" pkg="picarx_clutchgear_emulator" type="clutchgear_emulator.py"
+    respawn="false" output="screen" args="$(arg name) $(arg direction_pin) $(arg pwm_pin) $(arg i2c_port) $(arg motor_side)" >
+        <param  name="name" type="str" value="$(arg name)" />
+        <param  name="direction_pin" type="str" value="$(arg direction_pin)" />
+        <param  name="pwm_pin" type="str" value="$(arg pwm_pin)"/>
+        <param  name="i2c_port" type="str" value="$(arg i2c_port)"/>
+        <param  name="motor_side" type="int" value="$(arg motor_side)"/>
+        <param  name="clutchgear_topic" value="$(arg clutchgear_topic)"/>
+  </node>
+  
+</launch>

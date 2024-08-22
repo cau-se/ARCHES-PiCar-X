@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>picarx_msgs</name>
+    <version>0.0.0</version>
+    <description>ROS emulator for the SunFounder Clutch Gear</description>
+
+    <maintainer email="alexanderbarbie@gmx.de">Alexander Barbie</maintainer>
+
+    <license>Apache 2.0</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <depend>message_generation</depend>
+    <depend>message_runtime</depend>
+    <depend>std_msgs</depend>
+    <depend>arches_msgs</depend>
+</package>

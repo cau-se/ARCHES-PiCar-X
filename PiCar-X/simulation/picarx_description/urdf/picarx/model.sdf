@@ -1,0 +1,439 @@
+<sdf version='1.7'>
+  <model name='picarx'>
+    <joint name='chassis_to_world' type='fixed'>
+      <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+      <parent>world</parent>
+      <child>chassis</child>
+    </joint>
+    <link name='chassis'>
+      <pose relative_to='chassis_to_world'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='chassis_collision'>
+        <pose>0 0 0.025 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/Chassis.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <pose>0 0 0.025 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/Chassis.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint_wheel_left' type='revolute'>
+      <pose relative_to='chassis'>0 0.063 0.04 1.5708 -0 0</pose>
+      <parent>chassis</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='left_wheel'>
+      <pose relative_to='joint_wheel_left'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_wheel_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelRearLeft.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='left_wheel_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelRearLeft.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint_wheel_right' type='revolute'>
+      <pose relative_to='chassis'>0 -0.063 0.04 1.5708 -0 0</pose>
+      <parent>chassis</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='right_wheel'>
+      <pose relative_to='joint_wheel_right'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_wheel_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelRearRight.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='right_wheel_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelRearRight.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='steer_left' type='revolute'>
+      <pose relative_to='chassis'>0.142 0.048 0.0395 0 -0 0</pose>
+      <parent>chassis</parent>
+      <child>picarx_steer_fl</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_steer_fl'>
+      <pose relative_to='steer_left'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_steer_fl_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.01 0.024</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='picarx_steer_fl_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.01 0.024</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='front_left_wheel' type='revolute'>
+      <pose relative_to='picarx_steer_fl'>0 0.02 0.005 0 -0 0</pose>
+      <parent>picarx_steer_fl</parent>
+      <child>picarx_WheelFrontLeft</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_WheelFrontLeft'>
+      <pose relative_to='front_left_wheel'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_WheelFrontLeft_collision'>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelFrontLeft.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='picarx_WheelFrontLeft_visual'>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelFrontLeft.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='steerbar_left' type='revolute'>
+      <pose relative_to='picarx_steer_fl'>0.015 -0.0265 0 0 -0 0</pose>
+      <parent>picarx_steer_fl</parent>
+      <child>picarx_steer_bar_l</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>1</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_steer_bar_l'>
+      <pose relative_to='steerbar_left'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.002</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_steer_bar_l_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.043 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='picarx_steer_bar_l_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.043 0.003</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='steer_right' type='revolute'>
+      <pose relative_to='chassis'>0.142 -0.048 0.0395 0 -0 0</pose>
+      <parent>chassis</parent>
+      <child>picarx_steer_fr</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_steer_fr'>
+      <pose relative_to='steer_right'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_steer_fr_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.01 0.024</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='picarx_steer_fr_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.01 0.024</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='front_right_wheel' type='revolute'>
+      <pose relative_to='picarx_steer_fr'>0 -0.02 0.005 0 -0 0</pose>
+      <parent>picarx_steer_fr</parent>
+      <child>picarx_WheelFrontRight</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_WheelFrontRight'>
+      <pose relative_to='front_right_wheel'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_WheelFrontRight_collision'>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelFrontRight.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='picarx_WheelFrontRight_visual'>
+        <pose>0 0 0 -1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://picarx_description/meshes/WheelFrontRight.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='steerbar_right' type='revolute'>
+      <pose relative_to='picarx_steer_fr'>0.015 0.0265 0 0 -0 0</pose>
+      <parent>picarx_steer_fr</parent>
+      <child>picarx_steer_bar_r</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>1</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='picarx_steer_bar_r'>
+      <pose relative_to='steerbar_right'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.166667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.166667</iyy>
+          <iyz>0</iyz>
+          <izz>0.166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='picarx_steer_bar_r_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.043 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='picarx_steer_bar_r_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.043 0.003</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+    <self_collide>1</self_collide>
+    <joint name='ackermann_bar_loop_joint_right' type='fixed'>
+      <parent>picarx_steer_bar_r</parent>
+      <child>picarx_steer_bar_l</child>
+    </joint>
+    <static>0</static>
+    <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+      <robotNamespace>/picarx</robotNamespace>
+    </plugin>
+  </model>
+</sdf>

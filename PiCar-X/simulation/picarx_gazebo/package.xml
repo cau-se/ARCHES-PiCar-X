@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>picarx_gazebo</name>
+  <version>0.0.0</version>
+  <description>The picarx_gazebo package</description>
+
+  <maintainer email="alexanderbarbie@gmx.de">Alexander Barbie</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_ros_control</depend>
+  <depend>gazebo_plugins</depend>
+  <depend>picarx_description</depend>
+  <depend>picarx_control</depend>
+  <depend>xacro</depend>
+
+</package>

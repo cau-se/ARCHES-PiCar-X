@@ -1,0 +1,18 @@
+<launch>
+    <arg name="name" default="motor_emulator_left" />
+    <arg name="direction_pin" default="24" />
+    <arg name="pwm_pin" default="P12"/>
+    <arg name="i2c_port" default="/dev/i2c-0" />
+    <arg name="motor_side" default="0" />
+    <arg name="controller_publisher_topic" default="/picarx/rear_left_wheel_controller/command" />
+
+   <include file="$(find picarx_dcmotor_emulator)/launch/dcmotor_emulator.launch">
+        <arg  name="name" value="$(arg name)" />
+        <arg  name="direction_pin" value="$(arg direction_pin)" />
+        <arg  name="pwm_pin" value="$(arg pwm_pin)"/>
+        <arg  name="i2c_port" value="$(arg i2c_port)"/>
+        <arg  name="motor_side" value="$(arg motor_side)"/>
+        <arg  name="controller_publisher_topic" value="$(arg controller_publisher_topic)"/>
+   </include>
+
+</launch>

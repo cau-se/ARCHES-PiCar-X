@@ -1,0 +1,11 @@
+ARG TAG=latest
+
+FROM ghcr.io/cau-se/arches-picar-x/picarx:${TAG}
+
+RUN wget -c https://git.geomar.de/open-source/arches/arches_mqtt_bridge/-/archive/main/arches_mqtt_bridge-main.tar.gz -O - | tar -xz \
+    && mv arches_mqtt_bridge-main ./src/arches/arches_mqtt_bridge \
+    && pip3 install paho-mqtt 
+
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin build"
+
+ENTRYPOINT [ "/root/catkin_ws/src/arches/arches_core/ENTRYPOINT.sh" ]

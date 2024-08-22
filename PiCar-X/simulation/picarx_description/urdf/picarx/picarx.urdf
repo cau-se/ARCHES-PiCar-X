@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<robot name="picarx" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link" />
+
+  <link name="chassis">
+    <inertial>
+      <mass value="0.350" />
+      <origin rpy="0  0  0" xyz="0.042  0.0  0.035" />
+      <inertia izz="0.0013096" ixy="0" ixz="0" ixx="0.0001692" iyz="0" iyy="0.0011929" />
+    </inertial>
+    <collision>
+      <origin rpy="0  0  0" xyz="0  0  0.02" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/Chassis.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0  0  0" xyz="0  0  0.02" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/Chassis.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_base_link" type="fixed">
+    <parent link="base_link" />
+    <child link="chassis" />
+  </joint>
+
+  <link name="right_wheel">
+    <inertial>
+      <mass value="0.025" />
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <inertia ixx="1.08333E-05" ixy="0" ixz="0" iyy="1.08333E-05" iyz="0" izz="0.0000191" />
+    </inertial>
+    <collision>
+      <origin rpy=" 0  0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelRearRight.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy=" 0  0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelRearRight.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="joint_wheel_right" type="continuous">
+    <parent link="chassis" />
+    <child link="right_wheel" />
+    <origin rpy="1.5708  0 0" xyz="0 -0.06 0.0326" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_wheel">
+    <inertial>
+      <mass value="0.025" />
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <inertia ixx="1.08333E-05" ixy="0" ixz="0" iyy="1.08333E-05" iyz="0" izz="0.0000191" />
+    </inertial>
+    <collision>
+      <origin rpy=" 0  0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelRearRight.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy=" 0  0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelRearRight.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="joint_wheel_left" type="continuous">
+    <parent link="chassis" />
+    <child link="left_wheel" />
+    <origin rpy="-1.5708  0 0" xyz="0 0.06 0.0326" />
+    <axis xyz="0  0  1" />
+  </joint>
+
+
+  <link name="picarx_steer_fl">
+    <inertial>
+      <mass value="0.005" />
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <inertia ixx="2.81667E-07" ixy="0" ixz="0" iyy="4.06667E-07" iyz="0" izz="0.0000002" />
+    </inertial>
+    <visual>
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.02 0.01 0.024" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.02 0.01 0.024" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="steer_left" type="revolute">
+    <parent link="chassis" />
+    <child link="picarx_steer_fl" />
+    <origin rpy="0  0  0" xyz="0.14   0.048  0.035" />
+    <limit effort="10" velocity="1" upper="0.698132" lower="-0.698132" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="picarx_steer_fr">
+    <inertial>
+      <mass value="0.005" />
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <inertia ixx="2.81667E-07" ixy="0" ixz="0" iyy="4.06667E-07" iyz="0" izz="0.0000002" />
+    </inertial>
+    <visual>
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.02 0.01 0.024" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0  0  0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.02 0.01 0.024" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="steer_right" type="continuous">
+    <parent link="chassis" />
+    <child link="picarx_steer_fr" />
+    <origin rpy="0  0  0" xyz="0.14   -0.048  0.035" />
+    <limit effort="10" velocity="1" upper="0.698132" lower="-0.698132" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="front_wheel_left">
+    <inertial>
+      <mass value="0.025" />
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <inertia ixx="1.08333E-05" ixy="0" ixz="0" iyy="1.08333E-05" iyz="0" izz="0.0000191" />
+    </inertial>
+    <collision>
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelFrontLeft.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelFrontLeft.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="steer_wheel_left" type="continuous">
+    <parent link="picarx_steer_fl" />
+    <child link="front_wheel_left" />
+    <origin rpy="-1.5708 0 0" xyz="0.0 0.012 0.0" />
+    <axis xyz="0  0  1" />
+  </joint>
+
+  <link name="front_wheel_right">
+    <inertial>
+      <mass value="0.025" />
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <inertia ixx="1.08333E-05" ixy="0" ixz="0" iyy="1.08333E-05" iyz="0" izz="0.0000191" />
+    </inertial>
+    <collision>
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelFrontRight.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0  0  0" xyz="0 0.0 0" />
+      <geometry>
+        <mesh filename="package://picarx_description/meshes/WheelFrontRight.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="steer_wheel_right" type="continuous">
+    <parent link="picarx_steer_fr" />
+    <child link="front_wheel_right" />
+    <origin rpy="-1.5708 0 0" xyz="0.0 -0.012 0.0" />
+    <axis xyz="0  0  1" />
+  </joint>
+
+  <transmission name="trans_right_wheel">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_wheel_right">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_right">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_left_wheel">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_wheel_left">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_left">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_steer_left">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="steer_left">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="steering_servo_l">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_steer_right">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="steer_right">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="steering_servo_r">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/picarx</robotNamespace>
+    </plugin>
+  </gazebo>
+</robot>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>picarx_description</name>
+  <version>0.0.0</version>
+  <description>The picarx_description package</description>
+
+  <maintainer email="alexanderbarbie@gmx.de">Alexander Barbie</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>urdf</depend>
+  <depend>xarco</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>rviz</depend>
+
+  <export>
+
+  </export>
+</package>

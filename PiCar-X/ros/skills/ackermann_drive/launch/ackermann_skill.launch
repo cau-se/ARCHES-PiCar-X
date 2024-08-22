@@ -1,0 +1,25 @@
+<launch>
+  <arg name="command_topic" default="/picarx/drive/command" />
+  <arg name="motor_left_topic" default="motor_left/speed" />
+  <arg name="motor_right_topic" default="motor_right/speed" />
+  <arg name="steering_topic" default="steering/angle" />
+  <arg name="motor_left_status_topic" default="/motor_left/status" />
+  <arg name="motor_right_status_topic" default="/motor_right/status" />
+  <arg name="steering_status_topic" default="/steering/status" />
+  <arg name="status_topic" default="drive/status" />
+
+  <arg name="name" default="AckermannSkill" />
+  <arg name="uid" default="ackermannskill" />
+
+  <node name="ackermann_skill" pkg="picarx_ackermann_drive" type="ackermann_drive_skill.py" respawn="false" output="screen" args="$(arg name) $(arg uid)">
+    <param name="command_topic" type="str" value="$(arg command_topic)" />
+    <param name="motor_left_topic" type="str" value="$(arg motor_left_topic)" />
+    <param name="motor_right_topic" type="str" value="$(arg motor_right_topic)" />
+    <param name="steering_topic" type="str" value="$(arg steering_topic)" />
+    <param name="status_topic" type="str" value="$(arg status_topic)" />
+    <param name="motor_left_status_topic" type="str" value="$(arg motor_left_status_topic)" />
+    <param name="motor_right_status_topic" type="str" value="$(arg motor_right_status_topic)" />
+    <param name="steering_status_topic" type="str" value="$(arg steering_status_topic)" />
+  </node>
+
+</launch>

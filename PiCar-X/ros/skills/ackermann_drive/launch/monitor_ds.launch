@@ -1,0 +1,23 @@
+<launch>
+    <arg name="name" default="MonitorDS" />
+    <arg name="uid" default="monitords" />
+    <arg name="left_steer_topic" default="/picarx/steer_left_controller/command" />
+    <arg name="right_steer_topic" default="/picarx/steer_right_controller/command" />
+    <arg name="motor_left_topic" default="/picarx/rear_left_wheel_controller/command" />
+    <arg name="motor_right_topic" default="/picarx/rear_right_wheel_controller/command" />
+    <arg name="status_topic" default="/drive/status" />
+    <arg name="wheel_base" default="13.5" />
+    <arg name="wheel_track" default="9.2" />
+
+    <node name="moniotords" pkg="picarx_ackermann_drive" type="ackermann_monitor_ds.py"
+        respawn="true" output="screen" args="$(arg name) $(arg uid)">
+        <param name="motor_left_topic" type="str" value="$(arg motor_left_topic)" />
+        <param name="motor_right_topic" type="str" value="$(arg motor_right_topic)" />
+        <param name="left_steer_topic" type="str" value="$(arg left_steer_topic)" />
+        <param name="right_steer_topic" type="str" value="$(arg right_steer_topic)" />
+        <param name="status_topic" type="str" value="$(arg status_topic)" />
+        <param name="wheel_base" type="double" value="$(arg wheel_base)" />
+        <param name="wheel_track" type="double" value="$(arg wheel_track)" />
+    </node>
+
+</launch>

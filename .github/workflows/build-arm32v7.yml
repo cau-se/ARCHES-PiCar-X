@@ -1,0 +1,50 @@
+name: PiCar-X Main Build
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, ARM]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build core container
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-core.yml build --no-cache
+
+      - name: build dtp containers without gazebo
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
+
+  unit-tests:
+    runs-on: [self-hosted, Linux, ARM]
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run pytest in Docker container
+        working-directory: ./PiCar-X
+        run: |
+          docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest-arm32v7 pytest ./src/core/picarx/tests
+
+  integration-tests:
+    runs-on: [self-hosted, Linux, ARM]
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Integration Test dcmotor
+        working-directory: ./PiCar-X
+        run: |
+          docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm32v7 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11
+
+  release:
+    runs-on: [self-hosted, Linux, ARM]
+    needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push to Docker Hub
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest-arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml push

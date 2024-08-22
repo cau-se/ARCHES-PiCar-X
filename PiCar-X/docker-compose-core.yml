@@ -1,0 +1,13 @@
+services:
+  picarx-core-build:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+
+networks:
+  default:
+    driver: bridge

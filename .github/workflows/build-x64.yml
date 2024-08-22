@@ -1,0 +1,63 @@
+name: PiCar-X Main Build
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build core container
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest docker compose -f docker-compose-core.yml build --no-cache
+
+      - name: build dtp containers without gazebo
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
+
+  unit-tests:
+    runs-on: [self-hosted, Linux, X64]
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run pytest in Docker container
+        working-directory: ./PiCar-X
+        run: |
+          docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest pytest ./src/core/picarx/tests
+
+  integration-tests:
+    runs-on: [self-hosted, Linux, X64]
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Integration Test dcmotor
+        working-directory: ./PiCar-X
+        run: |
+          docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
+
+      - name: Speed tests using Gazebo headless
+        working-directory: ./PiCar-X
+        run: |
+          i2c=/dev/i2c-0 docker compose -f docker-compose-dtp-inttest.yml up -d
+          docker exec picar-x-picarx-gazebo-control-1 /bin/bash -c "source ./install/setup.bash && sleep 30; python3 ./src/simulation/picarx_control/tests/steering_integration_test.py"
+
+      - name: Remove running containers after tests
+        if: success() || failure()
+        working-directory: ./PiCar-X
+        run: |
+          docker compose -f docker-compose-dtp-inttest.yml down
+
+  release:
+    runs-on: [self-hosted, Linux, X64]
+    needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push to Docker Hub
+        working-directory: ./PiCar-X
+        run: |
+          TAG=latest docker compose -f docker-compose-dtp.yml push

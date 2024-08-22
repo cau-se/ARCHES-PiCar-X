@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find picarx_clutchgear_driver)/launch/ackermann_clutchgear_driver.launch" />
+    <test test-name="clutchgear_turn_test" pkg="arches_core" type="pytest_runner.py" args="test_module=$(find picarx_clutchgear_driver)/tests/integration_tests.py" />
+</launch>

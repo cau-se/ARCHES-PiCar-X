@@ -1,0 +1,18 @@
+<launch>
+  <arg name="name" default="ackermann_clutchgear_driver" />
+  <arg name="pwm_pin" default="P2" />
+  <arg name="i2c_port" default="/dev/i2c-0" />
+  <arg name="steering_topic" default="steering/angle" />
+  <arg name="steering_status_topic" default="steering/status" />
+
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="$(arg name)" pkg="picarx_clutchgear_driver" type="ackermann_clutchgear.py" respawn="false" output="screen" args="$(arg name) $(arg pwm_pin) $(arg i2c_port)">
+    <param name="name" type="str" value="$(arg name)" />
+    <param name="pwm_pin" type="str" value="$(arg pwm_pin)" />
+    <param name="i2c_port" type="str" value="$(arg i2c_port)" />
+    <param name="steering_topic" type="str" value="$(arg steering_topic)" />
+    <param name="steering_status_topic" type="str" value="$(arg steering_status_topic)" />
+  </node>
+
+</launch>

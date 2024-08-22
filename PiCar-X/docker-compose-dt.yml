@@ -1,0 +1,81 @@
+services:
+  picarx-dt:
+    build: .
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    environment:
+      - ROS_HOSTNAME=picarx-dt
+    tty: true
+    ports:
+      - 11313:11313
+    command: roscore -p 11313
+    healthcheck:
+      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 1s
+
+  mosquitto:
+    container_name: mqtt-server
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    volumes:
+      - ./config/mqtt:/root/catkin_ws/mosquitto
+    command: mosquitto -c /root/catkin_ws/mosquitto/mosquitto.conf -p 1883
+    depends_on:
+      picarx-dt:
+        condition: service_healthy
+
+  shadow-dt:
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    env_file:
+      - ./env/picarx-dt.env
+    tty: true
+    command: /bin/bash -c "roslaunch arches_core digitalshadow_dt.launch"
+    depends_on:
+      picarx-dt:
+        condition: service_healthy
+
+  mqtt-dt:
+    image: ghcr.io/cau-se/arches-picar-x/arches-mqtt-bridge:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile-arches-mqtt-bridge
+      context: ./ros
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/picarx-dt.env
+    tty: true
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=mqtt-server"
+    depends_on:
+      picarx-dt:
+        condition: service_healthy
+
+  ackermann_skill-dt:
+    image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/skills/ackermann_drive
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/picarx-dt.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/skills/ackermann_drive:/root/catkin_ws/src/skills/ackermann_drive
+    command: /bin/bash -c "
+      roslaunch picarx_ackermann_drive ackermann_skill.launch"
+    depends_on:
+      picarx-dt:
+        condition: service_healthy
+
+networks:
+  picarx:
+    external: true

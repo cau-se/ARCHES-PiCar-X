@@ -1,0 +1,23 @@
+<launch>
+    <arg name="name" default="ackermann_clutchgear_emulator" />
+    <arg name="pwm_pin" default="P2" />
+    <arg name="i2c_port" default="/dev/i2c-0" />
+    <arg name="wheel_base" default="13.5" />
+    <arg name="wheel_track" default="9.2" />
+    <arg name="left_steer_topic" default="/picarx/steer_left_controller/command" />
+    <arg name="right_steer_topic" default="/picarx/steer_right_controller/command" />
+
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="$(arg name)" pkg="picarx_clutchgear_emulator" type="ackermann_clutchgear_emulator.py"
+    respawn="false" output="screen" args="$(arg name) $(arg pwm_pin) $(arg i2c_port)" >
+        <param  name="name" type="str" value="$(arg name)" />
+        <param  name="pwm_pin" type="str" value="$(arg pwm_pin)"/>
+        <param  name="i2c_port" type="str" value="$(arg i2c_port)"/>
+        <param  name="wheel_base" type="double" value="$(arg wheel_base)" />
+        <param  name="wheel_track" type="double" value="$(arg wheel_track)"/>
+        <param  name="left_steer_topic" type="str" value="$(arg left_steer_topic)"/>
+        <param  name="right_steer_topic" type="str" value="$(arg right_steer_topic)"/>
+  </node>
+  
+</launch>

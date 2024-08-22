@@ -1,0 +1,21 @@
+picarx:
+ # Publish all joint states -----------------------------------
+ joint_state_controller:
+   type: joint_state_controller/JointStateController
+   publish_rate: 50
+
+ # Position Controllers ---------------------------------------
+ rear_left_wheel_controller:
+   type: velocity_controllers/JointVelocityController
+   joint: joint_wheel_left
+   pid: {p: 100.0, i: 0.01, d: 10.0}
+ rear_right_wheel_controller:
+   type: velocity_controllers/JointVelocityController
+   joint: joint_wheel_right
+   pid: {p: 100.0, i: 0.01, d: 10.0}
+ steer_left_controller:
+   type: position_controllers/JointPositionController
+   joint: steer_left
+ steer_right_controller:
+   type: position_controllers/JointPositionController
+   joint: steer_right

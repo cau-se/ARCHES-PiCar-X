@@ -1,0 +1,225 @@
+services:
+  picarx:
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    environment:
+      - ROS_HOSTNAME=picarx
+      - ROS_MASTER_URI=http://picarx:11311
+      - ROS_HOST_PORT=11311
+    tty: true
+    ports:
+      - 11311:11311
+    command: roscore
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 1s
+
+  emulator-master:
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    environment:
+      - ROS_HOSTNAME=emulator-master
+      - ROS_MASTER_URI=http://emulator-master:11312
+    env_file:
+      - ./env/simulation.env
+    tty: true
+    ports:
+      - 11312:11312
+    command: roscore
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 1s
+
+  shadow-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    env_file:
+      - ./env/picarx.env
+    tty: true
+    command: /bin/bash -c "roslaunch arches_core digitalshadow_pt.launch"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  mqtt-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/arches-mqtt-bridge:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile-arches-mqtt-bridge
+      context: ./ros
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/picarx.env
+    tty: true
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=mqtt-server"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  motor_left-dtp:
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/drivers/dcmotor/
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
+    env_file:
+      - ./env/picarx.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/drivers/dcmotor:/root/catkin_ws/src/drivers/dcmotor
+    command: /bin/bash -c "roslaunch picarx_dcmotor_driver dcmotor_left.launch motor1_i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  motor_right-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
+    tty: true
+    env_file:
+      - ./env/picarx.env
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/drivers/dcmotor:/root/catkin_ws/src/drivers/dcmotor
+    command: /bin/bash -c "roslaunch picarx_dcmotor_driver dcmotor_right.launch motor2_i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  steering-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/drivers/clutchgear:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/drivers/clutchgear
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/picarx.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/drivers/clutchgear:/root/catkin_ws/src/drivers/clutchgear
+    command: /bin/bash -c "roslaunch picarx_clutchgear_driver ackermann_clutchgear_driver.launch i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  ackermann_skill-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/skills/ackermann_drive
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}    
+    env_file:
+      - ./env/picarx.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/skills/ackermann_drive:/root/catkin_ws/src/skills/ackermann_drive
+    command: /bin/bash -c "roslaunch picarx_ackermann_drive ackermann_skill.launch"
+    depends_on:
+      picarx:
+        condition: service_healthy
+    restart: on-failure
+
+  motor_emulator_left-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/emulators/dcmotor:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/emulators/dcmotor
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/simulation.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/emulators/dcmotor:/root/catkin_ws/src/emulators/dcmotor
+    command: /bin/bash -c "roslaunch picarx_dcmotor_emulator dcmotor_emulator_left.launch i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      emulator-master:
+        condition: service_healthy
+    restart: on-failure
+
+  motor_emulator_right-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/emulators/dcmotor:${TAG:-latest}
+    env_file:
+      - ./env/simulation.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/emulators/dcmotor:/root/catkin_ws/src/emulators/dcmotor
+    command: /bin/bash -c "roslaunch picarx_dcmotor_emulator dcmotor_emulator_right.launch i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      emulator-master:
+        condition: service_healthy
+    restart: on-failure
+
+  steering_emulator-dtp:
+    image: ghcr.io/cau-se/arches-picar-x/emulators/clutchgear:${TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: ./ros/emulators/clutchgear
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    env_file:
+      - ./env/simulation.env
+    tty: true
+    privileged: true
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
+      - ./core:/root/catkin_ws/src/core
+      - ./ros/emulators/clutchgear:/root/catkin_ws/src/emulators/clutchgear
+    command: /bin/bash -c "roslaunch picarx_clutchgear_emulator ackermann_clutchgear_emulator.launch i2c_port:=$${I2C:-/dev/i2c-0}"
+    depends_on:
+      emulator-master:
+        condition: service_healthy
+    restart: on-failure
+
+networks:
+  picarx:
+    external: true

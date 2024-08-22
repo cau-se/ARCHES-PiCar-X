@@ -1,0 +1,18 @@
+<launch>
+    <arg name="motor1_pwm_pin" default="P12" />
+    <arg name="motor1_direction_pin" default="24" />
+    <arg name="motor2_pwm_pin" default="P13" />
+    <arg name="motor2_direction_pin" default="23" />
+    <arg name="i2c_port" default="/dev/i2c-0" />
+    <include file="$(find picarx_dcmotor_driver)/launch/dcmotor_left.launch">
+        <arg name="motor1_direction_pin" value="$(arg motor1_direction_pin)" />
+        <arg name="motor1_pwm_pin" value="$(arg motor1_pwm_pin)" />
+        <arg name="motor1_i2c_port" value="$(arg i2c_port)" />
+    </include>
+    <include file="$(find picarx_dcmotor_driver)/launch/dcmotor_right.launch">
+        <arg name="motor2_direction_pin" value="$(arg motor2_direction_pin)" />
+        <arg name="motor2_pwm_pin" value="$(arg motor2_pwm_pin)" />
+        <arg name="motor2_i2c_port" value="$(arg i2c_port)" />
+    </include>
+    <test test-name="dcmotor_turn_test" pkg="arches_core" type="pytest_runner.py" args="test_module=$(find picarx_dcmotor_driver)/tests/integration_tests.py" />
+</launch>
