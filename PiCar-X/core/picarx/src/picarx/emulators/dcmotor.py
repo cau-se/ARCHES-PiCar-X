@@ -8,6 +8,12 @@ from picarx.interfaces.actuators import MotorSide, TravelDirection
 class AbstractMotorEmulator(metaclass=ABCMeta):
     """
     Abstract base class for motor emulators.
+    
+    The dcmotor emulator can be used for emulation purposes. The main interfaces are the GPIO and I2C interfaces. On unix systems, you need to active these modules.
+    Therefore, type in the terminal the following command: 
+        sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
+        sudo modprobe i2c-dev
+        sudo modprobe i2c-stub chip_addr=0x14
     """
 
     def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '\dev\i2c-1', motor_side: MotorSide = MotorSide.LEFT):

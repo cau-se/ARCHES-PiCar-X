@@ -53,6 +53,8 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     def angle(self, angle: Union[int, float]):
         """
         Set the angle.
+        
+        The clutchgear can only handles angles between 0 and 180 degress.
 
         :param angle: The angle.
         :raises ValueError: If the angle is not an int or float.
@@ -70,7 +72,9 @@ class AbstractClutchGearDriver(ClutchGearInterface):
 
     def angle_to_pulse_width(self, angle):
         """
-        Convert an angle to a pulse width.
+        Convert an angle to a pulse width. 
+        
+        The pulse width is calculated using the formula: pulse_width = angle / 180 * (maximum_pulse - minimum_pulse) + minimum_pulse.
 
         :param angle: The angle.
         :return: The pulse width.
@@ -84,7 +88,9 @@ class AbstractClutchGearDriver(ClutchGearInterface):
 
     def pulse_width_to_angle(self, pulse_width):
         """
-        Convert a pulse width to an angle.
+        Convert a pulse width to an angle. 
+        
+        The angle is calculated using the formula: angle = (pulse_width - minimum_pulse) / (maximum_pulse - minimum_pulse) * 180.
 
         :param pulse_width: The pulse width.
         :return: The angle.
@@ -125,7 +131,9 @@ class AbstractClutchGearDriver(ClutchGearInterface):
 
 class SimpleClutchGear(AbstractClutchGearDriver):
     """
-    Simple implementation of the clutch gear driver.
+    Simple implementation of the clutch gear driver. 
+    
+    This is just for testing purposes. Write a real driver for your clutch gear using the AbstractClutchGearDriver class.
     """
 
     def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str]):

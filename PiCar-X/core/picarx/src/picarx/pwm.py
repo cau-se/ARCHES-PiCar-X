@@ -35,6 +35,7 @@ class SunFounderPWMValues(Enum):
 class PWM(I2C):
     """
     Represents a PWM (Pulse Width Modulation) interface.
+    On the Raspberry PI, the PWM is controlled via I2C.
 
     Attributes:
         channel (Union[str, int]): The PWM channel.
@@ -272,7 +273,6 @@ class PWM(I2C):
         """
         if pulse_width < 0:
             pulse_width = 0
-        print('in pwm:' + str(pulse_width))
         self.register_channel.write(pulse_width)
 
     @property

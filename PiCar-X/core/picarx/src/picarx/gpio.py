@@ -58,6 +58,10 @@ class Edge(Enum, metaclass=GPIOEnumMeta):
 class Pin(FileSystemEventHandler):
     """
     Represents a GPIO pin and provides methods to interact with it.
+    The GPIO library is based on the sysfs interface of the Linux kernel.
+
+    Mock to use the I2C interface on unix systems:
+        sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
 
     Attributes:
         SYSFS_BASE_PATH (str): Base path for sysfs GPIO.

@@ -22,6 +22,7 @@ import time
 class Picarx(object):
     """
     Class representing the PiCar-X robot.
+    Just a test class to show basic functionality required to drive the PiCar-X. Do not use this class, execute the ROS code via the docker compose files.
     """
     PERIOD = 4095
     PRESCALER = 10

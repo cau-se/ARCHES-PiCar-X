@@ -20,6 +20,11 @@ from smbus2 import SMBus
 class I2C(object):
     """
     Represents an I2C interface.
+    
+    Mock to use the I2C interface on unix systems:
+        sudo modprobe i2c-dev
+        sudo modprobe i2c-stub chip_addr=0x14
+    
 
     Attributes:
         i2c_port (int): The I2C port number.

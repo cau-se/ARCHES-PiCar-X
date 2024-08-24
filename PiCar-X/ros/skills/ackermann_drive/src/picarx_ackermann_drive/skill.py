@@ -1,3 +1,28 @@
+#!/usr/bin/env python3
+#
+# Copyright 2023 Alexander Barbie
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from typing import Any, Union
+import rospy
+from std_msgs.msg import Int8
+from arches_core.skills import Skill, SkillType
+from arches_core.digitalthread import DigitalThread
+from picarx_msgs.msg import DriveStatus, MotorStatus, ClutchGearStatus
+import argparse
+import message_filters
+
 class AckermannStartOptions(object):
     """Start argument parser to the digital shadow skill.
         You have to set the name and a unique id. If you leave out a unique id,
@@ -200,6 +225,13 @@ class AckermannDriveSkill(Skill):
     def drive(self, ros_msg: Any) -> None:
         """
         Drive the vehicle based on the received ROS message.
+        
+        In general the wheels of the PiCar-X can be moved by up to 40 degrees. However, we found that the Ackermann approximation for the angles
+        leads to understeering in the simulation, if the angles exceed 20 degrees. Therefore, we limit the steering angle to [-20, 20] degrees.
+        Notice that the default pulse width of the clutch gear for the steering bar corresponds to 90 degrees. -20 degress means left turn, which would be 70 degrees.
+        Right turn would be 110 degrees.
+        
+        This can be different for the clutch gears on other positions on the PiCar-X.
 
         Args:
             ros_msg (Any): The ROS message containing drive commands.

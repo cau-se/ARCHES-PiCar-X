@@ -9,6 +9,11 @@ import time
 class AbstractClutchGearEmulator(ClutchGearInterface):
     """
     Abstract base class for clutch gear emulators.
+    
+    The clutch gear emulators can be used for emulation purposes. The main interface is the I2C interface. On unix systems, the I2C interface is usually located at /dev/i2c-0 and has to be created using the i2c-stub module.
+    Therefore, type in the terminal the following commands:
+        sudo modprobe i2c-dev
+        sudo modprobe i2c-stub chip_addr=0x14
     """
 
     def __init__(self, pwm_pin, i2c_port, frequency=50):
@@ -158,6 +163,8 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
 class SimpleClutchGearEmulator(AbstractClutchGearEmulator):
     """
     Simple implementation of the clutch gear emulator.
+    
+    This is just for testing purposes. Write a real emulator for your clutch gear using the AbstractClutchGearEmulator class.
     """
 
     def __init__(self, pwm_pin, frequency=50):

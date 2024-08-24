@@ -100,6 +100,8 @@ class AbstractDCMotorDriver(DCMotorInterface):
         """
         Set the side of the motor (left or right).
 
+        The motor side is relevant, since the PiCar-X has to equal motors, but they are mirrored and hence, mounted in different directions.
+
         :param motor_side: The side of the motor.
         """
         self.__motor_side = motor_side
@@ -117,6 +119,9 @@ class AbstractDCMotorDriver(DCMotorInterface):
     def direction(self, direction: TravelDirection):
         """
         Set the travel direction of the motor.
+        
+        The direction is set by setting the value of the direction pin to high (1) or low (0). Forward is high, backward is low.
+        Since the motors are mirrored, forward and backward are reversed for the left and right motor.
 
         :param direction: The travel direction of the motor.
         """
@@ -141,7 +146,8 @@ class AbstractDCMotorDriver(DCMotorInterface):
     @speed.setter
     def speed(self, speed: int):
         """
-        Set the speed of the motor.
+        Set the speed of the motor. Speed is a percentage value between 0 and 100. 
+        Right now, there is bug for speed values between 1 and 15. In that case the speed is set to 15 by default.
 
         :param speed: The speed of the motor.
         """
@@ -188,6 +194,8 @@ class AbstractDCMotorDriver(DCMotorInterface):
 class DCMotor(AbstractDCMotorDriver):
     """
     Implementation of the DC motor driver.
+    This is just for testing purposes. Write a real driver for your DCMotor using the AbstractDCMotorDriver class.
+
     """
 
     def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], motor_side: MotorSide = MotorSide.LEFT):

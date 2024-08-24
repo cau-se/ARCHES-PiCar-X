@@ -2,12 +2,23 @@ name: PiCar-X Main Build
 
 on: [pull_request]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   build:
     runs-on: [self-hosted, Linux, ARM]
 
     steps:
+      - name: Checkout Repository
       - uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build core container
         working-directory: ./PiCar-X
