@@ -68,6 +68,8 @@ jobs:
     runs-on: [self-hosted, Linux, X64]
     needs: [integration-tests]
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -75,7 +77,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@v4
       - name: Push to ghcr.io
         working-directory: ./PiCar-X
         run: |
