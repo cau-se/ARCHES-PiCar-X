@@ -7,6 +7,10 @@ services:
         - TAG=${TAG:-latest}
         - ARCH=${ARCH:-}
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
+    volumes:
+      - ./core:/root/catkin_ws/src/core
+    tty: true
+    command: /bin/bash -c ""
 
 networks:
   default:
