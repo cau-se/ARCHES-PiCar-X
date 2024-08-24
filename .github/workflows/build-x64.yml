@@ -75,7 +75,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      - uses: actions/checkout@v4
       - name: Push to ghcr.io
         working-directory: ./PiCar-X
         run: |
