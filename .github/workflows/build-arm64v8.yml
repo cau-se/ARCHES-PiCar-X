@@ -1,5 +1,4 @@
-name: PiCar-X Main Build
-
+name: PiCar-X Main Build (RPI4)
 on: [pull_request, workflow_dispatch]
 
 env:
