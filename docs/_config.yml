@@ -1,0 +1,16 @@
+title: "ARCHES PiCar-X"
+description: >-
+  The ARCHES PiCar-X is a platform to explore various digital twin concepts.
+
+remote_theme: just-the-docs/just-the-docs
+aux_links:
+    "ARCHES PiCar-X on GitHub":
+      - "//github.com/cau-se/arches-picar-x"
+
+exclude:
+  - "*.tmpl"
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/
+  - drafts/
