@@ -7,6 +7,9 @@ aux_links:
     "ARCHES PiCar-X on GitHub":
       - "//github.com/cau-se/arches-picar-x"
 
+plugins:
+  - jekyll-tabs
+
 exclude:
   - "*.tmpl"
   - Gemfile

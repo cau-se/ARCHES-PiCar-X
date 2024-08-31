@@ -1,7 +1,7 @@
 ---
 title: Contributing
 has_children: true
-nav_order: 10
+nav_order: 8
 ---
 
 # Contributing to the ARCHES PiCar-X
