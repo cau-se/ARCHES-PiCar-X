@@ -11,7 +11,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
     Abstract base class for DC motor drivers.
     """
 
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '\\dev\\i2c-1', motor_side: MotorSide = MotorSide.LEFT):
+    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '/dev/i2c-1', motor_side: MotorSide = MotorSide.LEFT):
         """
         Initialize the DC motor driver.
 
@@ -25,7 +25,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
         self.direction_pin = direction_pin
         self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port}
         self.motor_side = motor_side
-        self.speed = None
+        self.speed = 0
         self.direction = TravelDirection.FORWARD
 
     @property
@@ -125,14 +125,11 @@ class AbstractDCMotorDriver(DCMotorInterface):
 
         :param direction: The travel direction of the motor.
         """
-        if direction is None:
-            self.__direction = None
+        self.__direction = direction
+        if direction.value != self.motor_side.value:
+            self.direction_pin.on()  # forward
         else:
-            self.__direction = direction
-            if direction.value != self.motor_side.value:
-                self.direction_pin.on()  # forward
-            else:
-                self.direction_pin.off()  # backward
+            self.direction_pin.off()  # backward
 
     @property
     def speed(self):
@@ -141,7 +138,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
 
         :return: The speed of the motor.
         """
-        return self.__speed
+        return self.pwm_pin.pulse_width
 
     @speed.setter
     def speed(self, speed: int):
@@ -151,9 +148,6 @@ class AbstractDCMotorDriver(DCMotorInterface):
 
         :param speed: The speed of the motor.
         """
-        if speed is None:
-            self.__speed = 0
-            return
 
         if speed in range(1, 15):
             speed = 15
@@ -163,7 +157,6 @@ class AbstractDCMotorDriver(DCMotorInterface):
             speed = 100
             print("Speed must be 0 or between 15 and 100, you entered {}".format(speed))
 
-        self.__speed = speed
         self.pwm_pin.duty_cycle = speed
 
     def drive_with_speed(self, speed: int):
@@ -177,7 +170,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
     @abstractmethod
     def start(self):
         """
-        Start the motor.
+        Start the motor. Use some kind of thread to keep the dc motor running, e.g. with twisted or asyncio.
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('start'))
@@ -189,34 +182,3 @@ class AbstractDCMotorDriver(DCMotorInterface):
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('stop'))
-
-
-class DCMotor(AbstractDCMotorDriver):
-    """
-    Implementation of the DC motor driver.
-    This is just for testing purposes. Write a real driver for your DCMotor using the AbstractDCMotorDriver class.
-
-    """
-
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], motor_side: MotorSide = MotorSide.LEFT):
-        """
-        Initialize the DC motor driver.
-
-        :param name: The name of the motor.
-        :param direction_pin: The GPIO pin for direction control.
-        :param pwm_pin: The PWM pin configuration.
-        :param motor_side: The side of the motor (left or right).
-        """
-        super(DCMotor, self).__init__(name, direction_pin, pwm_pin, motor_side)
-
-    def start(self):
-        """
-        Start the motor.
-        """
-        pass
-
-    def stop(self):
-        """
-        Stop the motor.
-        """
-        self.drive_with_speed(0)

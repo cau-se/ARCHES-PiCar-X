@@ -9,7 +9,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     Abstract base class for clutch gear drivers.
     """
 
-    def __init__(self, pwm_pin: str, i2c_port: str = '\\dev\\i2c-1'):
+    def __init__(self, pwm_pin: str, i2c_port: str = '/dev/i2c-1'):
         """
         Initialize the clutch gear driver.
 
@@ -59,9 +59,6 @@ class AbstractClutchGearDriver(ClutchGearInterface):
         :param angle: The angle.
         :raises ValueError: If the angle is not an int or float.
         """
-        if not (isinstance(angle, int) or isinstance(angle, float)):
-            raise ValueError(
-                "Angle value should be int or float value, not {}".format(type(angle)))
 
         if angle < 0:
             angle = 0
@@ -105,7 +102,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     @abstractmethod
     def start(self):
         """
-        Start the clutch gear driver.
+        Starts the clutch gear driver. Use some kind of thread to keep the clutch gear running, e.g. with twisted or asyncio.
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('start'))
@@ -127,67 +124,3 @@ class AbstractClutchGearDriver(ClutchGearInterface):
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('rotate'))
-
-
-class SimpleClutchGear(AbstractClutchGearDriver):
-    """
-    Simple implementation of the clutch gear driver. 
-    
-    This is just for testing purposes. Write a real driver for your clutch gear using the AbstractClutchGearDriver class.
-    """
-
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str]):
-        """
-        Initialize the simple clutch gear driver.
-
-        :param name: The name of the clutch gear.
-        :param direction_pin: The GPIO pin for direction control.
-        :param pwm_pin: The PWM pin configuration.
-        """
-        super(SimpleClutchGear, self).__init__(direction_pin, pwm_pin)
-        self.name = name
-
-    @property
-    def name(self):
-        """
-        Get the name of the clutch gear.
-
-        :return: The name of the clutch gear.
-        """
-        return self.__name
-
-    @name.setter
-    def name(self, name: str):
-        """
-        Set the name of the clutch gear.
-
-        :param name: The name of the clutch gear.
-        """
-        self.__name = name
-
-    def rotate(self, angle: Union[int, float]):
-        """
-        Rotate the clutch gear by a given angle.
-
-        :param angle: The angle.
-        """
-        if angle < 0:
-            angle = 0
-        elif angle > 180:
-            angle = 180
-
-        pulse_width = self.angle_to_pulse_width(angle)
-        self.pwm_pin.pulse_width = pulse_width
-        self.angle = angle
-
-    def start(self):
-        """
-        Start the simple clutch gear driver.
-        """
-        pass
-
-    def stop(self):
-        """
-        Stop the simple clutch gear driver.
-        """
-        pass

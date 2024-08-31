@@ -21,6 +21,12 @@ import argparse
 
 
 class Options(object):
+    """
+    Parses command line arguments for the AckermannClutchGearEmulator.
+
+    :param argv: List of command line arguments.
+    :type argv: list
+    """
 
     def __init__(self, argv):
         parser = argparse.ArgumentParser()
@@ -34,10 +40,28 @@ class Options(object):
         self.args = parser.parse_args(argv)
 
     def get_args(self):
+        """
+        Returns the parsed command line arguments.
+
+        :return: Parsed command line arguments.
+        :rtype: dict
+        """
         return vars(self.args)
 
 
 class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
+    """
+    Emulator for Ackermann steering mechanism with clutch gear.
+
+    :param name: The RS232 device the simulator should send data to.
+    :type name: str
+    :param pwm_pin: The interval in which a line in the file should be read.
+    :type pwm_pin: str
+    :param i2c_port: The interval in which a line in the file should be read.
+    :type i2c_port: str
+    :param frequency: Frequency of the emulator, defaults to 50.
+    :type frequency: int, optional
+    """
 
     def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50) -> None:
         super(AckermannClutchGearEmulator, self).__init__(pwm_pin, i2c_port)
@@ -49,23 +73,53 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
         self.wheel_track = None
 
     def angle_inside_wheel(self, angle) -> float:
+        """
+        Calculates the angle of the inside wheel.
+
+        :param angle: Steering angle.
+        :type angle: float
+        :return: Angle of the inside wheel.
+        :rtype: float
+        """
         alpha_inside = math.atan(
             self.wheel_base / (self.turning_radius(angle) - self.wheel_track/2))
         return alpha_inside
 
     def angle_outside_wheel(self, angle) -> float:
+        """
+        Calculates the angle of the outside wheel.
+
+        :param angle: Steering angle.
+        :type angle: float
+        :return: Angle of the outside wheel.
+        :rtype: float
+        """
         alpha_outside = math.atan(
             self.wheel_base / (self.turning_radius(angle) + self.wheel_track/2))
         return alpha_outside
 
     def turning_radius(self, angle):
+        """
+        Calculates the turning radius based on the steering angle.
+
+        :param angle: Steering angle.
+        :type angle: float
+        :return: Turning radius.
+        :rtype: float
+        """
         if angle == 0:
             return 0
         turning_radius = self.wheel_base / math.tan(math.radians(angle))
         return turning_radius
 
     def rotate(self, pulse_width):
-        if pulse_width == 0:  # this is required since SunFounder adds a constant > 0 in the pulse width calculation for the angle. Thus the pulse width of an angle is always > 0.
+        """
+        Rotates the wheels based on the pulse width.
+
+        :param pulse_width: Pulse width for the steering angle.
+        :type pulse_width: float
+        """
+        if pulse_width == 0:
             return
         angle = self.pulse_width_to_angle(pulse_width)
         angle = 90 - angle if angle >= 90 else 90 - angle
@@ -83,21 +137,39 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
             self.right_steer.publish(0)
 
     def turn_right(self, inside_wheel, outside_wheel):
+        """
+        Turns the wheels to the right.
+
+        :param inside_wheel: Angle of the inside wheel.
+        :type inside_wheel: float
+        :param outside_wheel: Angle of the outside wheel.
+        :type outside_wheel: float
+        """
         self.left_steer.publish(outside_wheel)
         self.right_steer.publish(inside_wheel)
 
     def turn_left(self, inside_wheel, outside_wheel):
+        """
+        Turns the wheels to the left.
+
+        :param inside_wheel: Angle of the inside wheel.
+        :type inside_wheel: float
+        :param outside_wheel: Angle of the outside wheel.
+        :type outside_wheel: float
+        """
         self.left_steer.publish(inside_wheel)
         self.right_steer.publish(outside_wheel)
 
     def stop(self):
+        """
+        Stops the emulator and logs the shutdown message.
+        """
         rospy.loginfo("Shutting Ackermann steering emulator down")
 
-    def read_i2c_value(self):
-        pulse_width = self.pwm_pin.register_channel.read()
-        return pulse_width
-
     def start(self):
+        """
+        Starts the emulator and initializes ROS node and publishers.
+        """
         rospy.init_node(self.name, anonymous=True)
         rospy.loginfo("Ackermann steering emulator initialized")
         rospy.on_shutdown(self.stop)
@@ -109,8 +181,7 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
         self.wheel_track = float(rospy.get_param("~wheel_track"))
         frequency = rospy.Rate(50)  # 50Hz
         while not rospy.is_shutdown():
-            pulse_width = self.read_i2c_value()
-            self.rotate(pulse_width)
+            self.rotate(self.pwm_pin.pulse_width)
             frequency.sleep()
 
 

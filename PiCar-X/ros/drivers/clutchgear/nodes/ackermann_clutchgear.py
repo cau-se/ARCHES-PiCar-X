@@ -22,6 +22,12 @@ from std_msgs.msg import Int8
 
 
 class Options(object):
+    """
+    Parses command line arguments for the AckermannClutchGearDriver.
+
+    :param argv: List of command line arguments.
+    :type argv: list
+    """
 
     def __init__(self, argv):
         parser = argparse.ArgumentParser()
@@ -35,10 +41,28 @@ class Options(object):
         self.args = parser.parse_args(argv)
 
     def get_args(self):
+        """
+        Returns the parsed command line arguments.
+
+        :return: Parsed command line arguments.
+        :rtype: dict
+        """
         return vars(self.args)
 
 
 class AckermannClutchGearDriver(AbstractClutchGearDriver):
+    """
+    Driver for Ackermann steering mechanism with clutch gear.
+
+    :param name: The RS232 device the simulator should send data to.
+    :type name: str
+    :param pwm_pin: The interval in which a line in the file should be read.
+    :type pwm_pin: str
+    :param i2c_port: The interval in which a line in the file should be read.
+    :type i2c_port: str
+    :param frequency: Frequency of the driver, defaults to 50.
+    :type frequency: int, optional
+    """
 
     def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50):
         super(AckermannClutchGearDriver, self).__init__(pwm_pin, i2c_port)
@@ -47,14 +71,26 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         self.command_subscriber = None
         self.status_publisher = None
 
-    def rotate(self, ros_msgs):
+    def rotate(self, ros_msgs: Int8):
+        """
+        Rotates the clutch gear based on the received ROS message.
+
+        :param ros_msgs: ROS message containing the angle data.
+        :type ros_msgs: Int8
+        """
         angle = ros_msgs.data
         if angle <= 0:
             self.turn_left(angle)
         else:
             self.turn_right(angle)
 
-    def turn_left(self, angle):
+    def turn_left(self, angle: int):
+        """
+        Turns the clutch gear to the left by the specified angle.
+
+        :param angle: Angle to turn the clutch gear.
+        :type angle: int
+        """
         aimed_angle = angle + 90
         rate = rospy.Rate(50)
         for i in range(90, aimed_angle-1, -1):
@@ -63,7 +99,13 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
             rate.sleep()
         self.send_status()
 
-    def turn_right(self, angle):
+    def turn_right(self, angle: int):
+        """
+        Turns the clutch gear to the right by the specified angle.
+
+        :param angle: Angle to turn the clutch gear.
+        :type angle: int
+        """
         aimed_angle = angle + 90
         rate = rospy.Rate(50)
         for i in range(90, aimed_angle+1, 1):
@@ -73,14 +115,23 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         self.send_status()
 
     def send_status(self):
+        """
+        Sends the current status of the clutch gear.
+        """
         current_pulse_width = self.pwm_pin.register_channel.read()
         self.status_publisher.publish(
             ClutchGearStatus(pulsewidth=current_pulse_width))
 
     def stop(self):
+        """
+        Stops the driver and logs the shutdown message.
+        """
         rospy.loginfo("Shutting Ackermann steering driver down")
 
     def start(self):
+        """
+        Starts the driver and initializes ROS node and publishers.
+        """
         rospy.init_node(self.name, anonymous=True)
         rospy.loginfo("Ackermann steering driver initialized")
         rospy.on_shutdown(self.stop)

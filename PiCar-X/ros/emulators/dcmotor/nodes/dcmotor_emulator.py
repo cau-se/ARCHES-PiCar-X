@@ -22,6 +22,12 @@ from std_msgs.msg import Float64
 
 
 class Options(object):
+    """
+    Parses command line arguments for the DCMotorEmulator.
+
+    :param argv: List of command line arguments.
+    :type argv: list
+    """
 
     def __init__(self, argv):
         parser = argparse.ArgumentParser()
@@ -39,10 +45,30 @@ class Options(object):
         self.args = parser.parse_args(argv)
 
     def get_args(self):
+        """
+        Returns the parsed command line arguments.
+
+        :return: Parsed command line arguments.
+        :rtype: dict
+        """
         return vars(self.args)
 
 
 class DCMotorEmulator(AbstractMotorEmulator):
+    """
+    Emulator for DC motor mechanism.
+
+    :param name: The RS232 device the simulator should send data to.
+    :type name: str
+    :param direction_pin: The path to a file, e.g., /path/to/file.txt.
+    :type direction_pin: Union[int, str]
+    :param pwm_pin: The interval in which a line in the file should be read.
+    :type pwm_pin: Union[int, str]
+    :param i2c_port: The interval in which a line in the file should be read.
+    :type i2c_port: str
+    :param motor_side: The side of the motor, defaults to MotorSide.LEFT.
+    :type motor_side: MotorSide, optional
+    """
 
     def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str, motor_side: MotorSide = MotorSide.LEFT):
         super(DCMotorEmulator, self).__init__(name, int(direction_pin),
@@ -55,10 +81,23 @@ class DCMotorEmulator(AbstractMotorEmulator):
 
     @property
     def controller_publisher(self):
+        """
+        Gets the ROS publisher for the controller.
+
+        :return: ROS publisher for the controller.
+        :rtype: rospy.Publisher
+        """
         return self.__joint_publisher
 
     @controller_publisher.setter
     def controller_publisher(self, publisher: rospy.Publisher):
+        """
+        Sets the ROS publisher for the controller.
+
+        :param publisher: ROS publisher for the controller.
+        :type publisher: rospy.Publisher
+        :raises TypeError: If the publisher is not a rospy.Publisher instance.
+        """
         if publisher is None:
             self.__joint_publisher = None
         else:
@@ -69,16 +108,31 @@ class DCMotorEmulator(AbstractMotorEmulator):
                     "The Method joint_publisher expects a ROS Publisher object not the type: {}".format(type(publisher)))
 
     def change_direction_listener(self, event):
+        """
+        Listener for changes in the direction pin.
+
+        :param event: Event indicating a change in the direction pin.
+        :type event: Event
+        """
         if event.event_type == 'modified':
             self.direction = TravelDirection(self.direction_pin.value)
 
-    def drive_with_speed(self, i2c_value: int):
-        percentage = int((i2c_value/4095) * 100)
+    def drive_with_speed(self, speed):
+        """
+        Drives the motor with the specified speed.
+
+        :param speed: Speed to drive the motor.
+        :type speed: float
+        """
         self.controller_publisher.publish(
-            Float64(self.direction * self.velocity * percentage/100))
+            Float64(self.direction * self.velocity * speed / 100))
 
     def start(self):
+        """
+        Starts the emulator and initializes ROS node and publishers.
+        """
         rospy.init_node(self.name, anonymous=True)
+        rospy.on_shutdown(self.stop)
         frequency = rospy.Rate(50)
 
         self.controller_publisher = rospy.Publisher(rospy.get_param(
@@ -87,14 +141,16 @@ class DCMotorEmulator(AbstractMotorEmulator):
         while not rospy.is_shutdown():
             try:
                 if self.direction is not None:
-                    i2c_value = self.pwm_pin.register_channel.read()
-                    self.drive_with_speed(i2c_value)
+                    self.drive_with_speed(self.pwm_pin.duty_cycle)
             except Exception as e:
                 rospy.logerr(e)
             frequency.sleep()
 
     def stop(self):
-        pass
+        """
+        Stops the emulator and shuts down ROS.
+        """
+        rospy.loginfo("Shutting the Node down")
 
 
 if __name__ == '__main__':

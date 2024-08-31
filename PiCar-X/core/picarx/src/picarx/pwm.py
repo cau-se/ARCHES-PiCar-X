@@ -278,12 +278,12 @@ class PWM(I2C):
     @property
     def duty_cycle(self):
         """
-        Gets the duty cycle.
+        Gets the duty cycle as percentage (0-100).
 
         Returns:
             float: The duty cycle as a percentage.
         """
-        return self.__duty_cycle * 100
+        return round(self.pulse_width/4095 * 100)
 
     @duty_cycle.setter
     def duty_cycle(self, percentage):
@@ -293,7 +293,10 @@ class PWM(I2C):
         Args:
             percentage (float): The duty cycle as a percentage.
         """
-        if 0 <= percentage <= 100:
-            percentage = percentage / 100.0
-            self.__duty_cycle = percentage
-            self.pulse_width = int(percentage * self.period)
+        if percentage < 0:
+            percentage = 0
+            
+        if percentage > 100:
+            percentage = 100
+        
+        self.pulse_width = int(percentage / 100 * self.period)

@@ -110,8 +110,6 @@ class I2C(object):
             return ByteRegister(self.smbus, self.address, register_address)
         elif size == 2:
             return WordRegister(self.smbus, self.address, register_address)
-        elif size == 4:
-            return I2CBlockRegister(self.smbus, self.address, register_address)
         else:
             raise ValueError(
                 "The size of the register must be 1,2, or 4. You entered {}".format(size))
@@ -162,7 +160,6 @@ class Register(metaclass=ABCMeta):
 
     def clean_up(self):
         """Cleans up the register by writing 0."""
-        print("Cleaning register: {}".format(self.register_address))
         self.write(0)
 
 

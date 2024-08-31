@@ -178,25 +178,6 @@ class Pin(FileSystemEventHandler):
         if callable(self.callback):
             self.callback(event)
 
-    def __read_path(self, path):
-        """
-        Reads the value from the given path.
-
-        Args:
-            path (str): The path to read from.
-
-        Returns:
-            str: The value read from the path.
-        """
-        if os.path.isdir(path):
-            path_reader = open(path, 'r')
-            value = path_reader.read()
-            path_reader.seek(0)
-            path_reader.close()
-            return value
-        else:
-            raise ValueError("The path {} does not exist".format(path))
-
     @property
     def pin_number(self):
         """Returns the pin number."""

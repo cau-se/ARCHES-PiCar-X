@@ -285,3 +285,11 @@ source install/setup.bash
 
 rostopic pub /drive/status picarx_msgs/DriveStatus "{ 'header': { 'skillID': '1', 'topicID': '0'}, 'timestamp': {'secs': 0, 'nsecs': 0}, 'motor_left': { 'location': 0, 'direction': 1, 'speed': 300}, 'motor_right': {'location': 1, 'direction': -1, 'speed': 300}, 'clutchgear': { 'location': 0, 'pulsewidth': 180}}"
 ```
+
+
+
+docker run --rm \
+    --volume $PWD/paper:/data \
+    --user $(id -u):$(id -g) \
+    --env JOURNAL=joss \
+    openjournals/inara

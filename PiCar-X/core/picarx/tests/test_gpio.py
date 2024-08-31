@@ -1,11 +1,7 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock, call
-import builtins
-import os
-import weakref
-from picarx.gpio import GPIO, Value, Pin, Direction, Edge, Active
+from unittest.mock import patch, mock_open, MagicMock
+from picarx.gpio import GPIO, Value, Pin, Direction
 from twisted.internet import reactor
-from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 class TestGPIO(unittest.TestCase):

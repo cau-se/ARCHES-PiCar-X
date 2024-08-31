@@ -1,9 +1,72 @@
+from typing import Union
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from parameterized import parameterized
-from picarx.drivers.clutchgear import SimpleClutchGear, SunFounderClutchGear
-from picarx.pwm import PWM, SunFounderPWMValues
-from picarx.i2c import SMBus
+from picarx.drivers.clutchgear import SunFounderClutchGear, AbstractClutchGearDriver
+from picarx.pwm import  SunFounderPWMValues
+
+class SimpleClutchGear(AbstractClutchGearDriver):
+    """
+    Simple implementation of the clutch gear driver. 
+    
+    This is just for testing purposes. Write a real driver for your clutch gear using the AbstractClutchGearDriver class.
+    """
+
+    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str]):
+        """
+        Initialize the simple clutch gear driver.
+
+        :param name: The name of the clutch gear.
+        :param direction_pin: The GPIO pin for direction control.
+        :param pwm_pin: The PWM pin configuration.
+        """
+        super(SimpleClutchGear, self).__init__(direction_pin, pwm_pin)
+        self.name = name
+
+    @property
+    def name(self):
+        """
+        Get the name of the clutch gear.
+
+        :return: The name of the clutch gear.
+        """
+        return self.__name
+
+    @name.setter
+    def name(self, name: str):
+        """
+        Set the name of the clutch gear.
+
+        :param name: The name of the clutch gear.
+        """
+        self.__name = name
+
+    def rotate(self, angle: Union[int, float]):
+        """
+        Rotate the clutch gear by a given angle.
+
+        :param angle: The angle.
+        """
+        if angle < 0:
+            angle = 0
+        elif angle > 180:
+            angle = 180
+
+        pulse_width = self.angle_to_pulse_width(angle)
+        self.pwm_pin.pulse_width = pulse_width
+        self.angle = angle
+
+    def start(self):
+        """
+        Start the simple clutch gear driver.
+        """
+        pass
+
+    def stop(self):
+        """
+        Stop the simple clutch gear driver.
+        """
+        pass
 
 
 def angle_to_pulse_width(angle, period):

@@ -25,6 +25,12 @@ import time
 
 
 class Options(object):
+    """
+    Parses command line arguments for the DCMotorDriver.
+
+    :param argv: List of command line arguments.
+    :type argv: list
+    """
 
     def __init__(self, argv):
         parser = argparse.ArgumentParser()
@@ -42,17 +48,57 @@ class Options(object):
         self.args = parser.parse_args(argv)
 
     def get_args(self):
+        """
+        Returns the parsed command line arguments.
+
+        :return: Parsed command line arguments.
+        :rtype: dict
+        """
         return vars(self.args)
 
 
 class DCMotorDriver(AbstractDCMotorDriver):
+    """
+    Driver for DC motor mechanism.
+
+    :param name: The RS232 device the simulator should send data to.
+    :type name: str
+    :param direction_pin: The path to a file, e.g., /path/to/file.txt.
+    :type direction_pin: Union[int, str]
+    :param pwm_pin: The interval in which a line in the file should be read.
+    :type pwm_pin: Union[int, str]
+    :param i2c_port: The interval in which a line in the file should be read.
+    :type i2c_port: str
+    :param motor_side: The side of the motor.
+    :type motor_side: MotorSide
+    """
 
     def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str, motor_side: MotorSide) -> None:
+        """
+        Initializes the DCMotorDriver.
+
+        :param name: The RS232 device the simulator should send data to.
+        :type name: str
+        :param direction_pin: The path to a file, e.g., /path/to/file.txt.
+        :type direction_pin: Union[int, str]
+        :param pwm_pin: The interval in which a line in the file should be read.
+        :type pwm_pin: Union[int, str]
+        :param i2c_port: The interval in which a line in the file should be read.
+        :type i2c_port: str
+        :param motor_side: The side of the motor.
+        :type motor_side: MotorSide
+        """
         super(DCMotorDriver, self).__init__(name, int(direction_pin),
                                             pwm_pin, i2c_port, MotorSide(int(motor_side)))
         self.status_publisher = None
 
     def drive(self, ros_msg):
+        """
+        Drives the motor based on the received ROS message.
+
+        :param ros_msg: ROS message containing the speed data.
+        :type ros_msg: Int8
+        """
         speed = int(ros_msg.data)
         self.direction = TravelDirection.FORWARD if speed >= 0 else TravelDirection.BACKWARD
         self.speed = abs(speed)
@@ -60,11 +106,17 @@ class DCMotorDriver(AbstractDCMotorDriver):
         self.send_status()
 
     def send_status(self):
+        """
+        Sends the current status of the motor.
+        """
         status_message = MotorStatus(
             location=self.motor_side.value, direction=self.direction.value, speed=self.speed)
         self.status_publisher.publish(status_message)
 
     def start(self):
+        """
+        Starts the driver and initializes ROS node and publishers.
+        """
         rospy.init_node(self.name, anonymous=False)
         rospy.on_shutdown(self.stop)
         rospy.Subscriber(rospy.get_param('~command_topic'), Int8, self.drive)
@@ -73,6 +125,9 @@ class DCMotorDriver(AbstractDCMotorDriver):
         rospy.spin()
 
     def stop(self):
+        """
+        Stops the driver and logs the shutdown message.
+        """
         GPIO().stop()
         rospy.loginfo("SHUTTING DOWN")
 

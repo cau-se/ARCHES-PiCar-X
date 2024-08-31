@@ -1,6 +1,6 @@
 # test_pwm.py
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from picarx.pwm import PWM, SunFounderPWMValues
 from picarx.i2c import WordRegister
 

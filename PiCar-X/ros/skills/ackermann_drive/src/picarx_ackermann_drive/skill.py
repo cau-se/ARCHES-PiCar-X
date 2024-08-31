@@ -281,4 +281,5 @@ class AckermannDriveSkill(Skill):
         """
         Stop the skill and log the shutdown.
         """
-        rospy.loginfo("SHUTTING DOWN")
+        rospy.loginfo("Shutting the Node down")
+

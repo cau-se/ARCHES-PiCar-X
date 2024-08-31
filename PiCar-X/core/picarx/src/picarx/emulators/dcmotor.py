@@ -16,7 +16,7 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
         sudo modprobe i2c-stub chip_addr=0x14
     """
 
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '\dev\i2c-1', motor_side: MotorSide = MotorSide.LEFT):
+    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '/dev/i2c-1', motor_side: MotorSide = MotorSide.LEFT):
         """
         Initialize the motor emulator.
 
@@ -30,7 +30,7 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
         self.direction_pin = direction_pin
         self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port}
         self.motor_side = motor_side
-        self.speed = None
+        self.speed = 0
         self.direction = TravelDirection.FORWARD
 
     @property
@@ -125,13 +125,10 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
 
         :param direction: The travel direction of the motor.
         """
-        if direction is None:
-            self.__direction = None
+        if direction.value != self.motor_side.value:
+            self.__direction = 1  # forward
         else:
-            if direction.value != self.motor_side.value:
-                self.__direction = 1  # forward
-            else:
-                self.__direction = -1  # backward
+            self.__direction = -1  # backward
 
     @property
     def speed(self):
@@ -140,7 +137,7 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
 
         :return: The speed of the motor.
         """
-        return self.__speed
+        return  self.pwm_pin.duty_cycle
 
     @speed.setter
     def speed(self, speed: int):
@@ -150,15 +147,14 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
         :param speed: The speed of the motor.
         :raises ValueError: If the speed is not between 15 and 100.
         """
-        if speed is None:
-            self.__speed = 0
-            return
+        
+        if speed > 100:
+            speed = 100
+            
+        if 0 < speed < 15:
+            speed = 15
+            print("Speed must be between 15 and 100, you entered {}".format(speed))
 
-        if speed > 100 or speed < 15:
-            raise ValueError(
-                "Speed must be between 15 and 100, you entered {}".format(speed))
-
-        self.__speed = speed
         self.pwm_pin.duty_cycle = speed
 
     @abstractmethod
@@ -172,11 +168,11 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
             "The method {} is not implemented.".format('change_direction_listener'))
 
     @abstractmethod
-    def drive_with_speed(self, i2c_value: int):
+    def drive_with_speed(self, speed_value: int):
         """
-        Abstract method to drive the motor with a given speed.
+        Abstract method to drive the motor with a given speed. Use this function to send speed values to a simulation.
 
-        :param i2c_value: The I2C value representing the speed.
+        :param speed_value: The I2C value representing the speed.
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('drive_with_speed'))
@@ -196,49 +192,3 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('stop'))
-
-
-class MotorEmulator(AbstractMotorEmulator):
-    """
-    Implementation of the motor emulator.
-    """
-
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize the motor emulator.
-        """
-        super(MotorEmulator, self).__init__(*args, **kwargs)
-
-    def change_direction_listener(self, event):
-        """
-        Handle direction change events.
-
-        :param event: The event that triggered the direction change.
-        """
-        if event.event_type == 'modified':
-            direction = self.direction_pin.value
-            if direction == TravelDirection.FORWARD.value:
-                self.drive_forward()
-            elif direction == TravelDirection.BACKWARD.value:
-                self.drive_backwards()
-
-    def drive_with_speed(self, i2c_value: int):
-        """
-        Drive the motor with a given speed.
-
-        :param i2c_value: The I2C value representing the speed.
-        """
-        percentage = int((i2c_value/4095) * 100)
-        print("Moving with {} percent speed".format(percentage))
-
-    def start(self):
-        """
-        Start the motor emulator.
-        """
-        pass
-
-    def stop(self):
-        """
-        Stop the motor emulator.
-        """
-        pass

@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 from picarx.i2c import I2C, ByteRegister, WordRegister
 
 class TestI2C(unittest.TestCase):
