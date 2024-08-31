@@ -30,20 +30,20 @@ Digital twins are becoming increasingly relevant in the Industrial Internet of T
 In previous research, we developed a network of ocean observation systems and evaluated the results in a real-world mission in the Baltic sea in Oktober 2020 [@demomission:2020]. One of the results of the successful proof-of-concept was the ARCHES Digital Twin Framework [@ADTF:2022], a software package providing the functionality to implement the digital thread between physical twins and digital twins.
 Ocean observation systems use quite specific and expensive hardware, hence, we see the need of a cheap lab experiemnt to enable independent evaluation and exploration of the different concepts. The PiCar-X example demonstrates all the concepts from the ocean observation system and includes also a full integration test pipeline. 
 
-The PiCar-X can also be used to evaluate the different concepts, namely physical twin, digital model, digital template, digital thread, digital shadow, digital twin, and digital twin prototype, which we formally specified in [@barbie:2024] using the Object-Z notation.
+The PiCar-X can also be used to evaluate the different concepts, namely physical twin, digital model, digital template, digital thread, digital shadow, digital twin, and digital twin prototype, which we formally specified in [@barbie:2024] using the Object-Z notation. In [@barbiepicarx:2024] we elaborate in more detail how the PiCar-X can be used to evaluate all these concepts.
 
 The PiCar-X can also be used to explore the digital twin prototype approach utilized in the smart farming application SilageControl [@silagecontrol:2024].
 
 # The Physical Twin
 The PiCar-X is a toy car, see \autoref{fig:picarx-pt}, with all sensors and actuators connected to a RaspberryPi. Two direct current motors (DC motors) are used to move the car. A servo motor at the front is used to steer the car. The steering is a typical Ackermann steering [@Veneri:2020] known from common cars. The PiCar-X also includes grey-scale sensors for line following, infrared sensors for collision avoidance, and a camera. However, in the current example only the DC motors and the servo motor for steering are included, so far. 
 
-![The Picar-X by SunFounder.\label{fig:picarx-pt}](..\docs\img\picarx-pt.jpg){ width=20% }
+![The Picar-X by SunFounder.\label{fig:picarx-pt}](./img/picarx-pt.jpg){ width=80% }
 
 
 # The Digital Model
 Lacking official CAD files for the PiCar-X, we utilized a simplified CAD model of an [older SunFounder PiCar version](https://github.com/Theosakamg/PiCar_Hardware), see \autoref{fig:picarx-dm}, available under Apache 2.0 license on GitHub. This model, consisting of just the frame and wheels, closely mirrors the original PiCar-X's key dimensions like wheelbase and track, crucial for an accurate Ackermann steering simulation. However, the original PiCar-X's steering mechanism, operated by a steering bar to achieve Ackermann angles, could not be replicated in [GAZEBO](https://gazebosim.org/). Instead, we approximate the Ackermann steering angles for both front wheels based on established methodologies [@Veneri:2020].
 
-![The CAD model used for the PiCar-X digital model in a GAZEBO simulation.\label{fig:picarx-dm}](../docs/img/picarx-dm.jpg){ width=20% }
+![The CAD model used for the PiCar-X digital model in a GAZEBO simulation.\label{fig:picarx-dm}](./img/picarx-dm.jpg){ width=80% }
 
 
 # The Digital Twin Prototype
@@ -53,15 +53,15 @@ The core of the digital twin prototype approach involves replacing all physical 
 
 For the PiCar, the primary interfaces, GPIO and I2C, are emulated using Linux kernel tools. The virtual GPIO interaction module (gpio-mockup) and the I2C chip (I2C-stub) are integrated into the container for these emulation purposes. Additionally, with Windows 10 and later versions offering a built-in Linux virtual machine through WSL2, these interfaces can also be enabled and utilized on Windows systems. This setup provides a flexible and adaptable environment for emulating the PiCar's hardware interactions. The configuration of the digital twin prototype is illustrated in \autoref{fig:picarx-dtp}.
 
-![The digital twin prototype of the PiCar-X.\label{fig:picarx-dtp}](../docs/img/picarx-dtp.jpg)
+![The digital twin prototype of the PiCar-X.\label{fig:picarx-dtp}](./img/picarx-dtp.jpg)
 
 
 # Automated Integration Testing of Embedded Software in CI/CD Pipelines
 Test automation has been identified as one of the most prominent areas in the testing of embedded software [@studyembeddedtesting:2018]. However, achieving effective automated quality assurance remains challenging, mainly due to the need for hardware involvement in the testing process. Testing on the actual system often requires a continuous connection to the testing environment, which can be expensive and impractical, especially for small and medium-sized enterprises [@silagecontrol:2024]. To address this issue, the digital twin prototype is designed to operate independently of the physical system while still enabling the testing of real embedded software.
 
-To illustrate this process, we have integrated the script used for speed measurement into a CI/CD environment. This integration test ensures that the digital model in the simulation runs at the same speed as the real one. \autoref{fig:picarxcicd} depicts these CI/CD pipelines. Each time a user commits changes, a GitHub Runner is triggered to build a Docker container. All dependencies are loaded into this container, and the code is compiled. This build step can also include static software checks to further assess the quality of the code. Once the containers are successfully built, unit tests are executed on the module under test. If these tests pass, we proceed to the next critical phase: integration testing.
+To illustrate this process, we have integrated the script used for speed measurement into a CI/CD environment. This integration test ensures that the digital model in the simulation runs at the same speed as the real one. \autoref{fig:picarx-cicd} depicts these CI/CD pipelines. Each time a user commits changes, a GitHub Runner is triggered to build a Docker container. All dependencies are loaded into this container, and the code is compiled. This build step can also include static software checks to further assess the quality of the code. Once the containers are successfully built, unit tests are executed on the module under test. If these tests pass, we proceed to the next critical phase: integration testing.
 
-![CI/CD Pipeline for the PiCar-X.\label{fig:picarx-dtp}](../docs/img/picarx-cicd.svg)
+![CI/CD Pipeline for the PiCar-X.\label{fig:picarx-cicd}](./img/picarx-cicd.svg)
 
 
 # Acknowledgements
