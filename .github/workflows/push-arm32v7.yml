@@ -1,6 +1,10 @@
 name: PiCar-X Main Build on PUSH (RPI3)
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io

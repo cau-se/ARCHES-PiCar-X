@@ -1,6 +1,10 @@
 name: PiCar-X Main Build on PUSH
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -57,11 +61,11 @@ jobs:
           TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml down
 
   release:
-    runs-on: [self-hosted, Linux, ARM]
+    runs-on: [self-hosted, Linux, X64]
     needs: [integration-tests]
     steps:
       - uses: actions/checkout@v4
-          
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
