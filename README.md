@@ -10,24 +10,25 @@ This repository presents the source code for a digital twin prototype of the [Pi
 
 ## Quickstart
 
-The ARCHES PiCar-X can be run via Docker. Follow our [quickstart guide](https://www.arches-picarx.dtp/quickstart.html) to get started.
+The ARCHES PiCar-X can be run via Docker. Follow our [quickstart guide][(https://www.arches-picarx.dtp/quickstart.html](https://cau-se.github.io/ARCHES-PiCar-X/getting_started.html)) to get started.
 
 ## Documentation
 
-Documentation on The ARCHES PiCar-X and additional information can be found on the [Theodolite website](https://www.arches-picarx.dtp).
+Documentation on The ARCHES PiCar-X and additional information can be found on our [`GitHub Page`](https://cau-se.github.io/ARCHES-PiCar-X/)
+
 
 ## Contributing
 
 We are happy to accept any kind of contributions to the ARCHES PiCar-X.
 
-See our website to [start contributing](https://www.www.arches-picarx.dtp/development/).
+See our website to [start contributing](https://cau-se.github.io/ARCHES-PiCar-X/development/CONTRIBUTING.html).
 
 
 # Project Structure
 
 * The source code is placed in [`PiCar-X`](PiCar-X)
 * The corresponding paper is placed in [`paper`](paper)
-* The documentation is placed in [`docs`](docs)
+* The documentation can be found on our [`GitHub Page`](https://cau-se.github.io/ARCHES-PiCar-X/)
 
 # Contributing
 
