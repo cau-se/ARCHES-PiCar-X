@@ -15,12 +15,12 @@ jobs:
       - name: build core container
         working-directory: ./PiCar-X
         run: |
-          TAG=${{ github.sha }} docker compose -f docker-compose-core.yml build --no-cache
+          TAG=latest docker compose -f docker-compose-core.yml build --no-cache
 
       - name: build dtp containers without gazebo
         working-directory: ./PiCar-X
         run: |
-          TAG=${{ github.sha }} docker compose -f docker-compose-dtp-headless-gazebo.yml build --no-cache
+          TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml build --no-cache
 
   unit-tests:
     runs-on: [self-hosted, Linux, X64]
@@ -31,7 +31,7 @@ jobs:
       - name: Run pytest in Docker container
         working-directory: ./PiCar-X
         run: |
-          docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:${{ github.sha }} pytest ./src/core/picarx/tests
+          docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest pytest ./src/core/picarx/tests
 
   integration-tests:
     runs-on: [self-hosted, Linux, X64]
@@ -42,7 +42,7 @@ jobs:
       - name: Integration Test dcmotor
         working-directory: ./PiCar-X
         run: |
-          docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${{ github.sha }} rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
+          docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
 
       - name: Speed tests using Gazebo headless
         working-directory: ./PiCar-X
@@ -54,7 +54,7 @@ jobs:
         if: success() || failure()
         working-directory: ./PiCar-X
         run: |
-          docker compose -f docker-compose-dtp-headless-gazebo.yml down
+          TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml down
 
   release:
     runs-on: [self-hosted, Linux, ARM]
@@ -72,4 +72,4 @@ jobs:
       - name: Push to ghcr.io
         working-directory: ./PiCar-X
         run: |
-          TAG=latest docker compose -f docker-compose-dtp-no-gazebo.yml push
+          TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml push
