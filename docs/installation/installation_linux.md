@@ -6,16 +6,9 @@ nav_order: 1
 ---
 
 # Installation on Linux Systems
+This project was developed on Ubuntu 20.04 but also runs on Ubuntu 22.04.
 
-
-**!!! This demo will not work on Ubuntu 24.04, since the character devices fully replace the sysfs GPIO functionallity.**
-
-## Check if required modules are installed
-```console
-modinfo i2c-stub
-modinfo i2c-dev
-modinfo gpio-mockup
-```
+**!!! The ARCHES PiCar-X will not work on Ubuntu 24.04, since the character devices fully replace the sysfs GPIO functionallity.**
 
 ## Build new Kernel if not all required modules are installed
 
@@ -69,7 +62,7 @@ sudo reboot
 
 After reboot you can check if your new kernel is activated by:
 
-```consle
+```console
 uname -r
 
 # Result should be the Kernel version you wanted to install, e.g.:

@@ -12,7 +12,7 @@ This project based on ROS and Docker. Due to the used interfaces on the RPi, we 
 
 | The PiCar-X by Sunfounder                                            | The digital twin prototype in GAZEBO                                                               |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| ![Physical Twin](./images/picarx-pt.jpg "The PiCar-x by Sunfounder") | ![Digital Twin Prototype](./images/picarx-gazebo.gif "The digital twin prototype of the PiCar-X") |
+| ![Physical Twin](./assets/images/picarx-pt.jpg "The PiCar-x by Sunfounder") | ![Digital Twin Prototype](./assets/images/picarx-gazebo.gif "The digital twin prototype of the PiCar-X") |
 
 
 ## Clone Repository
@@ -64,6 +64,7 @@ If you already have built the modules, you need to activate them via:
   </ul>
   <div class="tab-content active" id="tab2-1">
   {% highlight console %}
+    # Build and execute the Docker Containers
     docker compose -f docker-compose-core.yml build 
     docker compose -f docker-compose-dtp.yml build 
     docker compose -f docker-compose-dtp.yml up {% endhighlight %} 
@@ -73,6 +74,10 @@ If you already have built the modules, you need to activate them via:
     # First copy all content to the RaspberryPi3
     scp -r ./ <user>@<picarx-ip>:~/
 
+    # Login to the RaspberryPi via ssh
+    ssh <user>@<picarx-ip>
+
+    # Build and execute the Docker Containers
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build 
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml up  {% endhighlight %} 
@@ -82,6 +87,10 @@ If you already have built the modules, you need to activate them via:
     # First copy all content to the RaspberryPi4
     scp -r ./ <user>@<picarx-ip>:~/
 
+    # Login to the RaspberryPi via ssh
+    ssh <user>@<picarx-ip>
+
+    # Build and execute the Docker Containers
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml build 
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml up   {% endhighlight %} 
@@ -99,12 +108,26 @@ If you already have built the modules, you need to activate them via:
   </ul>
   <div class="tab-content active" id="tab3-1">
   {% highlight console %}
+    # First copy all content to the RaspberryPi4
+    scp -r ./ <user>@<picarx-ip>:~/
+
+    # Login to the RaspberryPi via ssh
+    ssh <user>@<picarx-ip>
+
+    # Build and execute the Docker Containers
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml build 
     TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml up  {% endhighlight %}
   </div>
   <div class="tab-content" id="tab3-2">
   {% highlight console %}
+    # First copy all content to the RaspberryPi4
+    scp -r ./ <user>@<picarx-ip>:~/
+
+    # Login to the RaspberryPi via ssh
+    ssh <user>@<picarx-ip>
+
+    # Build and execute the Docker Containers
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml build 
     TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml up  {% endhighlight %}  
@@ -113,7 +136,7 @@ If you already have built the modules, you need to activate them via:
 </div>
 
 
-## Let the DTP Drive
+## Let the ARCHES PiCar-X Drive
 
 After you start all Docker containers, you can switch into one of the containers and publish a picarx_msgs/Drive message, which will move the DTP with a certain speed and steering angle.
 
@@ -159,3 +182,7 @@ After you start all Docker containers, you can switch into one of the containers
   </div>
 
 </div>
+
+
+# Next Steps
+Visit the [Explore]({{ site.baseurl }}{% link digitaltwins/overview.md %}) page to get more information on the possibilties with the ARCHES PiCar-X.

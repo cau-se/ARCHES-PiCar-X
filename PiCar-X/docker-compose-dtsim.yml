@@ -50,7 +50,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  shadow-dtp:
+  shadow-dt:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     env_file:
       - ./env/picarx.env
@@ -60,7 +60,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  mqtt-dtp:
+  mqtt-dt:
     image: ghcr.io/cau-se/arches-picar-x/arches-mqtt-bridge:${TAG:-latest}
     build:
       dockerfile: Dockerfile-arches-mqtt-bridge
@@ -76,7 +76,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  motor_left-dtp:
+  motor_left-dt:
     build:
       dockerfile: Dockerfile
       context: ./ros/drivers/dcmotor/
@@ -98,7 +98,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  motor_right-dtp:
+  motor_right-dt:
     image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
     tty: true
     env_file:
@@ -114,7 +114,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  steering-dtp:
+  steering-dt:
     image: ghcr.io/cau-se/arches-picar-x/drivers/clutchgear:${TAG:-latest}
     build:
       dockerfile: Dockerfile
@@ -136,7 +136,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  ackermann_skill-dtp:
+  ackermann_skill-dt:
     image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
     build:
       dockerfile: Dockerfile
@@ -158,7 +158,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  motor_emulator_left-dtp:
+  motor_emulator_left-dt:
     image: ghcr.io/cau-se/arches-picar-x/emulators/dcmotor:${TAG:-latest}
     build:
       dockerfile: Dockerfile
@@ -180,7 +180,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  motor_emulator_right-dtp:
+  motor_emulator_right-dt:
     image: ghcr.io/cau-se/arches-picar-x/emulators/dcmotor:${TAG:-latest}
     env_file:
       - ./env/simulation.env
@@ -196,7 +196,7 @@ services:
       picarx-dt:
         condition: service_healthy
 
-  steering_emulator-dtp:
+  steering_emulator-dt:
     image: ghcr.io/cau-se/arches-picar-x/emulators/clutchgear:${TAG:-latest}
     build:
       dockerfile: Dockerfile
