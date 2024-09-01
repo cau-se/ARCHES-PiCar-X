@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - PiCar-X/**
-      - .github/workflows/**.yml
+      - .github/workflows/push-*.yml
   workflow_dispatch:
 
 env:

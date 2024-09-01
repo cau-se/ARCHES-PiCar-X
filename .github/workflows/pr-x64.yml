@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - PiCar-X/**
-      - .github/workflows/**.yml
+      - .github/workflows/pr-*.yml
 
 env:
   REGISTRY: ghcr.io
