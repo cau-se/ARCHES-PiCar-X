@@ -1,6 +1,10 @@
 name: PiCar-X PR Build (RPI4)
 
-on: [pull_request, workflow_dispatch]
+on:
+  pull_request:
+    paths:
+      - PiCar-X/**
+      - .github/workflows/**.yml
 
 env:
   REGISTRY: ghcr.io

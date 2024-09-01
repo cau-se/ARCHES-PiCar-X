@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - PiCar-X/**
+      - .github/workflows/**.yml
   workflow_dispatch:
 
 env:
