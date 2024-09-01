@@ -11,6 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ${{ github.sha }}
+          
       - name: build core container
         working-directory: ./PiCar-X
         run: |
@@ -26,6 +29,9 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ${{ github.sha }}
+
       - name: Run pytest in Docker container
         working-directory: ./PiCar-X
         run: |
@@ -36,6 +42,8 @@ jobs:
     needs: [unit-tests]
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ${{ github.sha }}
 
       - name: Integration Test dcmotor
         working-directory: ./PiCar-X
@@ -53,4 +61,3 @@ jobs:
         working-directory: ./PiCar-X
         run: |
           docker compose -f docker-compose-dtp-headless-gazebo.yml down
-
