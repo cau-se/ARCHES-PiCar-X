@@ -10,7 +10,7 @@ This repository presents the source code for a digital twin prototype of the [Pi
 
 ## Quickstart
 
-The ARCHES PiCar-X can be run via Docker. Follow our [quickstart guide][(https://www.arches-picarx.dtp/quickstart.html](https://cau-se.github.io/ARCHES-PiCar-X/getting_started.html)) to get started.
+The ARCHES PiCar-X can be run via Docker. Follow our [quickstart guide](https://cau-se.github.io/ARCHES-PiCar-X/getting_started.html) to get started.
 
 ## Documentation
 
@@ -33,7 +33,7 @@ See our website to [start contributing](https://cau-se.github.io/ARCHES-PiCar-X/
 # Contributing
 
 # Acknowledgements
-We thank the GitHub user [Theosakamg]((https://github.com/Theosakamg)) for providing a CAD model of a PiCar-V under an open source license.
+We thank the GitHub user [Theosakamg](https://github.com/Theosakamg) for providing a CAD model of a PiCar-V under an open source license.
 
 # Publications
 - Barbie, A., Hasselbring, W., Pech, N., Sommer, S., Flögel, S., & Wenzhöfer, F. (2020, September). Prototyping autonomous robotic networks on different layers of rami 4.0 with digital twins. In 2020 IEEE International Conference on Multisensor Fusion and Integration for Intelligent Systems (MFI) (pp. 1-6). IEEE. [https://doi.org/10.1109/mfi49285.2020.9235210](https://doi.org/10.1109/mfi49285.2020.9235210)
