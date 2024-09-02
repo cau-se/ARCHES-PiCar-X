@@ -1,5 +1,5 @@
 
-# The ARHCES PiCar-X
+# The ARCHES PiCar-X
 
 This repository presents the source code for a digital twin prototype of the [PiCar-X by Sunfounder](https://www.sunfounder.com/products/picar-x) based on the [Robot Operating System (ROS)](https://ros.org) and the [ARCHES Digital Twin Framework](https://git.geomar.de/open-source/arches). Our goal is to provide researchers and practitioners with an affordable and straightforward example to explore various concepts of digital twins. Moreover, this example can be used to explore all the concepts implemented in a previous project named ARCHES (Autonomous Robotic Networks to help Human Societies), which focused on monitoring and operating an underwater network of ocean observation systems. This network was successfully tested in the Baltic Sea in October 2020. One of the outcomes of this project was the ARCHES Digital Twin Framework.
 
