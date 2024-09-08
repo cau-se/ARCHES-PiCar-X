@@ -30,4 +30,21 @@ Try to unexport the pins manually.
 echo 24 > /sys/class/gpio/unexport
 echo 23 > /sys/class/gpio/unexport
 ```
-If this does not work, due to permission issues, than reboot your WSL2 or Linux System.
+If this does not work, due to permission issues, than reboot your WSL2 or Linux System or create a script with the commands and execute it.
+
+```console
+# create the script with nano editor
+nano unexport-pins.bash
+
+# write the command to the script
+echo "echo 23 > /sys/class/gpio/unexport" >> unexport-pins.bash
+echo "echo 24 > /sys/class/gpio/unexport" >> unexport-pins.bash
+
+# make it executeable
+chmod +x unexport-pins.bash
+
+# execute
+sudo ./unexport-pins.bash
+```
+
+Check with `ls /sys/class/gpio` if the pins were removed.

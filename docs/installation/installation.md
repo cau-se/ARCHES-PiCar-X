@@ -11,3 +11,4 @@ This project runs solely on Linux systems. To run this project on a x64 CPU arch
 - [Install on Windows (with WSL2)]({{ site.baseurl }}{% link installation/installation_windows.md %})
 
 **This project will not run on MacOS**
+

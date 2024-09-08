@@ -17,17 +17,17 @@ services:
       retries: 5
       start_period: 1s
 
-  emulator-master:
+  picarx-gazebo:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     environment:
-      - ROS_HOSTNAME=emulator-master
-      - ROS_MASTER_URI=http://emulator-master:11312
+      - ROS_HOSTNAME=picarx-gazebo
+      - ROS_MASTER_URI=http://picarx-gazebo:11312
     env_file:
       - ./env/simulation.env
     tty: true
     ports:
       - 11312:11312
-    command: roscore
+    command: roscore -11312
     restart: on-failure
     healthcheck:
       test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
@@ -174,7 +174,7 @@ services:
       - ./ros/emulators/dcmotor:/root/catkin_ws/src/emulators/dcmotor
     command: /bin/bash -c "roslaunch picarx_dcmotor_emulator dcmotor_emulator_left.launch i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
-      emulator-master:
+      picarx-gazebo:
         condition: service_healthy
     restart: on-failure
 
@@ -192,7 +192,7 @@ services:
       - ./ros/emulators/dcmotor:/root/catkin_ws/src/emulators/dcmotor
     command: /bin/bash -c "roslaunch picarx_dcmotor_emulator dcmotor_emulator_right.launch i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
-      emulator-master:
+      picarx-gazebo:
         condition: service_healthy
     restart: on-failure
 
@@ -216,7 +216,7 @@ services:
       - ./ros/emulators/clutchgear:/root/catkin_ws/src/emulators/clutchgear
     command: /bin/bash -c "roslaunch picarx_clutchgear_emulator ackermann_clutchgear_emulator.launch i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
-      emulator-master:
+      picarx-gazebo:
         condition: service_healthy
     restart: on-failure
 

@@ -33,7 +33,19 @@ modinfo gpio-mockup
 - [Install on Ubuntu 20.04]({{ site.baseurl }}{% link installation/installation_linux.md %})
 - [Install on Windows (with WSL2)]({{ site.baseurl }}{% link installation/installation_windows.md %})
 
+## Check if there is already an existing I2C
+
+On Ubuntu Systems (not WSL) there can already be an I2C device active. To check if a device already exists, type:
+
+```console
+ls /dev/i2c*
+```
+
+If there is already an active I2C device, the result can be something like `/dev/i2c-0`. **The listed devices cannot be used for the DTP.**
+
+
 ## Activate GPIO and I2C on Your System
+
 If you already have built the modules, you need to activate them via:
 
 <div class="tab-container" id="activateinterfaces">
@@ -54,7 +66,18 @@ If you already have built the modules, you need to activate them via:
 
 </div>
 
+If you now type again: 
+```console
+ls /dev/i2c*
+```
+
+If there was already and existing I2C device (see above), then a new would should be listed now. The result can be something like `/dev/i2c-0 /dev/i2c-1` and `/dev/i2c-1` is the created device that can be used for the DTP.
+
+
 ## Build and Start Docker Containers from Scratch
+
+You need to configure the correct I2C device in the `env` folder (`ARCHES-PiCar-X/Picar-X/env`). Which env is used, can be seen in the docker compose file you want to execute.
+
 
 <div class="tab-container" id="startdocker">
   <ul class="tab-list">
@@ -101,6 +124,8 @@ If you already have built the modules, you need to activate them via:
 
 ## Build and Start the Physical Twin on a RPi 3/4
 
+You need to configure the correct I2C device in the `env` folder (`ARCHES-PiCar-X/Picar-X/env`). Which env is used, can be seen in the docker compose file you want to execute.
+
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
     <li class="tab active" data-tab="tab3-1">arm32v7 (RPi3)</li>
@@ -139,7 +164,6 @@ If you already have built the modules, you need to activate them via:
 ## Let the ARCHES PiCar-X Drive
 
 After you start all Docker containers, you can switch into one of the containers and publish a picarx_msgs/Drive message, which will move the DTP with a certain speed and steering angle.
-
 
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
@@ -183,6 +207,9 @@ After you start all Docker containers, you can switch into one of the containers
 
 </div>
 
-
 # Next Steps
 Visit the [Explore]({{ site.baseurl }}{% link digitaltwins/overview.md %}) page to get more information on the possibilties with the ARCHES PiCar-X.
+
+# Troubleshooting
+Sometimes there can be problems with the I2C devices (e.g. a folder was created upon mounting) or the GPIO pin was not removed properlly.
+See [Troubleshooting page]({{ site.baseurl }}{% link troubleshooting.md %}) for solutions.
