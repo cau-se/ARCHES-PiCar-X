@@ -18,7 +18,7 @@ This project based on ROS and Docker. Due to the used interfaces on the RPi, we 
 ## Clone Repository
 ```console 
     git clone https://github.com/cau-se/ARCHES-PiCar-X.git
-    cd ./ARCHES-Picar-X/PiCar-X
+    cd ./ARCHES-PiCar-X/PiCar-X
 ```
 
 ## Check if required modules are installed
