@@ -10,15 +10,15 @@ nav_order: 2
 # Getting Started
 This project based on ROS and Docker. Due to the used interfaces on the RPi, we have to use Linux Kernel functions for GPIO and I2C. Before you can start this project you have to activate GPIO and I2C. If you already activated these modules, you can proceed with ##. Otherwise you have to build these modules first.
 
-| The PiCar-X by Sunfounder                                            | The digital twin prototype in GAZEBO                                                               |
+| The PiCar-X by Sunfounder| The digital twin prototype in GAZEBO   |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | ![Physical Twin](./assets/images/picarx-pt.jpg "The PiCar-x by Sunfounder") | ![Digital Twin Prototype](./assets/images/picarx-gazebo.gif "The digital twin prototype of the PiCar-X") |
 
 
 ## Clone Repository
 ```console 
-    git clone https://github.com/cau-se/ARCHES-PiCar-X.git
-    cd ./ARCHES-PiCar-X/PiCar-X
+git clone https://github.com/cau-se/ARCHES-PiCar-X.git
+cd ./ARCHES-PiCar-X/PiCar-X
 ```
 
 ## Check if required modules are installed
@@ -50,18 +50,18 @@ If you already have built the modules, you need to activate them via:
 
 <div class="tab-container" id="activateinterfaces">
   <ul class="tab-list">
-    <li class="tab active" data-tab="tab1-1">X64</li>
-    <li class="tab" data-tab="tab1-2">RaspberryPi 3/4</li>
+<li class="tab active" data-tab="tab1-1">X64</li>
+<li class="tab" data-tab="tab1-2">RaspberryPi 3/4</li>
   </ul>
   <div class="tab-content active" id="tab1-1">
   {% highlight console %}
-    sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
-    sudo modprobe i2c-dev
-    sudo modprobe i2c-stub chip_addr=0x14 {% endhighlight %}
+sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
+sudo modprobe i2c-dev
+sudo modprobe i2c-stub chip_addr=0x14 {% endhighlight %}
   </div>
   <div class="tab-content" id="tab1-2">
   {% highlight console %}
-    sudo modprobe i2c-stub chip_addr=0x14 {% endhighlight %}  
+sudo modprobe i2c-stub chip_addr=0x14 {% endhighlight %}  
   </div>
 
 </div>
@@ -73,6 +73,27 @@ ls /dev/i2c*
 
 If there was already and existing I2C device (see above), then a new would should be listed now. The result can be something like `/dev/i2c-0 /dev/i2c-1` and `/dev/i2c-1` is the created device that can be used for the DTP.
 
+## Enable Gazebo GUI
+Before starting the Docker containers, enable the X11 forwarding to the hosts display:
+
+```console
+# Alternative 1: Allow all connetions
+xhost + 
+
+# Alternative 2: Allow non-network local connections
+xhost + local:root
+```
+
+**DEACTIVATE AFTER SHUTDOWN**
+```console
+# Alternative 1: Disable all connetions
+xhost - 
+
+# Alternative 2: Disable non-network local connections
+xhost - local:root
+```
+
+
 
 ## Build and Start Docker Containers from Scratch
 
@@ -81,42 +102,42 @@ You need to configure the correct I2C device in the `env` folder (`ARCHES-PiCar-
 
 <div class="tab-container" id="startdocker">
   <ul class="tab-list">
-    <li class="tab active" data-tab="tab2-1">X64</li>
-    <li class="tab" data-tab="tab2-2">arm32v7 (RPi3)</li>
-    <li class="tab" data-tab="tab2-3">arm64v8 (RPi4)</li>
+<li class="tab active" data-tab="tab2-1">X64</li>
+<li class="tab" data-tab="tab2-2">arm32v7 (RPi3)</li>
+<li class="tab" data-tab="tab2-3">arm64v8 (RPi4)</li>
   </ul>
   <div class="tab-content active" id="tab2-1">
   {% highlight console %}
-    # Build and execute the Docker Containers
-    docker compose -f docker-compose-core.yml build 
-    docker compose -f docker-compose-dtp.yml build 
-    docker compose -f docker-compose-dtp.yml up {% endhighlight %} 
+# Build and execute the Docker Containers
+docker compose -f docker-compose-core.yml build 
+docker compose -f docker-compose-dtp.yml build 
+docker compose -f docker-compose-dtp.yml up {% endhighlight %} 
   </div>
   <div class="tab-content" id="tab2-2">
   {% highlight console %}
-    # First copy all content to the RaspberryPi3
-    scp -r ./ <user>@<picarx-ip>:~/
+# First copy all content to the RaspberryPi3
+scp -r ./ <user>@<picarx-ip>:~/
 
-    # Login to the RaspberryPi via ssh
-    ssh <user>@<picarx-ip>
+# Login to the RaspberryPi via ssh
+ssh <user>@<picarx-ip>
 
-    # Build and execute the Docker Containers
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build 
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml up  {% endhighlight %} 
+# Build and execute the Docker Containers
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build 
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml up  {% endhighlight %} 
   </div>
   <div class="tab-content" id="tab2-3">
   {% highlight console %}
-    # First copy all content to the RaspberryPi4
-    scp -r ./ <user>@<picarx-ip>:~/
+# First copy all content to the RaspberryPi4
+scp -r ./ <user>@<picarx-ip>:~/
 
-    # Login to the RaspberryPi via ssh
-    ssh <user>@<picarx-ip>
+# Login to the RaspberryPi via ssh
+ssh <user>@<picarx-ip>
 
-    # Build and execute the Docker Containers
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml build 
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml up   {% endhighlight %} 
+# Build and execute the Docker Containers
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml build 
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml up   {% endhighlight %} 
   </div>
 
 </div>
@@ -128,34 +149,34 @@ You need to configure the correct I2C device in the `env` folder (`ARCHES-PiCar-
 
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
-    <li class="tab active" data-tab="tab3-1">arm32v7 (RPi3)</li>
-    <li class="tab" data-tab="tab3-2">arm64v8 (RPi4)</li>
+<li class="tab active" data-tab="tab3-1">arm32v7 (RPi3)</li>
+<li class="tab" data-tab="tab3-2">arm64v8 (RPi4)</li>
   </ul>
   <div class="tab-content active" id="tab3-1">
   {% highlight console %}
-    # First copy all content to the RaspberryPi4
-    scp -r ./ <user>@<picarx-ip>:~/
+# First copy all content to the RaspberryPi4
+scp -r ./ <user>@<picarx-ip>:~/
 
-    # Login to the RaspberryPi via ssh
-    ssh <user>@<picarx-ip>
+# Login to the RaspberryPi via ssh
+ssh <user>@<picarx-ip>
 
-    # Build and execute the Docker Containers
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml build 
-    TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml up  {% endhighlight %}
+# Build and execute the Docker Containers
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-core.yml build 
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml build 
+TAG=latest ARCH=arm32v7 docker compose -f docker-compose-pt.yml up  {% endhighlight %}
   </div>
   <div class="tab-content" id="tab3-2">
   {% highlight console %}
-    # First copy all content to the RaspberryPi4
-    scp -r ./ <user>@<picarx-ip>:~/
+# First copy all content to the RaspberryPi4
+scp -r ./ <user>@<picarx-ip>:~/
 
-    # Login to the RaspberryPi via ssh
-    ssh <user>@<picarx-ip>
+# Login to the RaspberryPi via ssh
+ssh <user>@<picarx-ip>
 
-    # Build and execute the Docker Containers
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml build 
-    TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml up  {% endhighlight %}  
+# Build and execute the Docker Containers
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-core.yml build 
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml build 
+TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml up  {% endhighlight %}  
   </div>
 
 </div>
@@ -167,42 +188,42 @@ After you start all Docker containers, you can switch into one of the containers
 
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
-    <li class="tab active" data-tab="tab4-1">Start the Digital Twin Prototype</li>
-    <li class="tab" data-tab="tab4-2">Start the Physical Twin</li>
+<li class="tab active" data-tab="tab4-1">Start the Digital Twin Prototype</li>
+<li class="tab" data-tab="tab4-2">Start the Physical Twin</li>
   </ul>
   <div class="tab-content" id="tab4-1">
   {% highlight console %}
-    # SWITCH INTO THE CONTAINER
-    docker exec -it picar-x-ackermann_skill-dtp-1 /bin/bash
+# SWITCH INTO THE CONTAINER
+docker exec -it picar-x-ackermann_skill-dtp-1 /bin/bash
 
-    # INSIDE CONTAINER
-    source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
+# INSIDE CONTAINER
+source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
 
-    # PUBLISH A MESSAGE TO TURN RIGHT WITH 50 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 50, angle: 20}"
+# PUBLISH A MESSAGE TO TURN RIGHT WITH 50 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 50, angle: 20}"
 
-    # PUBLISH A MESSAGE TO TURN LEFT WITH 80 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 80, angle: -20}"
+# PUBLISH A MESSAGE TO TURN LEFT WITH 80 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 80, angle: -20}"
 
-    # PUBLISH A MESSAGE TO TURN THE WHEELS LEFT BUT DRIVE BACKWARD WITH 80 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}"  {% endhighlight %}  
+# PUBLISH A MESSAGE TO TURN THE WHEELS LEFT BUT DRIVE BACKWARD WITH 80 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}"  {% endhighlight %}  
   </div>
   <div class="tab-content active" id="tab4-2">
   {% highlight console %}
-    # SWITCH INTO THE CONTAINER
-    docker exec -it picar-x-ackermann_skill-pt-1 /bin/bash
+# SWITCH INTO THE CONTAINER
+docker exec -it picar-x-ackermann_skill-pt-1 /bin/bash
 
-    # INSIDE CONTAINER
-    source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
+# INSIDE CONTAINER
+source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
 
-    # PUBLISH A MESSAGE TO TURN RIGHT WITH 50 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 50, angle: 20}"
+# PUBLISH A MESSAGE TO TURN RIGHT WITH 50 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 50, angle: 20}"
 
-    # PUBLISH A MESSAGE TO TURN LEFT WITH 80 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 80, angle: -20}"
+# PUBLISH A MESSAGE TO TURN LEFT WITH 80 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 80, angle: -20}"
 
-    # PUBLISH A MESSAGE TO TURN THE WHEELS LEFT BUT DRIVE BACKWARD WITH 80 percent motor speed
-    rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}"  {% endhighlight %}
+# PUBLISH A MESSAGE TO TURN THE WHEELS LEFT BUT DRIVE BACKWARD WITH 80 percent motor speed
+rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}"  {% endhighlight %}
   </div>
 
 </div>

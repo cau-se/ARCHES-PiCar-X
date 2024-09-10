@@ -18,7 +18,7 @@ uname -r
 # POSSIBLE RESULT:
 On Ubuntu 20.04: 5.13.0-48-generic
 
-sudo apt-get install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves ncurses-dev zstd
+sudo apt-get install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves ncurses-dev zstd xorg
 
 wget https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.13.tar.gz
 
@@ -35,10 +35,10 @@ make menuconfig
 
 # ALTERNATIVE 2 (write the modules to file):
 echo CONFIG_GPIOLIB=y >> .config
-echo CONFIG_GPIO_SYSFS=y >> .config             
+echo CONFIG_GPIO_SYSFS=y >> .config 
 echo CONFIG_GPIO_CDEV=y >> .config
 echo CONFIG_GPIO_CDEV_V1=y >> .config
-echo CONFIG_GPIO_MOCKUP=m   >> .config           
+echo CONFIG_GPIO_MOCKUP=m >> .config   
 echo CONFIG_I2C_CHARDEV=m >> .config
 echo CONFIG_I2C_STUB=m >> .config
 

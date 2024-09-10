@@ -12,6 +12,8 @@ The goal of this project is to exemplify my research on digital twins. All conce
 
 ## XLaunch for Windows
 
+**This step is required if you do not want to use xhost on WSL2**
+
 [Download the VcXsrv X Server for Windows](https://sourceforge.net/projects/vcxsrv/).
 Start the application with following configuration:
 
@@ -32,7 +34,7 @@ uname -r
 5.10.102.1-microsoft-standard-WSL2
 
 
-sudo apt-install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves
+sudo apt-install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves xorg
 
 wget https://github.com/microsoft/WSL2-Linux-Kernel/releases/tag/linux-msft-wsl-5.10.102.1.zip
 unzip linux-msft-wsl-5.10.102.1.zip
@@ -44,15 +46,15 @@ make menuconfig
 
 # ALTERNATIVE 2 (write the modules to file):
 echo CONFIG_GPIOLIB=y >> .config
-echo CONFIG_GPIO_SYSFS=y >> .config             
+echo CONFIG_GPIO_SYSFS=y >> .config 
 echo CONFIG_GPIO_CDEV=y >> .config
 echo CONFIG_GPIO_CDEV_V1=y >> .config
-echo CONFIG_GPIO_MOCKUP=m   >> .config           
+echo CONFIG_GPIO_MOCKUP=m >> .config   
 echo CONFIG_I2C_CHARDEV=m >> .config
 echo CONFIG_I2C_STUB=m >> .config
 
 
-make KCONFIG_CONFIG=.config -j $NumberOfCores    # if you have 4 cores, just type 4 (the more the better)
+make KCONFIG_CONFIG=.config -j $NumberOfCores# if you have 4 cores, just type 4 (the more the better)
 ```
 
 ## Activate new WSL2 Kernel:

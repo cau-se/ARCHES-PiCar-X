@@ -21,60 +21,60 @@ Since the CI/CD pipelines also only use Docker for test execution, the whole wor
 
 <div class="tab-container" id="manualtesting">
   <ul class="tab-list">
-    <li class="tab active" data-tab="tab1-1">The full DTP on a X64 machine</li>
-    <li class="tab" data-tab="tab1-2">On a RaspberryPi 3 (arm32v7)</li>
-    <li class="tab" data-tab="tab1-2">On a RaspberryPi 4 (arm64v8)</li>
+<li class="tab active" data-tab="tab1-1">The full DTP on a X64 machine</li>
+<li class="tab" data-tab="tab1-2">On a RaspberryPi 3 (arm32v7)</li>
+<li class="tab" data-tab="tab1-2">On a RaspberryPi 4 (arm64v8)</li>
   </ul>
   <div class="tab-content" id="tab1-1">
   {% highlight console %}
-    # Build the core container
-    TAG=latest docker compose -f docker-compose-core.yml build --no-cache
+# Build the core container
+TAG=latest docker compose -f docker-compose-core.yml build --no-cache
 
-    # Build the DTP, in this case without Gazebo GUI (headless mode)
-    TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml build --no-cache
+# Build the DTP, in this case without Gazebo GUI (headless mode)
+TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml build --no-cache
 
-    # Execute Unit Tests in the core container
-    docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest pytest ./src/core/picarx/tests
+# Execute Unit Tests in the core container
+docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest pytest ./src/core/picarx/tests
 
-    # Run integration tests for the dc motor
-    docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-searches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
+# Run integration tests for the dc motor
+docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-searches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
 
-    # Start the DTP setup using GAZEBO headless
-    i2c=/dev/i2c-0 docker compose -f docker-compose-dtp-headless-gazebo.yml up -d
+# Start the DTP setup using GAZEBO headless
+i2c=/dev/i2c-0 docker compose -f docker-compose-dtp-headless-gazebo.yml up -d
 
-    # Execute the integration test for speed measurement
-    docker exec picar-x-picarx-gazebo-control-1 /bin/bash -c "source ./install/setup.bash && sleep 30; python3 ./src/simulation/picarx_control/tests/steering_integration_test.py"
+# Execute the integration test for speed measurement
+docker exec picar-x-picarx-gazebo-control-1 /bin/bash -c "source ./install/setup.bash && sleep 30; python3 ./src/simulation/picarx_control/tests/steering_integration_test.py"
 
-    # Turn off the DTP
-    docker compose -f docker-compose-dtp-headless-gazebo.yml down {% endhighlight %}  
+# Turn off the DTP
+docker compose -f docker-compose-dtp-headless-gazebo.yml down {% endhighlight %}  
   </div>
   <div class="tab-content active" id="tab1-2">
   {% highlight console %}
-    # Build the core container
-    TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-core.yml build --no-cache
+# Build the core container
+TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-core.yml build --no-cache
 
-    # Build the DTP, in this case without Gazebo
-    TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
+# Build the DTP, in this case without Gazebo
+TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
 
-    # Execute Unit Tests in the core container
-    docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest-arm32v7 pytest ./src/core/picarx/tests
+# Execute Unit Tests in the core container
+docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest-arm32v7 pytest ./src/core/picarx/tests
 
-    # Run integration tests for the dc motor
-    docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm32v7 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11 {% endhighlight %}  
+# Run integration tests for the dc motor
+docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm32v7 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11 {% endhighlight %}  
   </div>
   <div class="tab-content active" id="tab1-3">
   {% highlight console %}
-    # Build the core container
-    TAG=latest-arm64v8 ARCH=arm64v8 docker compose -f docker-compose-core.yml build --no-cache
+# Build the core container
+TAG=latest-arm64v8 ARCH=arm64v8 docker compose -f docker-compose-core.yml build --no-cache
 
-    # Build the DTP, in this case without Gazebo
-    TAG=latest-arm64v8 ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
+# Build the DTP, in this case without Gazebo
+TAG=latest-arm64v8 ARCH=arm64v8 docker compose -f docker-compose-dtp-no-gazebo.yml build --no-cache
 
-    # Execute Unit Tests in the core container
-    docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest-arm64v8 pytest ./src/core/picarx/tests
+# Execute Unit Tests in the core container
+docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest-arm64v8 pytest ./src/core/picarx/tests
 
-    # Run integration tests for the dc motor
-    docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm64v8 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11 {% endhighlight %}  
+# Run integration tests for the dc motor
+docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm64v8 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11 {% endhighlight %}  
   </div>
 
 </div>
