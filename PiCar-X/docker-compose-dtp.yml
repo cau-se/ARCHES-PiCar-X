@@ -16,50 +16,6 @@ services:
       retries: 5
       start_period: 1s
 
-  picarx-gazebo:
-    build:
-      context: ./simulation
-      dockerfile: Dockerfile
-      args:
-        - TAG=${TAG:-latest}
-        - ARCH=${ARCH:-}
-      target: desktop
-    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
-    env_file:
-      - ./env/simulation.env
-    environment:
-      - DISPLAY=host.docker.internal:0.0
-      - LIBGL_ALWAYS_INDIRECT=0
-      - ROS_HOSTNAME=picarx-gazebo
-      - ROS_MASTER_URI=http://picarx-gazebo:11312
-    tty: true
-    ports:
-      - 11312:11312
-    volumes:
-      - ./core:/root/catkin_ws/src/core
-      - ./simulation:/root/catkin_ws/src/simulation
-    command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch"
-    healthcheck:
-      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
-      interval: 5s
-      timeout: 1s
-      retries: 5
-      start_period: 1s
-
-  picarx-gazebo-control:
-    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
-    env_file:
-      - ./env/simulation.env
-    tty: true
-    volumes:
-      - ./core:/root/catkin_ws/src/core
-      - ./simulation:/root/catkin_ws/src/simulation
-    command: /bin/bash -c "roslaunch picarx_control picarx_control.launch"
-    restart: on-failure
-    depends_on:
-      picarx-gazebo:
-        condition: service_healthy
-
 
   shadow-dtp:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
@@ -172,6 +128,51 @@ services:
       roslaunch picarx_ackermann_drive ackermann_skill.launch"
     depends_on:
       picarx:
+        condition: service_healthy
+
+  picarx-gazebo:
+    build:
+      context: ./simulation
+      dockerfile: Dockerfile
+      args:
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+      target: desktop
+    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
+    env_file:
+      - ./env/simulation.env
+    environment:
+      - DISPLAY=$DISPLAY
+      - LIBGL_ALWAYS_INDIRECT=0
+      - ROS_HOSTNAME=picarx-gazebo
+      - ROS_MASTER_URI=http://picarx-gazebo:11312
+    tty: true
+    ports:
+      - 11312:11312
+    volumes:
+      - ${X11PATH:-/tmp/.X11-unix/X0}:/tmp/.X11-unix/X0
+      - ./core:/root/catkin_ws/src/core
+      - ./simulation:/root/catkin_ws/src/simulation
+    command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 1s
+
+  picarx-gazebo-control:
+    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
+    env_file:
+      - ./env/simulation.env
+    tty: true
+    volumes:
+      - ./core:/root/catkin_ws/src/core
+      - ./simulation:/root/catkin_ws/src/simulation
+    command: /bin/bash -c "roslaunch picarx_control picarx_control.launch"
+    restart: on-failure
+    depends_on:
+      picarx-gazebo:
         condition: service_healthy
 
   motor_emulator_left-dtp:
