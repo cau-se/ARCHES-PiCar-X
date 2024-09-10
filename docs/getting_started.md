@@ -66,12 +66,26 @@ sudo modprobe i2c-stub chip_addr=0x14 {% endhighlight %}
 
 </div>
 
-If you now type again: 
+Type again:
 ```console
 ls /dev/i2c*
 ```
 
 If there was already and existing I2C device (see above), then a new would should be listed now. The result can be something like `/dev/i2c-0 /dev/i2c-1` and `/dev/i2c-1` is the created device that can be used for the DTP.
+
+If there a several devices, use `i2cdetect` provided in `i2c-tools`:
+```console
+i2cdetect -l
+```
+
+The result can look like:
+
+i2c-1   i2c             bcm2835 (i2c@7e804000)                  I2C adapter
+i2c-11  smbus           SMBus stub driver                       SMBus adapter
+
+
+In this example, `i2c-11` is the stub that was created above and can be used for the DTP.
+
 
 ## Enable Gazebo GUI
 Before starting the Docker containers, enable the X11 forwarding to the hosts display:
