@@ -191,7 +191,7 @@ After you start all Docker containers, you can switch into one of the containers
 <li class="tab active" data-tab="tab4-1">Start the Digital Twin Prototype</li>
 <li class="tab" data-tab="tab4-2">Start the Physical Twin</li>
   </ul>
-  <div class="tab-content" id="tab4-1">
+  <div class="tab-content active" id="tab4-1">
   {% highlight console %}
 # SWITCH INTO THE CONTAINER
 docker exec -it picar-x-ackermann_skill-dtp-1 /bin/bash
@@ -208,7 +208,7 @@ rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 80, angle: -20}"
 # PUBLISH A MESSAGE TO TURN THE WHEELS LEFT BUT DRIVE BACKWARD WITH 80 percent motor speed
 rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}"  {% endhighlight %}  
   </div>
-  <div class="tab-content active" id="tab4-2">
+  <div class="tab-content" id="tab4-2">
   {% highlight console %}
 # SWITCH INTO THE CONTAINER
 docker exec -it picar-x-ackermann_skill-pt-1 /bin/bash
