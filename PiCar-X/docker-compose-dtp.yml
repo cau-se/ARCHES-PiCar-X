@@ -146,6 +146,7 @@ services:
       - LIBGL_ALWAYS_INDIRECT=0
       - ROS_HOSTNAME=picarx-gazebo
       - ROS_MASTER_URI=http://picarx-gazebo:11312
+    stdin_open: true
     tty: true
     ports:
       - 11312:11312
