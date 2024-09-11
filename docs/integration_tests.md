@@ -21,11 +21,11 @@ Since the CI/CD pipelines also only use Docker for test execution, the whole wor
 
 <div class="tab-container" id="manualtesting">
   <ul class="tab-list">
-<li class="tab active" data-tab="tab1-1">The full DTP on a X64 machine</li>
+<li class="tab active" data-tab="tab1-1">The full DTP on an X64 machine</li>
 <li class="tab" data-tab="tab1-2">On a RaspberryPi 3 (arm32v7)</li>
 <li class="tab" data-tab="tab1-2">On a RaspberryPi 4 (arm64v8)</li>
   </ul>
-  <div class="tab-content" id="tab1-1">
+  <div class="tab-content active" id="tab1-1">
   {% highlight console %}
 # Build the core container
 TAG=latest docker compose -f docker-compose-core.yml build --no-cache
@@ -48,7 +48,7 @@ docker exec picar-x-picarx-gazebo-control-1 /bin/bash -c "source ./install/setup
 # Turn off the DTP
 docker compose -f docker-compose-dtp-headless-gazebo.yml down {% endhighlight %}  
   </div>
-  <div class="tab-content active" id="tab1-2">
+  <div class="tab-content" id="tab1-2">
   {% highlight console %}
 # Build the core container
 TAG=latest-arm32v7 ARCH=arm32v7 docker compose -f docker-compose-core.yml build --no-cache
@@ -62,7 +62,7 @@ docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:late
 # Run integration tests for the dc motor
 docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-11:/dev/i2c-11 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest-arm32v7 rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-11 {% endhighlight %}  
   </div>
-  <div class="tab-content active" id="tab1-3">
+  <div class="tab-content" id="tab1-3">
   {% highlight console %}
 # Build the core container
 TAG=latest-arm64v8 ARCH=arm64v8 docker compose -f docker-compose-core.yml build --no-cache
