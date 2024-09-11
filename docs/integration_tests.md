@@ -37,7 +37,7 @@ TAG=latest docker compose -f docker-compose-dtp-headless-gazebo.yml build --no-c
 docker run --rm --name picarx-unittest ghcr.io/cau-se/arches-picar-x/picarx:latest pytest ./src/core/picarx/tests
 
 # Run integration tests for the dc motor
-docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-searches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
+docker run --rm --name dcmotor-integration-test -v /sys/class/gpio:/sys/class/gpio -v /dev/i2c-0:/dev/i2c-0 --privileged  ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:latest rostest picarx_dcmotor_driver integration_tests.test i2c_port:=/dev/i2c-0
 
 # Start the DTP setup using GAZEBO headless
 i2c=/dev/i2c-0 docker compose -f docker-compose-dtp-headless-gazebo.yml up -d
