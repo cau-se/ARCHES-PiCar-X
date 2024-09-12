@@ -18,7 +18,7 @@ uname -r
 # POSSIBLE RESULT:
 On Ubuntu 20.04: 5.13.0-48-generic
 
-sudo apt-get install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves ncurses-dev zstd xorg i2c-tools
+sudo apt install -y wget unzip build-essential flex bison libssl-dev libelf-dev dwarves ncurses-dev zstd xorg i2c-tools git curl
 
 wget https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.13.tar.gz
 

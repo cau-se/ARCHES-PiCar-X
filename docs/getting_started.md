@@ -8,7 +8,7 @@ nav_order: 2
 <script src="{{ site.baseurl }}{% link assets/js/tabs.js %}"> </script>
 
 # Getting Started
-This project based on ROS and Docker. Due to the used interfaces on the RPi, we have to use Linux Kernel functions for GPIO and I2C. Before you can start this project you have to activate GPIO and I2C. If you already activated these modules, you can proceed with ##. Otherwise you have to build these modules first.
+This project based on ROS and Docker. Due to the used interfaces on the RPi, we have to use Linux Kernel functions for GPIO and I2C. Before you can start this project you need to [install Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) and you have to [check whether the GPIO and I2C modules are installed](#check-if-required-modules-are-installed). If these modules are installed already, you can proceed with [activating I2C and GPIO](#activate-gpio-and-i2c-on-your-system).
 
 | The PiCar-X by Sunfounder| The digital twin prototype in GAZEBO   |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |

@@ -34,7 +34,7 @@ uname -r
 5.10.102.1-microsoft-standard-WSL2
 
 
-sudo apt-install wget unzip build-essential flex bison libssl-dev libelf-dev dwarves xorg i2c-tools
+sudo apt install -y wget unzip build-essential flex bison libssl-dev libelf-dev dwarves xorg i2c-tools git curl
 
 wget https://github.com/microsoft/WSL2-Linux-Kernel/releases/tag/linux-msft-wsl-5.10.102.1.zip
 unzip linux-msft-wsl-5.10.102.1.zip
