@@ -232,7 +232,7 @@ services:
       - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
       - ./core:/root/catkin_ws/src/core
       - ./ros/emulators/clutchgear:/root/catkin_ws/src/emulators/clutchgear
-    command: /bin/bash -c "roslaunch picarx_clutchgear_emulator ackermann_clutchgear_emulator.launch i2c_port:=${I2C:-/dev/i2c-0}"
+    command: /bin/bash -c "roslaunch picarx_clutchgear_emulator ackermann_clutchgear_emulator.launch i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
       picarx-gazebo:
         condition: service_healthy
