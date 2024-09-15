@@ -30,26 +30,45 @@ services:
         condition: service_healthy
 
   picarx-gazebo:
+    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     build:
       context: Dockerfile
       dockerfile: ./simulation
       target: desktop
       args:
         - TAG=${TAG:-latest}
-    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     env_file:
-      - ./env/simulation.env
+      - ./env/picarx-ds.env
     environment:
-      - DISPLAY=host.docker.internal:0.0
+      - DISPLAY=$DISPLAY
       - LIBGL_ALWAYS_INDIRECT=0
       - ROS_MASTER_URI=http://picarx-ds:11313
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${X11PATH:-/tmp/.X11-unix}:/tmp/.X11-unix
+      - ./core:/root/catkin_ws/src/core
+      - ./simulation:/root/catkin_ws/src/simulation
+    command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 1s
+
+  picarx-gazebo-control:
+    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
+    env_file:
+      - ./env/picarx-ds.env
     tty: true
     volumes:
       - ./core:/root/catkin_ws/src/core
       - ./simulation:/root/catkin_ws/src/simulation
-    command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch & roslaunch picarx_control picarx_control.launch"
+    command: /bin/bash -c "roslaunch picarx_control picarx_control.launch"
+    restart: on-failure
     depends_on:
-      picarx-ds:
+      picarx-gazebo:
         condition: service_healthy
 
   shadow-ds:
@@ -74,7 +93,7 @@ services:
       - ./env/picarx-ds.env
     command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=mqtt-server"
     depends_on:
-      picarx:
+      picarx-ds:
         condition: service_healthy
 
   ackermann_skill-ds:

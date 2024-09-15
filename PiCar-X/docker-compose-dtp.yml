@@ -151,7 +151,7 @@ services:
     ports:
       - 11312:11312
     volumes:
-      - ${X11PATH:-/tmp/.X11-unix/X0}:/tmp/.X11-unix/X0
+      - ${X11PATH:-/tmp/.X11-unix}:/tmp/.X11-unix
       - ./core:/root/catkin_ws/src/core
       - ./simulation:/root/catkin_ws/src/simulation
     command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch"
