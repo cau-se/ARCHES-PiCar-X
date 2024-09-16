@@ -7,7 +7,7 @@ nav_order: 4
 # Digital Twin Concepts
 The ARCHES PiCar-X was specifically developed to help scientists and engineers understand and experiment with the concept of Digital Twins. In our paper "[From Digital Twins to Digital Twin Prototypes: Concepts, Formalization, and Applications](https://doi.org/10.1109/access.2024.3406510)", we formalized the Digital Twin concept and its sub-concepts physical twin, digital model, digital template, digital thread, digital shadow, digital twin, and digital twin prototype using Object-Z. In "[Toward Reproducibility of Digital Twin Research: Exemplified with the PiCar-X.](https://doi.org/10.48550/ARXIV.2408.13866)", we then demonstrated how these concepts were implemented using the ARCHES PiCar-X. This project contains the source code for that implementation.
 
-## Inhaltsverzeichnis
+## Table of Contents
 1. [Physical Twin](#1-physical-twin)
 2. [Digital Model](#2-digital-model)
 3. [Digital Template](#3-digital-template)
@@ -15,7 +15,7 @@ The ARCHES PiCar-X was specifically developed to help scientists and engineers u
 5. [Digital Shadow](#5-digital-shadow)
 6. [Digital Twin](#6-digital-twin)
 7. [Digital Twin Prototype](#7-digital-twin-prototype)
-8. [Explore](#8-explore)
+8. [Explore](#explore)
 
 ## 1. Physical Twin
 
