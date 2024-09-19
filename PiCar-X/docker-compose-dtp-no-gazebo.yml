@@ -22,12 +22,13 @@ services:
     environment:
       - ROS_HOSTNAME=picarx-gazebo
       - ROS_MASTER_URI=http://picarx-gazebo:11312
+      - ROS_HOST_PORT=11312
     env_file:
       - ./env/simulation.env
     tty: true
     ports:
       - 11312:11312
-    command: roscore -11312
+    command: roscore -p 11312
     restart: on-failure
     healthcheck:
       test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]

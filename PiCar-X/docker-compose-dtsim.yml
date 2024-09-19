@@ -136,19 +136,21 @@ services:
         condition: service_healthy
 
   picarx-gazebo:
-    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     build:
-      context: Dockerfile
-      dockerfile: ./simulation
-      target: desktop
+      context: ./simulation
+      dockerfile: Dockerfile
       args:
         - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+      target: desktop
+    image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     env_file:
       - ./env/simulation.env
     environment:
       - DISPLAY=$DISPLAY
       - LIBGL_ALWAYS_INDIRECT=0
       - ROS_HOSTNAME=picarx-gazebo
+      - ROS_MASTER_URI=http://picarx-gazebo:11312
     stdin_open: true
     tty: true
     ports:

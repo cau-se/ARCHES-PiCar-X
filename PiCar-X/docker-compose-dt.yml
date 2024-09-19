@@ -4,6 +4,8 @@ services:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     environment:
       - ROS_HOSTNAME=picarx-dt
+      - ROS_MASTER_URI=http://picarx-dt:11313
+      - ROS_HOST_PORT=11313
     tty: true
     ports:
       - 11313:11313

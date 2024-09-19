@@ -4,12 +4,12 @@ services:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     environment:
       - ROS_HOSTNAME=picarx-ds
-      - ROS_MASTER_URI=http://picarx-ds:11313
-      - ROS_HOST_PORT=11313
+      - ROS_MASTER_URI=http://picarx-ds:11315
+      - ROS_HOST_PORT=11315
     tty: true
     ports:
-      - 11313:11313
-    command: roscore -p 11313
+      - 11315:11315
+    command: roscore -p 11315
     healthcheck:
       test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
       interval: 5s
@@ -32,8 +32,8 @@ services:
   picarx-gazebo:
     image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     build:
-      context: Dockerfile
-      dockerfile: ./simulation
+      context: ./simulation
+      dockerfile: Dockerfile
       target: desktop
       args:
         - TAG=${TAG:-latest}
@@ -42,7 +42,7 @@ services:
     environment:
       - DISPLAY=$DISPLAY
       - LIBGL_ALWAYS_INDIRECT=0
-      - ROS_MASTER_URI=http://picarx-ds:11313
+      - ROS_MASTER_URI=http://picarx-ds:11315
     stdin_open: true
     tty: true
     volumes:
@@ -50,12 +50,9 @@ services:
       - ./core:/root/catkin_ws/src/core
       - ./simulation:/root/catkin_ws/src/simulation
     command: /bin/bash -c "roslaunch picarx_gazebo picarx-world.launch"
-    healthcheck:
-      test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
-      interval: 5s
-      timeout: 1s
-      retries: 5
-      start_period: 1s
+    depends_on:
+      picarx-ds:
+        condition: service_healthy
 
   picarx-gazebo-control:
     image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
@@ -69,7 +66,7 @@ services:
     restart: on-failure
     depends_on:
       picarx-gazebo:
-        condition: service_healthy
+        condition: service_started
 
   shadow-ds:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
