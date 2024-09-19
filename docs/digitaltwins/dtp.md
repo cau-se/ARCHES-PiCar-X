@@ -13,14 +13,14 @@ The digital twin prototype can be used to replace the physical twin during devel
 
 We have three options at this point:
 
-* [The digital twin prototype and the digital twin each start separate Gazebo simulations.](#option1)
+* [The digital twin prototype and the digital twin each start separate Gazebo simulations on two different systems.](#option1)
 * [The digital twin prototype includes the Gazebo simulation, while the digital twin is launched without a simulation, displaying all data in the console or a log.](#option2)
 * [The digital twin prototype is launched without a simulation, while the digital twin uses a Gazebo simulation to display the model's behavior based on the incoming data.](#option3)
 
 # Option 1: Start Digital Twin Prototype and Digital Twin with Separate Gazebo Silumation {#option1}
-**You need to change the ROS Master Ports on one of the docker compose files, else they will conflict.**
+**If you cannot create two I2C stubs on your system, this option requires two separate systems, e.g., two VMs. Otherwise DTP and DT share the same I2C device.**
 
-## Start the Digital Twin with GAZEBO
+## Start the Digital Twin with GAZEBO on System 1
 ```console
 # Build and execute the Docker Containers
 docker compose -f docker-compose-core.yml build 
@@ -28,7 +28,7 @@ docker compose -f docker-compose-dtsim.yml build
 docker compose -f docker-compose-dtsim.yml up
 ```
 
-## Start the Digital Twin Prototype with GAZEBO
+## Start the Digital Twin Prototype with GAZEBO on System 2
 ```console
 # Build and execute the Docker Containers
 docker compose -f docker-compose-core.yml build 
