@@ -9,15 +9,17 @@ services:
       - ./config/mqtt:/root/catkin_ws/mosquitto
     command: mosquitto -c /root/catkin_ws/mosquitto/mosquitto.conf -p 1883
 
-  picarx:
+  picarx-dt:
     build: .
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     environment:
-      - ROS_HOSTNAME=picarxs
+      - ROS_HOSTNAME=picarx-dt
+      - ROS_MASTER_URI=http://picarx-dt:11313
+      - ROS_HOST_PORT=11313
     tty: true
     ports:
-      - 11311:11311
-    command: roscore
+      - 11313:11313
+    command: roscore -p 11313
     healthcheck:
       test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]
       interval: 5s
@@ -28,7 +30,7 @@ services:
   shadow-dt:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     tty: true
     command: /bin/bash -c "roslaunch arches_core digitalshadow_dt.launch"
     depends_on:
@@ -44,9 +46,9 @@ services:
         - TAG=${TAG:-latest}
         - ARCH=${ARCH:-}
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     tty: true
-    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=mqtt-server  motor1_i2c_port:=$${I2C:-/dev/i2c-0}"
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=mqtt-server motor1_i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
       picarx-dt:
         condition: service_healthy
@@ -60,7 +62,7 @@ services:
         - ARCH=${ARCH:-}
     image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     tty: true
     privileged: true
     volumes:
@@ -68,7 +70,7 @@ services:
       - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
       - ./core:/root/catkin_ws/src/core
       - ./ros/drivers/dcmotor:/root/catkin_ws/src/drivers/dcmotor
-    command: /bin/bash -c "roslaunch picarx_dcmotor_driver dcmotor_left.launch  motor2_i2c_port:=$${I2C:-/dev/i2c-0}"
+    command: /bin/bash -c "roslaunch picarx_dcmotor_driver dcmotor_left.launch motor2_i2c_port:=$${I2C:-/dev/i2c-0}"
     depends_on:
       picarx-dt:
         condition: service_healthy
@@ -77,7 +79,7 @@ services:
     image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
     tty: true
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     privileged: true
     volumes:
       - /sys/class/gpio:/sys/class/gpio
@@ -98,7 +100,7 @@ services:
         - TAG=${TAG:-latest}
         - ARCH=${ARCH:-}
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     tty: true
     privileged: true
     volumes:
@@ -120,7 +122,7 @@ services:
         - TAG=${TAG:-latest}
         - ARCH=${ARCH:-}
     env_file:
-      - ./env/picarx.env
+      - ./env/picarx-dt.env
     tty: true
     privileged: true
     volumes:
