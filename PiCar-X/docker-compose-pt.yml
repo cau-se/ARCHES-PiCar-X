@@ -119,7 +119,7 @@ services:
     env_file:
       - ./env/picarx.env
     tty: true
-    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=mqtt-server"
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=$${MQTT_HOST:-192.168.1.2}"
     depends_on:
       picarx:
         condition: service_healthy

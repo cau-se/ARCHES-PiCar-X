@@ -23,11 +23,8 @@ services:
     ports:
       - 1883:1883
     volumes:
-      - ./config/mqtt:/root/catkin_ws/mosquitto
+      - ./config/mqtt/:/root/catkin_ws/mosquitto
     command: mosquitto -c /root/catkin_ws/mosquitto/mosquitto.conf -p 1883
-    depends_on:
-      picarx-dt:
-        condition: service_healthy
 
   shadow-dt:
     image: ghcr.io/cau-se/arches-picar-x/picarx:${TAG:-latest}
@@ -50,7 +47,7 @@ services:
     env_file:
       - ./env/picarx-dt.env
     tty: true
-    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=mqtt-server"
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=$${MQTT_HOST:-192.168.1.2}"
     depends_on:
       picarx-dt:
         condition: service_healthy

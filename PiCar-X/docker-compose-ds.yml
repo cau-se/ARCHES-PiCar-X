@@ -25,9 +25,6 @@ services:
     volumes:
       - ./config/mqtt:/root/catkin_ws/mosquitto
     command: mosquitto -c /root/catkin_ws/mosquitto/mosquitto.conf -p 1883
-    depends_on:
-      picarx-ds:
-        condition: service_healthy
 
   picarx-ds-gazebo:
     image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
@@ -88,7 +85,7 @@ services:
         - ARCH=${ARCH:-}
     env_file:
       - ./env/picarx-ds.env
-    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=mqtt-server"
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=$${MQTT_HOST:-192.168.1.2}"
     depends_on:
       picarx-ds:
         condition: service_healthy
