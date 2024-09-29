@@ -6,6 +6,7 @@
      <arg name="motor1_motor_side" default="0" />
      <arg name="motor1_command_topic" default="$(arg motor1_name)/speed" />
      <arg name="motor1_status_topic" default="$(arg motor1_name)/status" />
+     <arg name="i2c_address" default="20" />
 
      <include file="$(find picarx_dcmotor_driver)/launch/dcmotor_driver.launch">
           <arg name="name" value="$(arg motor1_name)" />
@@ -15,6 +16,7 @@
           <arg name="motor_side" value="$(arg motor1_motor_side)" />
           <arg name="command_topic" value="$(arg motor1_command_topic)" />
           <arg name="status_topic" value="$(arg motor1_status_topic)" />
+          <arg name="i2c_address" value="$(arg i2c_address)" />
      </include>
 
 </launch>

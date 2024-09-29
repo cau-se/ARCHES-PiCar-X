@@ -1,5 +1,5 @@
 ARG TAG=latest
-FROM osrf/ros:noetic-desktop-full-focal as gazebo-full
+FROM osrf/ros:noetic-desktop-full-focal AS gazebo-full
 ARG TAG
 WORKDIR /root/catkin_ws
 RUN apt-get update \
@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get clean \
     && update-ca-certificates -f
 
-FROM gazebo:libgazebo9-bionic as gazebo-only 
+FROM gazebo:libgazebo9-bionic AS gazebo-only 
 ARG TAG
 WORKDIR /root/catkin_ws
 RUN apt-get update \
@@ -16,9 +16,9 @@ RUN apt-get update \
     && update-ca-certificates -f
 
 ARG TAG
-FROM ghcr.io/cau-se/arches-picar-x/picarx:${TAG} as picarx-core
+FROM ghcr.io/cau-se/arches-picar-x/picarx:${TAG} AS picarx-core
 
-FROM gazebo-full as desktop
+FROM gazebo-full AS desktop
 COPY --from=picarx-core /root/catkin_ws .
 COPY . ./src/simulation
 RUN ls .
@@ -28,7 +28,7 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.sh && catkin build" \
     && echo "source ./install/setup.bash" >> /root/.bashrc
 ENTRYPOINT [ "/root/catkin_ws/src/arches/arches_core/ENTRYPOINT.sh" ]
 
-FROM gazebo-only as tests
+FROM gazebo-only AS tests
 COPY --from=picarx-core /root/catkin_ws .
 COPY . ./src/simulation
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin build" \

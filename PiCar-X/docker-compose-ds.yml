@@ -29,7 +29,7 @@ services:
       picarx-ds:
         condition: service_healthy
 
-  picarx-gazebo:
+  picarx-ds-gazebo:
     image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     build:
       context: ./simulation
@@ -65,7 +65,7 @@ services:
     command: /bin/bash -c "roslaunch picarx_control picarx_control.launch"
     restart: on-failure
     depends_on:
-      picarx-gazebo:
+      picarx-ds-gazebo:
         condition: service_started
 
   shadow-ds:

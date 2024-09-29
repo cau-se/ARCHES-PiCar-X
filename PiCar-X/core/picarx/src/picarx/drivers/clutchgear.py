@@ -9,14 +9,14 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     Abstract base class for clutch gear drivers.
     """
 
-    def __init__(self, pwm_pin: str, i2c_port: str = '/dev/i2c-1'):
+    def __init__(self, pwm_pin: str, i2c_port: str = '/dev/i2c-1', address=20):
         """
         Initialize the clutch gear driver.
 
         :param pwm_pin: The PWM pin configuration.
         :param i2c_port: The I2C port configuration.
         """
-        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port}
+        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port, 'address': address}
         self.angle = 90
 
     @property
@@ -36,7 +36,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
         :param config: The PWM pin configuration.
         """
         self.__pwm_pin = PWM(
-            channel=config['channel'], i2c_port=config['i2c_port'])
+            channel=config['channel'], i2c_port=config['i2c_port'], address=config['address'])
         self.__pwm_pin.period = 4095
         self.__pwm_pin.prescaler = 8
 

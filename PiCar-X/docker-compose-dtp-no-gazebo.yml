@@ -28,7 +28,7 @@ services:
     tty: true
     ports:
       - 11312:11312
-    command: roscore -p 11312
+    command: roscore -p 11312 # launching ros master only instead of gazebo gui
     restart: on-failure
     healthcheck:
       test: [ "CMD-SHELL", "curl $${ROS_MASTER_URI} || exit 1" ]

@@ -6,10 +6,13 @@
   <arg name="motor_side" />
   <arg name="command_topic" />
   <arg name="status_topic" />
+  <arg name="i2c_address" />
 
 
   <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="$(arg name)" pkg="picarx_dcmotor_driver" type="dcmotor_driver.py" respawn="false" output="screen" args="$(arg name) $(arg direction_pin) $(arg pwm_pin) $(arg i2c_port) $(arg motor_side)">
+  <node name="$(arg name)" pkg="picarx_dcmotor_driver" type="dcmotor_driver.py" respawn="false"
+    output="screen"
+    args="$(arg name) $(arg direction_pin) $(arg pwm_pin) $(arg i2c_port) $(arg motor_side) $(arg i2c_address)">
     <param name="name" type="str" value="$(arg name)" />
     <param name="direction_pin" type="str" value="$(arg direction_pin)" />
     <param name="pwm_pin" type="str" value="$(arg pwm_pin)" />
@@ -17,6 +20,7 @@
     <param name="motor_side" type="int" value="$(arg motor_side)" />
     <param name="command_topic" type="str" value="$(arg command_topic)" />
     <param name="status_topic" type="str" value="$(arg status_topic)" />
+    <param name="i2c_address" type="int" value="$(arg i2c_address)" />
   </node>
 
 </launch>

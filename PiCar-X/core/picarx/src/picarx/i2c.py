@@ -1,16 +1,3 @@
-# Copyright 2022 - 2024 Alexander Barbie
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 # from .basic import _Basic_class
 from abc import ABCMeta, abstractmethod
@@ -38,7 +25,7 @@ class I2C(object):
         create_register(register_address, size): Creates a register of the specified size.
     """
 
-    def __init__(self, i2c_port=1, address=0x14):
+    def __init__(self, i2c_port=1, address=20):
         """
         Initializes the I2C interface.
 
@@ -62,14 +49,14 @@ class I2C(object):
         self.__i2c_port = port
 
     @property
-    def address(self):
+    def address(self) -> int:
         """Gets the I2C address."""
         return self.__address
 
     @address.setter
-    def address(self, address: bytes):
+    def address(self, i2c_address: int):
         """Sets the I2C address."""
-        self.__address = address
+        self.__address = i2c_address
 
     def write_byte(self, data):
         """

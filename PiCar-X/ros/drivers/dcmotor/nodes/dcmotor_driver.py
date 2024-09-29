@@ -1,17 +1,4 @@
 #!/usr/bin/env python3
-# Copyright 2022 - 2024 Alexander Barbie
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import rospy
 from typing import Union
@@ -44,6 +31,8 @@ class Options(object):
             "i2c_port", type=str, help="The interval in which a line in the file should be read.")
         parser.add_argument(
             "motor_side", type=str, help="The interval in which a line in the file should be read.")
+        parser.add_argument(
+            "i2c_address", type=int, default=20,  help="The register address on the I2C.")
 
         self.args = parser.parse_args(argv)
 
@@ -73,7 +62,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
     :type motor_side: MotorSide
     """
 
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str, motor_side: MotorSide) -> None:
+    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str, motor_side: MotorSide, address: int = 20):
         """
         Initializes the DCMotorDriver.
 
@@ -89,7 +78,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
         :type motor_side: MotorSide
         """
         super(DCMotorDriver, self).__init__(name, int(direction_pin),
-                                            pwm_pin, i2c_port, MotorSide(int(motor_side)))
+                                            pwm_pin, i2c_port, MotorSide(int(motor_side)), address)
         self.status_publisher = None
 
     def drive(self, ros_msg):
@@ -135,5 +124,5 @@ class DCMotorDriver(AbstractDCMotorDriver):
 if __name__ == "__main__":
     options = Options(rospy.myargv()[1:])
     dcmotor = DCMotorDriver(options.args.name, options.args.direction_pin,
-                            options.args.pwm_pin, options.args.i2c_port, options.args.motor_side)
+                            options.args.pwm_pin, options.args.i2c_port, options.args.motor_side, options.args.i2c_address)
     dcmotor.start()

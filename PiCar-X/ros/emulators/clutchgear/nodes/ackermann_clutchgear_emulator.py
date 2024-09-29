@@ -1,17 +1,4 @@
 #!/usr/bin/env python3
-# Copyright 2022 - 2024 Alexander Barbie
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import rospy
 from picarx.emulators.clutchgear import AbstractClutchGearEmulator
@@ -36,6 +23,8 @@ class Options(object):
             "pwm_pin", type=str, help="The interval in which a line in the file should be read.")
         parser.add_argument(
             "i2c_port", type=str, help="The interval in which a line in the file should be read.")
+        parser.add_argument(
+            "i2c_address", type=int, default=20,  help="The register address on the I2C.")
 
         self.args = parser.parse_args(argv)
 
@@ -63,8 +52,9 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
     :type frequency: int, optional
     """
 
-    def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50) -> None:
-        super(AckermannClutchGearEmulator, self).__init__(pwm_pin, i2c_port)
+    def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50, address: int = 20):
+        super(AckermannClutchGearEmulator, self).__init__(
+            pwm_pin, i2c_port, address)
         self.name = name
         self.frequency = frequency
         self.left_steer = None
@@ -189,7 +179,7 @@ if __name__ == '__main__':
     try:
         options = Options(rospy.myargv()[1:])
         clutchgear_emulator = AckermannClutchGearEmulator(
-            options.args.name, options.args.pwm_pin, options.args.i2c_port)
+            options.args.name, options.args.pwm_pin, options.args.i2c_port, options.args.i2c_address)
         clutchgear_emulator.start()
     except rospy.ROSInterruptException:
         pass

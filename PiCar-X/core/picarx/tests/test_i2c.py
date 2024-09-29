@@ -6,7 +6,7 @@ class TestI2C(unittest.TestCase):
     @patch('picarx.i2c.SMBus')
     def setUp(self, mock_smbus):
         self.mock_smbus = mock_smbus
-        self.i2c = I2C(i2c_port=1, address=0x14)
+        self.i2c = I2C(i2c_port=1, address=20)
 
     def test_write_byte(self):
         self.i2c.write_byte(0xFF)
@@ -32,7 +32,7 @@ class TestByteRegister(unittest.TestCase):
 class TestWordRegister(unittest.TestCase):
     @patch('picarx.i2c.SMBus')
     def test_write_and_read(self, mock_smbus):
-        word_register = WordRegister(mock_smbus, 0x14, 0x02)
+        word_register = WordRegister(mock_smbus, 20, 0x02)
         word_register.write(0x0102)
         # Beachten Sie die Umwandlung von Little-Endian zu Big-Endian und zurück
         mock_smbus.write_word_data.assert_called_once_with(0x14, 0x02, 0x0201)

@@ -16,7 +16,7 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
         sudo modprobe i2c-stub chip_addr=0x14
     """
 
-    def __init__(self, pwm_pin, i2c_port, frequency=50):
+    def __init__(self, pwm_pin, i2c_port, frequency: int = 50, address: int = 20):
         """
         Initialize the clutch gear emulator.
 
@@ -24,7 +24,7 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
         :param i2c_port: The I2C port configuration.
         :param frequency: The frequency in Hertz.
         """
-        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port}
+        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port, 'address': address}
         self.frequency = frequency  # in Hertz
 
     @property
@@ -44,7 +44,7 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
         :param config: The PWM pin configuration.
         """
         self.__pwm_pin = PWM(
-            channel=config['channel'], i2c_port=config['i2c_port'])
+            channel=config['channel'], i2c_port=config['i2c_port'], address=config['address'])
         self.__pwm_pin.period = 4095
         self.__pwm_pin.prescaler = 8
 

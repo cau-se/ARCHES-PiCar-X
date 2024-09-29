@@ -11,7 +11,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
     Abstract base class for DC motor drivers.
     """
 
-    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '/dev/i2c-1', motor_side: MotorSide = MotorSide.LEFT):
+    def __init__(self, name: str, direction_pin: Union[int, str], pwm_pin: Union[int, str], i2c_port: str = '/dev/i2c-1', motor_side: MotorSide = MotorSide.LEFT, address=20):
         """
         Initialize the DC motor driver.
 
@@ -23,7 +23,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
         """
         self.name = name
         self.direction_pin = direction_pin
-        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port}
+        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port, 'address': address}
         self.motor_side = motor_side
         self.speed = 0
         self.direction = TravelDirection.FORWARD
@@ -82,7 +82,7 @@ class AbstractDCMotorDriver(DCMotorInterface):
         :param config: The PWM pin configuration.
         """
         self.__pwm_pin = PWM(
-            channel=config['channel'], i2c_port=config['i2c_port'])
+            channel=config['channel'], i2c_port=config['i2c_port'], address=config['address'])
         self.__pwm_pin.period = 4095
         self.__pwm_pin.prescaler = 8
 

@@ -1,16 +1,3 @@
-# Copyright 2022 - 2024 Alexander Barbie
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 from typing import Union
 from picarx.i2c import I2C
@@ -24,7 +11,7 @@ class SunFounderPWMValues(Enum):
     DEFAULT_CLOCK = 72000000
     DEFAULT_PERIOD = 4095
     DEFAULT_PRESCALER = 8
-    DEFAULT_I2C_ADRESS = 0x14  # int int: 20
+    DEFAULT_I2C_ADRESS = 0x14  # in int: 20
     REGISTER_CHANNEL = 0x20  # in int: 32
     REGISTER_FREQUENCY = 0x30
     REGISTER_PRESCALER = 0x40
@@ -61,13 +48,13 @@ class PWM(I2C):
         duty_cycle: Gets or sets the duty cycle.
     """
 
-    def __init__(self, channel, address=0x14, i2c_port=1, period=SunFounderPWMValues.DEFAULT_PERIOD.value, prescaler=SunFounderPWMValues.DEFAULT_PRESCALER.value, frequency=SunFounderPWMValues.DEFAULT_FREQUENCY.value, reg_chn=SunFounderPWMValues.REGISTER_CHANNEL.value, reg_fre=SunFounderPWMValues.REGISTER_FREQUENCY.value, reg_psc=SunFounderPWMValues.REGISTER_PRESCALER.value, reg_arr=SunFounderPWMValues.REGISTER_ARR.value, debug="critical"):
+    def __init__(self, channel, address=20, i2c_port=1, period=SunFounderPWMValues.DEFAULT_PERIOD.value, frequency=SunFounderPWMValues.DEFAULT_FREQUENCY.value, reg_chn=SunFounderPWMValues.REGISTER_CHANNEL.value, reg_fre=SunFounderPWMValues.REGISTER_FREQUENCY.value, reg_psc=SunFounderPWMValues.REGISTER_PRESCALER.value, debug="critical"):
         """
         Initializes the PWM interface.
 
         Args:
             channel (Union[str, int]): The PWM channel.
-            address (int): The I2C address. Default is 0x14.
+            address (int): The I2C address. Default is 20 (0x14 in hex).
             i2c_port (int): The I2C port number. Default is 1.
             period (int): The PWM period. Default is 4095.
             prescaler (int): The PWM prescaler. Default is 8.
@@ -84,7 +71,7 @@ class PWM(I2C):
         self.register_channel = reg_chn  # Channel
         self.register_frequency = reg_fre  # Frequency
         self.register_prescaler = reg_psc  # Prescaler
-        self.period = 4095
+        self.period = period
         self.frequency = frequency
 
     @property
