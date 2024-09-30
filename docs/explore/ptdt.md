@@ -1,28 +1,38 @@
 ---
-title: Conncet Physical Twin and Digital Shadow
-has_children: true
-nav_order: 2
+title: Conncet Physical and Digital Twin
+has_children: false
+nav_order: 1
 parent: Explore
 ---
 
 <link rel="stylesheet" href="{{ site.baseurl }}{% link assets/css/tabs.css %}">
 <script src="{{ site.baseurl }}{% link assets/js/tabs.js %}"> </script>
 
-# Connecting the Physical Twin with a Digital Shadow
-In this example, we demonstrate how the PiCar-X can be connected to a digital shadow. For this purpose, we created a special Docker container that contains a ROS node, which does not send any commands to the physical twin.
+# Connecting the Physical Twin with a Digital Twin
+This example can be used to connect the PiCar-X's phyiscal twin with a digital twin. The communication between both is established via MQTT. The MQTT server is part of the digital twin and you have to allow connections to port 1883 on the system where the MQTT server runs. This may requires adjustments to your firewall.
 
-## Start the Digital Shadow
-We assume at this point that the digital shadow runs on a X64 Linux system (e.g. a server).
+## Adjust the environemnt files
+
+There are three environment files with relevant variables:
+- picarx.env (on the Picar-X)
+- simulation-dt.env
+- picarx-dt.env
+
+In this files you have to adjust the I2C devices (see [Getting Started]({% link getting_started.md %})) and the MQTT server IP.
+
+
+## Start the Digital Twin
+We assume at this point that the digital twin runs on a X64 Linux system (e.g. a server).
 
 ```console
 # Build and execute the Docker Containers
 docker compose -f docker-compose-core.yml build 
-docker compose -f docker-compose-ds.yml build 
-docker compose -f docker-compose-ds.yml up
+docker compose -f docker-compose-dtsim.yml build 
+docker compose -f docker-compose-dtsim.yml up
 ```
 
 
-## Start the Phyiscal Twin
+## Start the Physical Twin
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
 <li class="tab active" data-tab="tab3-1">arm32v7 (RPi3)</li>
@@ -56,13 +66,12 @@ TAG=latest ARCH=arm64v8 docker compose -f docker-compose-pt.yml up  {% endhighli
   </div>
 </div>
 
-# Execute Commands on the Physical Twin
-```console
-# Connect to the RaspberryPi
-ssh <user>@<picarx-ip>
+## Send Commands from the Digital Twin to the Physical Twin
+You can operate the PiCar-X from its digital twin via:
 
+```console
 # SWITCH INTO THE CONTAINER
-docker exec -it picar-x-ackermann_skill-pt-1 /bin/bash
+docker exec -it picar-x-ackermann_skill-dt-1 /bin/bash
 
 # INSIDE CONTAINER
 source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
@@ -70,3 +79,5 @@ source /root/catkin_ws/devel/picarx_ackermann_drive/setup.bash
 # PUBLISH A MESSAGE TO TURN RIGHT WITH 50 percent motor speed
 rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: 50, angle: 20}"
 ```
+
+The PiCar-X should turn right by 20 degree and move in circles until you send another command.

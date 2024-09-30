@@ -1,7 +1,9 @@
 ---
-title: Testing
+title: Automated Testing
 has_children: false
 nav_order: 5
+parent: Explore
+
 ---
 
 <link rel="stylesheet" href="{{ site.baseurl }}{% link assets/css/tabs.css %}">
