@@ -33,7 +33,9 @@ And [activate I2C](#activate-gpio-and-i2c-on-your-system)
 ## Several Active I2C devices:
 If there are several active I2C devices, you have to find the one with the active register 0x14.
 
-Case 1: no active register:
+### Case 1: no active register:
+
+```console
 $ sudo i2cdetect -r 0
 WARNING! This program can confuse your I2C bus, cause data loss and worse!
 I will probe file /dev/i2c-0 using receive byte commands.
@@ -48,8 +50,11 @@ Continue? [Y/n] Y
 50: -- UU -- UU -- -- -- -- -- -- -- -- -- -- -- -- 
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
+```
 
-Case 2: active register:
+### Case 2: active register:
+
+```console
 $ sudo i2cdetect -r 3
 WARNING! This program can confuse your I2C bus, cause data loss and worse!
 I will probe file /dev/i2c-3 using receive byte commands.
@@ -64,6 +69,7 @@ Continue? [Y/n] Y
 50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
+```
 
 `/dev/i2c-3` is the correct device.
 

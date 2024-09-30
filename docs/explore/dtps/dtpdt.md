@@ -24,7 +24,7 @@ There are three environment files with relevant variables:
 ```console
 sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
 sudo modprobe i2c-dev
-sudo modprobe i2c-stub chip_addr=[0x14,0x15]
+sudo modprobe i2c-stub chip_addr=[0x14, 0x15]
 ```
 
 With the `i2c-tools` installed, you can check whether both addresses are allocated now:
@@ -32,7 +32,7 @@ With the `i2c-tools` installed, you can check whether both addresses are allocat
 ```console
 i2cdetect -y 0      # the 0 represens /dev/i2c-0, insert the number of the stub here
 
-# The result should be something like -- 0x14 0x15 --
+# The result should be something like -- 14 15 --
 ```
 
 Ofcourse the idea of the digital twin prototype is that you use the same configuration as the original system, however, since all containers share the kernel modules of the system this example is executed and in most cases you cannot create two I2C-stub devices, they need to share the I2C device. In examples with seriel or network protocols, this would be different.
