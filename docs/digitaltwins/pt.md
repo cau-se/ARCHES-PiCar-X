@@ -32,10 +32,10 @@ A **physical twin** is a real-world physical System-of-Systems or product. It co
 
 The first part of a PiCar-X's physical twin is the PiCar-x itself:
 
-![Physical Twin](./assets/images/picarx-pt.jpg "The PiCar-X by Sunfounder") 
+![Physical Twin](../assets/images/picarx-pt.jpg "The PiCar-X by Sunfounder") 
 
 The physical twin gets completed with the embedded control software running the PiCar-X:
 
-![Architecture embedded control system](./assets/images/picarx-pt.png "The PiCar-X's embedded control software") 
+![Architecture embedded control system](../assets/images/picarx-pt.png "The PiCar-X's embedded control software") 
 
 All implementations are built upon the middleware [Robot Operating System (ROS)](https://ros.org) and the [ARCHES Digital Twin Framework](). All nodes are encapsulated in [Docker](https://docker.com) containers.
