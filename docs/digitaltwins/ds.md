@@ -11,9 +11,9 @@ parent: Digital Twin Concept
 >[2] Barbie, A., & Hasselbring, W. (2024). Toward Reproducibility of Digital Twin Research: Exemplified with the PiCar-X. arXiv preprint arXiv:2408.13866. [https://doi.org/10.48550/ARXIV.2408.13866](https://doi.org/10.48550/ARXIV.2408.13866)
 
 # Context
+In this setup, monitoring the state of the physical twin aligns with concepts of cyber-physical system, with a distinctive focus on the digital model as a central, continuously updated element reflecting the physical twin’s state [2, 1]. The [digital thread]({{ site.baseurl }}{% link digitaltwins/digitalthread.md %}) is used to connect the physical twin to the digital shadow and all changes on the physical twin change the status of the digital shadow. Vice versa, changes on the digital shadow are not automatically reflected to the physical twin. Using the box model from Kritzinger et al. [3], the digital shadow can be depicted as [3, 1]:
 
-
-
+<img src=../assets/images/DigitalShadow-Boxes.jpg width="40%" style="margin: 0 auto;" />
 
 # Definition
 
@@ -22,10 +22,18 @@ A **digital shadow** is the sum of all the data that are gathered by an embedded
 ## Key Points:
 - Automatically updates based on the physical twin’s data.
 - One-way communication: physical twin data is reflected in the digital shadow.
-- In the PiCar-X setup, the **digital shadow** monitors the car's data, such as motor speed and steering angles, but does not alter its behavior.
+- In the PiCar-X setup, the digital shadow monitors the car's data, such as motor speed and steering angles, but does not alter its behavior.
 
 ---
 
 # Digital Shadow of the PiCar-X
+By integrating the essential [ADTF]({{ site.baseurl }}{% link explore/adtf.md %}) components and the Ackermann skill into the digital shadow, and reusing components from the physical twin, the presented approach aims to reduce possible integration errors when incorporating the digital model into the digital shadow. Heithoff, Hellwig, Michael, and Rumpe [4] describe this approach to enhance the sustainability of the embedded control software. The Ackermann skill consolidates status messages from the physical twin’s drivers into a DriveStatus event, which contains motor pulse widths. A separate node, the Drive Monitor, interprets these pulse widths as angles and speeds, updating the digital model in the GAZEBO simulation. This entire process is automated, with no feedback loop to the physical twin yet established as illustrated in the following figure:
 
+![Digital Shadow](../assets/images/picarx-ds.png "Setup of the Digital Shadow") 
 
+Continue reading with [digital twin]({{ site.baseurl }}{% link digitaltwins/dt.md %}).
+
+# Futher References
+>[3] Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. Ifac-PapersOnline, 51(11), 1016-1022. [https://doi.org/10.1016/j.ifacol.2018.08.474](https://doi.org/10.1016/j.ifacol.2018.08.474)
+
+>[4] M. Heithoff, A. Hellwig, J. Michael, and B. Rumpe. Digital Twins for Sustainable Software Systems. In 2023 IEEE/ACM 7th International Workshop on Green And Sustainable Software (GREENS). IEEE, May 2023. [https://doi.org/10.1109/greens59328.2023](https://doi.org/10.1109/greens59328.2023)

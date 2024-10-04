@@ -1,7 +1,7 @@
 ---
 title: Replace the Physical Twin with a Digital Twin Prototype
 has_children: true
-nav_order: 1
+nav_order: 3
 parent: Explore
 ---
 

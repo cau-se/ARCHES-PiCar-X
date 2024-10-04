@@ -1,5 +1,5 @@
 ---
-title: The PiCar-X's Digital Template'
+title: The Digital Template
 has_children: false
 nav_order: 3
 parent: Digital Twin Concept
@@ -31,9 +31,11 @@ and all the essential information needed for constructing and sustaining the phy
 # The Digital Template of the PiCar-X
 The following components can be identified for the digital template:
 
-- [the embedded control software from this project](https://github.com/cau-se/ARCHES-PiCar-X/tree/main/PiCar-X)
+- [the embedded control software from the PiCar-X](https://github.com/cau-se/ARCHES-PiCar-X/tree/main/PiCar-X)
 - the digital model
 - [the documentation including the list of materials, the robot HAT blue prints, etc.]({https://docs.sunfounder.com/projects/picar-x/en/latest/index.html)
 - [the Raspberry Pi documentation, including mechanical drawings and schematics.](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html)
-- 
+
 The current configuration lacks the blueprints for key hardware components such as servo and DC motors. Ideally, a complete digital template would encompass all necessary assets to replicate the \pt from scratch. However, this scenario is often impractical, as most machines are composed of various components, and it is rare for a single company to manufacture every part [2]. 
+
+Continue reading with [digital thread]({{ site.baseurl }}{% link digitaltwins/digitalthread.md %}).
