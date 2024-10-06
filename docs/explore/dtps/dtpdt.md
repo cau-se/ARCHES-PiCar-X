@@ -45,13 +45,13 @@ The digital twin will use the address space `0x15` and two other GPIO pins.
 docker compose -f docker-compose-core.yml build 
 docker compose -f docker-compose-dtsim-same-system.yml build 
 
-# Start the container
-
+# Start the DT
 docker compose -f docker-compose-dtsim-same-system.yml up
 ```
 
 ## Start the Digital Twin Prototype with GAZEBO
 ```console
+# Start the DTP
 docker compose -f docker-compose-dtp.yml up
 ```
 

@@ -13,7 +13,7 @@ parent: Digital Twin Concept
 # Context
 In this setup, monitoring the state of the physical twin aligns with concepts of cyber-physical system, with a distinctive focus on the digital model as a central, continuously updated element reflecting the physical twin’s state [2, 1]. The [digital thread]({{ site.baseurl }}{% link digitaltwins/digitalthread.md %}) is used to connect the physical twin to the digital shadow and all changes on the physical twin change the status of the digital shadow. Vice versa, changes on the digital shadow are not automatically reflected to the physical twin. Using the box model from Kritzinger et al. [3], the digital shadow can be depicted as [3, 1]:
 
-<img src=../assets/images/DigitalShadow-Boxes.jpg width="40%" style="margin: 0 auto;" />
+<img src="../assets/images/DigitalShadow-Boxes.jpg" width="40%" style="margin: 0 auto;" />
 
 # Definition
 
@@ -27,11 +27,13 @@ A **digital shadow** is the sum of all the data that are gathered by an embedded
 ---
 
 # Digital Shadow of the PiCar-X
-By integrating the essential [ADTF]({{ site.baseurl }}{% link explore/adtf.md %}) components and the Ackermann skill into the digital shadow, and reusing components from the physical twin, the presented approach aims to reduce possible integration errors when incorporating the digital model into the digital shadow. Heithoff, Hellwig, Michael, and Rumpe [4] describe this approach to enhance the sustainability of the embedded control software. The Ackermann skill consolidates status messages from the physical twin’s drivers into a DriveStatus event, which contains motor pulse widths. A separate node, the Drive Monitor, interprets these pulse widths as angles and speeds, updating the digital model in the GAZEBO simulation. This entire process is automated, with no feedback loop to the physical twin yet established as illustrated in the following figure:
+By integrating the essential [ADTF]({{ site.baseurl }}{% link explore/adtf.md %}) components and the Ackermann skill into the digital shadow, and reusing components from the physical twin, the presented approach aims to reduce possible integration errors when incorporating the digital model into the digital shadow. Heithoff, Hellwig, Michael, and Rumpe [4] describe this approach to enhance the sustainability of the embedded control software. At the physical twin's site, the Ackermann Drive Skill bundles the motor statuses and the clutchgear status into a *DriveStatus* event, which contains motor and clutchgear pulse widths. A separate node, the *Drive Monitor*, interprets these pulse widths as angles and speeds, updating the digital model in the GAZEBO simulation. This entire process is automated, with no feedback loop to the physical twin yet established as illustrated in the following figure:
 
 ![Digital Shadow](../assets/images/picarx-ds.png "Setup of the Digital Shadow") 
 
-Continue reading with [digital twin]({{ site.baseurl }}{% link digitaltwins/dt.md %}).
+A short [code inspection of the *Drive Monitor* skill](https://github.com/cau-se/ARCHES-PiCar-X/blob/main/PiCar-X/ros/skills/ackermann_drive/nodes/ackermann_monitor_ds.py) shows a problem with this approach. The code to move the PiCar-X in the GAZEBO simulation is more or less doubled. We took most parts from the emulators and adjusted them a little bit. Furthermore, we set a wrong joint velocity factor on purpose, which causes the PiCar-X in the simulation to drive slower than in reality. This can be quite a common bug, if you have to modify a value on several locations. Forgetting one on the digital twin, could lead to a complety wrong impression of the behavior of the real system.
+
+[Test this part using docker compose]({{ site.baseurl }}{% link explore/ptds.md %}) or continue reading with [digital twin]({{ site.baseurl }}{% link digitaltwins/dt.md %}).
 
 # Futher References
 >[3] Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. Ifac-PapersOnline, 51(11), 1016-1022. [https://doi.org/10.1016/j.ifacol.2018.08.474](https://doi.org/10.1016/j.ifacol.2018.08.474)

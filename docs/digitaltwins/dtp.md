@@ -53,10 +53,12 @@ The digital twin prototype's setup, as depicted in the figure below, effectively
 Using the box model again, the digital twin prototype can replace the physical twin during development and can be connected to the digital shadow or digital twin. The digital shadow or digital twin cannot distinguish whether it is a physical twin or digital twin prototype.
 
 
-<img src=../assets/images/DigitalTwinPrototype-Boxes.jpg width="75%" style="margin: 0 auto;" />
+<img src="../assets/images/DigitalTwinPrototype-Boxes.jpg" width="75%" style="margin: 0 auto;" />
 
 
 # Futher References
 >[3] Hanselmann, H. (1993). Hardware-in-the loop simulation as a standard approach for development, customization, and production test of ECU's (No. 931953). SAE Technical Paper. [https://doi.org/10.4271/930207](https://doi.org/10.4271/930207) 
+
 >[4] M. Heithoff, A. Hellwig, J. Michael, and B. Rumpe. Digital Twins for Sustainable Software Systems. In 2023 IEEE/ACM 7th International Workshop on Green And Sustainable Software (GREENS). IEEE, May 2023. [https://doi.org/10.1109/greens59328.2023](https://doi.org/10.1109/greens59328.2023)
+
 >[5] Barbie, A., Hasselbring, W., & Hansen, M. (2024). Digital Twin Prototypes for Supporting Automated Integration Testing of Smart Farming Applications. Symmetry, 16(2), 221. [https://doi.org/10.3390/sym16020221](https://doi.org/10.3390/sym16020221)

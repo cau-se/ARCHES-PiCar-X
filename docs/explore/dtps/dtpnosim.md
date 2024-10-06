@@ -21,18 +21,17 @@ There are three environment files with relevant variables:
 ## Start the Digital Twin with GAZEBO
 
 ```console
-# Build and execute the Docker Containers
+# Build Docker Containers if not previously done
 docker compose -f docker-compose-core.yml build 
 docker compose -f docker-compose-dtsim.yml build 
+
+# Start the DT
 docker compose -f docker-compose-dtsim.yml up
 ```
 
 ## Start the Digital Twin Prototype without GAZEBO
 
 ```console
-# Build and execute the Docker Containers
-docker compose -f docker-compose-core.yml build 
-docker compose -f docker-compose-dtp-no-gazebo.yml build 
 docker compose -f docker-compose-dtp-no-gazebo.yml up
 ```
 

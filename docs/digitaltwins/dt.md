@@ -14,7 +14,7 @@ parent: Digital Twin Concept
 
 The primary distinction between a digital shadow and a digital twin lies in the nature of their communication with the physical twin. In a digital twin setup, communication is bidirectional: any changes made to the digital twin are automatically replicated in the physical twin [2]. Using the boxes from Kritzinger et al. [3, 1] again, this looks like:
 
-<img src=../assets/images/DigitalTwin-Boxes.jpg width="40%" style="margin: 0 auto;" />
+<img src="../assets/images/DigitalTwin-Boxes.jpg" width="40%" style="margin: 0 auto;" />
 
 
 # Definition
@@ -34,7 +34,7 @@ A digital twin of the PiCar-X achieved by modifying the [*Driver Monitor* node f
 
 ![Digital Twin](../assets/images/picarx-dt.png "Setup of the Digital Twin") 
 
-This setup ensures that any alterations in the digital twin are mirrored in the physical counterpart. However, instead of developing the separate node *Driver Monitor*, the reuse of the *Ackermann Steering Skill* in the digital twin offers an advantage over implementing a separate control node, particularly in managing steering angles in the digital model. The skill prevents under-steering for angles exceeding 20 degrees, a challenge identified in the digital model due to the Ackermann steering angle approximation. For larger steering angles, the digital model would have a larger turning radius than the real PiCar and hence, the physical twin and the digital twin would differ while moving. Implementing a separate filtering logic in a separate node at the digital twin process for steering-angle input might introduce additional failure points, as it would require duplication of the filter on both the physical and digital twins, rather than reusing the physical twin’s existing logic [2].
+This setup ensures that any alterations in the digital twin are mirrored in the physical counterpart. However, instead of developing the separate node *Driver Monitor*, the reuse of the *Ackermann Steering Skill* in the digital twin offers an advantage over implementing a separate control node, particularly in managing steering angles in the digital model. The skill prevents under-steering for angles exceeding 20 degrees, a challenge identified in the digital model due to the Ackermann steering angle approximation. For larger steering angles, the digital model would have a larger turning radius than the real PiCar and hence, the physical twin and the digital twin would differ while moving. Implementing a separate filtering logic in a separate node at the digital twin process for steering-angle input might introduce additional sources of errors, as it would require duplication of the filter on both the physical and digital twins, rather than reusing the physical twin’s existing logic [2].
 
 This example has no separate docker compose file to be executed, as we enhance this example by using [digital twin prototype (continue reading)]({{ site.baseurl }}{% link digitaltwins/dtp.md %}) as digital twin. The difference to the digital twin prototype are only the ROS nodes that handle the exchange between a physical twin and digital twin. The physical twin uses nodes that receive commands and send data/statuses. The digital twin uses nodes that receive data/status and send commands.
 

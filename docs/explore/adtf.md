@@ -51,8 +51,7 @@ The following code presents an example Skill named *ExampleSkill*, which subscri
 These decorators, integral to the ADTF, uphold the thin paradigm. Behind the scenes, additional subscribers and publishers manage event exchange between twins, converting events into ROS messages of type *DigitalShadow*. The *@Skill* decorator ensures that publishers and subscribers use the ArchesPublisher and ArchesSubscriber, which add the correct HeaderTwin message for exchange. This approach prevents multiple Skills from publishing identical event types to the same topic, ensuring clarity in event origin, which is crucial for logging and debugging purposes. The Decorator [6] pattern allows developers to use the familiar ROS API, ensuring that all Skills operate in a standardized manner. This method facilitates seamless application of minor logic adjustments across all Skills, enhancing capabilities without disrupting user processes.
 
 ```python
-@Skill('ExampleSkill', 'TestSkillType')
-class SensorSkill:
+class SensorSkill(Skill):
     @property
     def dataPublisher():
         return self.dataPublisher
@@ -72,6 +71,7 @@ class SensorSkill:
         self.commandSubscriber = subscriber
         
     def __init__() {
+        super(SensorSkill, self).__init__(SensorSkill, SkillType.SENSOR, '')
         self.dataPublisher = new Publisher('/A/B/C', StandardO2, queue_size = 5)
         self.commandSubscriber = new Subscriber('incoming/command', 
             Command, self.commandCallback)

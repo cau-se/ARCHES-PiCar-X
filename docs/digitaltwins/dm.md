@@ -35,13 +35,13 @@ Lacking official CAD files for the PiCar-X, we utilized a [simplified CAD model 
 
 A digital model in general has no connection to the physical system. Changes made on the physical system do not affect the digital model and vice versa, changes on the digital model do not affect the physical system, as shown in the following figure [3,1]:
 
-<img src=../assets/images/DigitalModel-Boxes.jpg width="40%" style="margin: 0 auto;" />
+<img src="../assets/images/DigitalModel-Boxes.jpg" width="40%" style="margin: 0 auto;" />
 
 The [*ros_control*](https://wiki.ros.org/ros_control) package is used to simulate the sensors and actuators, which offers topics for manipulating the model's joints for steering and wheel movement. In this setup, four joints need manipulation, including approximating the steering angles. Direct command-line control in ROS could introduce delays, and since the PiCar-X operates with pulse widths rather than angles and speed values, the digital model includes a node that translates pulse widths into angles. This node receives a *DriveStatus* message, converts the pulse widths for the motors and steering, and then publishes the calculated values to the joints. Both the ROS node and the GAZEBO simulation are connected to the same ROS Master, ensuring seamless integration [2].
 
 ![Digital Model ROS](../assets/images/picarx-dm.png "ROS nodes of the digital model of the PiCar-X")
 
-Conintnue reading with [digital template]({{ site.baseurl }}{% link digitaltwins/digitaltemplate.md %}).
+We have deliberately chosen not to include a Docker compose file for testing here, as it would essentially only launch the GAZEBO simulation. Conintnue reading with [digital template]({{ site.baseurl }}{% link digitaltwins/digitaltemplate.md %}).
 
 # Futher References
 >[3] Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. Ifac-PapersOnline, 51(11), 1016-1022. [https://doi.org/10.1016/j.ifacol.2018.08.474](https://doi.org/10.1016/j.ifacol.2018.08.474)
