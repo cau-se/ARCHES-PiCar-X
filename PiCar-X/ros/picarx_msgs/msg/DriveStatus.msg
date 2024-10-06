@@ -1,4 +1,3 @@
-arches_msgs/HeaderTwin header
 time timestamp
 MotorStatus motor_left
 MotorStatus motor_right

@@ -7,6 +7,8 @@ from picarx.interfaces.actuators import SunFounderClutchGear
 from std_msgs.msg import Float64
 import argparse
 import math
+from arches_core.skills import Skill, SkillType
+
 
 
 class MonitorOptions(object):
@@ -35,8 +37,7 @@ class MonitorOptions(object):
         """
         return vars(self.args)
 
-
-class AckermannDriveDSNode(object):
+class AckermannDriveDSNode(Skill):
     """
     Node for monitoring the Ackermann drive status.
 
@@ -47,11 +48,12 @@ class AckermannDriveDSNode(object):
     """
 
     def __init__(self, name: str = 'MonitorSkill', uid: str = None) -> None:
+        super(AckermannDriveDSNode, self).__init__(name, 'monitoring', uid)
         self.motor_left_publisher = None
         self.motor_right_publisher = None
         self.left_steer = None
         self.right_steer = None
-        self.velocity = 15
+        self.velocity = 21
         self.wheel_base = None
         self.wheel_track = None
         self.DEFAULT_PERIOD = 4095
@@ -105,9 +107,9 @@ class AckermannDriveDSNode(object):
 
         self.rotate(steering_clutchgear.pulsewidth)
         self.motor_left_publisher.publish(
-            self.drive_with_speed(motor_left.direction, motor_left.speed))
+            self.drive_with_speed(motor_left))
         self.motor_right_publisher.publish(
-            self.drive_with_speed(motor_right.direction, motor_right.speed))
+            self.drive_with_speed(motor_right))
 
     def pulse_width_to_angle(self, pulse_width: int) -> int:
         """
@@ -135,7 +137,6 @@ class AckermannDriveDSNode(object):
         if pulse_width == 0:  # this is required since SunFounder adds a constant > 0 in the pulse width calculation for the angle. Thus the pulse width of an angle is always > 0.
             return
         angle = self.pulse_width_to_angle(pulse_width)
-        rospy.loginfo(angle)
         angle = 90 - angle if angle >= 90 else 90 - angle
 
         if angle > 20:
@@ -218,7 +219,7 @@ class AckermannDriveDSNode(object):
         turning_radius = self.wheel_base / math.tan(math.radians(angle))
         return turning_radius
 
-    def drive_with_speed(self, direction: int, i2c_value: int) -> Float64:
+    def drive_with_speed(self, motor_status: MotorStatus) -> Float64:
         """
         Drives the motor with the specified speed.
 
@@ -229,7 +230,12 @@ class AckermannDriveDSNode(object):
         :return: Speed value as Float64.
         :rtype: Float64
         """
-        percentage = int((i2c_value/4095) * 100)
+        if motor_status.direction != motor_status.location:
+            direction = 1  # forward
+        else:
+            direction = -1  # backward
+            
+        percentage = int((motor_status.pulse_width/4095) * 100)
         return Float64(direction * self.velocity * percentage/100)
 
 

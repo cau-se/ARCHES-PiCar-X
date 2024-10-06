@@ -130,7 +130,7 @@ services:
       - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
       - ./core:/root/catkin_ws/src/core
       - ./ros/skills/ackermann_drive:/root/catkin_ws/src/skills/ackermann_drive
-    command: /bin/bash -c "roslaunch picarx_ackermann_drive ackermann_skill.launch"
+    command: /bin/bash -c "roslaunch picarx_ackermann_drive ackermann_skill_dt.launch"
     depends_on:
       picarx-dt:
         condition: service_healthy

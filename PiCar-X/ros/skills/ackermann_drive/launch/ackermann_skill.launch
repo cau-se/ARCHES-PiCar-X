@@ -6,7 +6,7 @@
   <arg name="motor_left_status_topic" default="/motor_left/status" />
   <arg name="motor_right_status_topic" default="/motor_right/status" />
   <arg name="steering_status_topic" default="/steering/status" />
-  <arg name="status_topic" default="drive/status" />
+  <arg name="status_topic" default="/drive/status" />
 
   <arg name="name" default="AckermannSkill" />
   <arg name="uid" default="ackermannskill" />

@@ -51,7 +51,7 @@ services:
       picarx-ds:
         condition: service_healthy
 
-  picarx-gazebo-control:
+  picarx-ds-gazebo-control:
     image: ghcr.io/cau-se/arches-picar-x/picarx-gazebo:${TAG:-latest}
     env_file:
       - ./env/picarx-ds.env
@@ -85,12 +85,13 @@ services:
         - ARCH=${ARCH:-}
     env_file:
       - ./env/picarx-ds.env
-    command: /bin/bash -c "roslaunch arches_mqtt_bridge pt_client.launch host:=$${MQTT_HOST:-192.168.1.2}"
+    tty: true
+    command: /bin/bash -c "roslaunch arches_mqtt_bridge dt_client.launch host:=$${MQTT_HOST:-192.168.1.2}"
     depends_on:
       picarx-ds:
         condition: service_healthy
 
-  ackermann_skill-ds:
+  drive_monitor:
     image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
     build:
       dockerfile: Dockerfile
@@ -98,23 +99,6 @@ services:
       args:
         - TAG=${TAG:-latest}
         - ARCH=${ARCH:-}
-    env_file:
-      - ./env/picarx-ds.env
-    tty: true
-    privileged: true
-    volumes:
-      - /sys/class/gpio:/sys/class/gpio
-      - ${I2C:-/dev/i2c-0}:${I2C:-/dev/i2c-0}
-      - ./core:/root/catkin_ws/src/core
-      - ./ros/skills/ackermann_drive:/root/catkin_ws/src/skills/ackermann_drive
-    command: /bin/bash -c "roslaunch picarx_ackermann_drive ackermann_skill.launch"
-    depends_on:
-      picarx-ds:
-        condition: service_healthy
-
-  drive_monitor:
-    build: ./ros/skills/ackermann_drive
-    image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
     env_file:
       - ./env/picarx-ds.env
     tty: true

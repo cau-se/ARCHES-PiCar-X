@@ -5,7 +5,7 @@
     <arg name="right_steer_topic" default="/picarx/steer_right_controller/command" />
     <arg name="motor_left_topic" default="/picarx/rear_left_wheel_controller/command" />
     <arg name="motor_right_topic" default="/picarx/rear_right_wheel_controller/command" />
-    <arg name="status_topic" default="/drive/status" />
+    <arg name="status_topic" default="drive/status" />
     <arg name="wheel_base" default="13.5" />
     <arg name="wheel_track" default="9.2" />
 

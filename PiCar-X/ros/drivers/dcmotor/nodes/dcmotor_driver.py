@@ -81,7 +81,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
                                             pwm_pin, i2c_port, MotorSide(int(motor_side)), address)
         self.status_publisher = None
 
-    def drive(self, ros_msg):
+    def drive(self, ros_msg: Int8):
         """
         Drives the motor based on the received ROS message.
 
@@ -94,12 +94,22 @@ class DCMotorDriver(AbstractDCMotorDriver):
         time.sleep(0.05)
         self.send_status()
 
+    def drive_pulse_width(self, ros_msg: MotorStatus):
+        """
+        Drives the motor based on the received ROS message.
+
+        :param ros_msg: ROS message containing the speed data.
+        :type ros_msg: Int8
+        """
+        self.direction = TravelDirection.FORWARD if ros_msg.direction == 0 else TravelDirection.BACKWARD
+        self.drive_with_pulse_width(ros_msg.pulse_width)
+
     def send_status(self):
         """
         Sends the current status of the motor.
         """
         status_message = MotorStatus(
-            location=self.motor_side.value, direction=self.direction.value, speed=self.speed)
+            location=self.motor_side.value, direction=self.direction.value, pulse_width=self.speed)
         self.status_publisher.publish(status_message)
 
     def start(self):
@@ -109,6 +119,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
         rospy.init_node(self.name, anonymous=False)
         rospy.on_shutdown(self.stop)
         rospy.Subscriber(rospy.get_param('~command_topic'), Int8, self.drive)
+        rospy.Subscriber(rospy.get_param('~command_topic')+'/from_status', MotorStatus, self.drive_pulse_width)
         self.status_publisher = rospy.Publisher(
             rospy.get_param('~status_topic'), MotorStatus, queue_size=5)
         rospy.spin()

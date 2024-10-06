@@ -237,6 +237,15 @@ class AckermannDriveSkill(Skill):
         self.motor_right_publisher.publish(Int8(ros_msg.speed))
         self.clutchgeer_publisher.publish(Int8(angle))
 
+    def drive_from_status(self, ros_msg: DriveStatus) -> None:
+        """
+        Drive the vehicle based on the received status message.
+
+        Args:
+            ros_msg (DriveStatus): The ROS message containing the drive status.
+        """
+        self.drive(ros_msg)
+
     def send_status(self, motor_left_status: MotorStatus, motor_right_status: MotorStatus, clutchgear_status: ClutchGearStatus) -> None:
         """
         Send the status of the drive components.
@@ -261,7 +270,7 @@ class AckermannDriveSkill(Skill):
             steering_filter: Filter for the steering status.
         """
         ts = message_filters.ApproximateTimeSynchronizer(
-            [motor_left_filter, motor_right_filter, steering_filter], queue_size=10, slop=0.5, allow_headerless=True)
+            [motor_left_filter, motor_right_filter, steering_filter], queue_size=3, slop=0.5, allow_headerless=True)
         ts.registerCallback(self.send_status)
 
     def stop(self):

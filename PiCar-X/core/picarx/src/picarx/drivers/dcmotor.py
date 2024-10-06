@@ -161,11 +161,20 @@ class AbstractDCMotorDriver(DCMotorInterface):
 
     def drive_with_speed(self, speed: int):
         """
-        Drive the motor with a given speed.
+        Drive the motor with a given speed in percentage.
 
         :param speed: The speed of the motor.
         """
         self.speed = speed
+        
+    def drive_with_pulse_width(self, pulse_width: int):
+        """
+        Drive the motor with a given pulse width.
+
+        :param pulse_width: The pulse width of the motor.
+        """
+        self.pwm_pin.pulse_width = pulse_width
+        
 
     @abstractmethod
     def start(self):

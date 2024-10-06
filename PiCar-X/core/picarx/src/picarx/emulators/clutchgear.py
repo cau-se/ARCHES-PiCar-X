@@ -2,8 +2,7 @@ from abc import abstractmethod
 from typing import Union
 from picarx.interfaces.actuators import ClutchGearInterface, SunFounderClutchGear
 from picarx.pwm import PWM
-from twisted.internet import reactor
-import time
+
 
 
 class AbstractClutchGearEmulator(ClutchGearInterface):
@@ -128,6 +127,7 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
         """
         self.rotate(angle)
 
+    @abstractmethod
     def rotate(self, angle):
         """
         Rotate the clutch gear by a given angle.
@@ -137,13 +137,14 @@ class AbstractClutchGearEmulator(ClutchGearInterface):
         raise NotImplementedError(
             "The method {} is not implemented.".format('__rotate'))
 
+    @abstractmethod
     def start(self):
         """
         Start the clutch gear emulator.
         """
         raise NotImplementedError(
             "The method {} is not implemented.".format('start'))
-
+    @abstractmethod
     def stop(self):
         """
         Stop the clutch gear emulator.

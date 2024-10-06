@@ -52,9 +52,9 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
     :type frequency: int, optional
     """
 
-    def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50, address: int = 20):
+    def __init__(self, name: str, pwm_pin: str, i2c_port: str, address: int = 20, frequency: int = 50):
         super(AckermannClutchGearEmulator, self).__init__(
-            pwm_pin, i2c_port, address)
+            pwm_pin, i2c_port, address=address)
         self.name = name
         self.frequency = frequency
         self.left_steer = None
@@ -169,7 +169,7 @@ class AckermannClutchGearEmulator(AbstractClutchGearEmulator):
             '~right_steer_topic'), Float64, queue_size=5)
         self.wheel_base = float(rospy.get_param("~wheel_base"))
         self.wheel_track = float(rospy.get_param("~wheel_track"))
-        frequency = rospy.Rate(50)  # 50Hz
+        frequency = rospy.Rate(50)  # default 50Hz
         while not rospy.is_shutdown():
             self.rotate(self.pwm_pin.pulse_width)
             frequency.sleep()

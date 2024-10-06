@@ -16,7 +16,8 @@ class AbstractClutchGearDriver(ClutchGearInterface):
         :param pwm_pin: The PWM pin configuration.
         :param i2c_port: The I2C port configuration.
         """
-        self.pwm_pin = {'channel': pwm_pin, 'i2c_port': i2c_port, 'address': address}
+        self.pwm_pin = {'channel': pwm_pin,
+                        'i2c_port': i2c_port, 'address': address}
         self.angle = 90
 
     @property
@@ -53,7 +54,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     def angle(self, angle: Union[int, float]):
         """
         Set the angle.
-        
+
         The clutchgear can only handles angles between 0 and 180 degress.
 
         :param angle: The angle.
@@ -70,7 +71,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     def angle_to_pulse_width(self, angle):
         """
         Convert an angle to a pulse width. 
-        
+
         The pulse width is calculated using the formula: pulse_width = angle / 180 * (maximum_pulse - minimum_pulse) + minimum_pulse.
 
         :param angle: The angle.
@@ -86,7 +87,7 @@ class AbstractClutchGearDriver(ClutchGearInterface):
     def pulse_width_to_angle(self, pulse_width):
         """
         Convert a pulse width to an angle. 
-        
+
         The angle is calculated using the formula: angle = (pulse_width - minimum_pulse) / (maximum_pulse - minimum_pulse) * 180.
 
         :param pulse_width: The pulse width.
@@ -98,6 +99,14 @@ class AbstractClutchGearDriver(ClutchGearInterface):
             (SunFounderClutchGear.MAXIMUM_PULSE.value -
              SunFounderClutchGear.MINIMUM_PULSE.value)
         return round(angle)
+
+    def rotate_by_pulse_width(self, pulse_width: int) -> None:
+        """
+        Rotate the clutch gear by a given pulse width.
+
+        :param pulse_width: The pulse width.
+        """
+        self.pwm_pin.pulse_width = pulse_width
 
     @abstractmethod
     def start(self):

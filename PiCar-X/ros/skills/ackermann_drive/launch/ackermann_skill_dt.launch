@@ -1,0 +1,29 @@
+<launch>
+    <arg name="command_topic" default="/picarx/drive/command" />
+    <arg name="motor_left_topic" default="motor_left/speed" />
+    <arg name="motor_right_topic" default="motor_right/speed" />
+    <arg name="steering_topic" default="steering/angle" />
+    <arg name="motor_left_status_topic" default="/motor_left/status" />
+    <arg name="motor_right_status_topic" default="/motor_right/status" />
+    <arg name="steering_status_topic" default="/steering/status" />
+    <arg name="status_topic" default="/drive/status" />
+
+    <include file="$(find picarx_ackermann_drive)/launch/ackermann_skill.launch">
+        <arg name="command_topic" value="$(arg command_topic)" />
+        <arg name="motor_left_topic" value="$(arg motor_left_topic)" />
+        <arg name="motor_right_topic" value="$(arg motor_right_topic)" />
+        <arg name="steering_topic" value="$(arg steering_topic)" />
+        <arg name="status_topic" value="$(arg status_topic)" />
+        <arg name="motor_left_status_topic" value="$(arg motor_left_status_topic)" />
+        <arg name="motor_right_status_topic" value="$(arg motor_right_status_topic)" />
+        <arg name="steering_status_topic" value="$(arg steering_status_topic)" />
+    </include>
+
+    <include file="$(find picarx_ackermann_drive)/launch/ackermann_monitoring_skill.launch">
+        <arg name="motor_left_topic" value="$(arg motor_left_topic)" />
+        <arg name="motor_right_topic" value="$(arg motor_right_topic)" />
+        <arg name="steering_topic" value="$(arg steering_topic)" />
+        <arg name="status_topic" value="$(arg status_topic)" />
+    </include>
+
+</launch>

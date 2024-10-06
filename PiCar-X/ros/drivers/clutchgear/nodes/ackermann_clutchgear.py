@@ -53,12 +53,11 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
     :type frequency: int, optional
     """
 
-    def __init__(self, name: str, pwm_pin: str, i2c_port: str, frequency: int = 50, address: int = 20):
+    def __init__(self, name: str, pwm_pin: str, i2c_port: str, address: int = 20, frequency: int = 50):
         super(AckermannClutchGearDriver, self).__init__(
             pwm_pin, i2c_port, address)
         self.name = name
         self.frequency = frequency
-        self.command_subscriber = None
         self.status_publisher = None
 
     def rotate(self, ros_msgs: Int8):
@@ -85,7 +84,7 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         rate = rospy.Rate(50)
         for i in range(90, aimed_angle-1, -1):
             pulse_width = self.angle_to_pulse_width(i)
-            self.pwm_pin.pulse_width = pulse_width
+            self.rotate_by_pulse_width(pulse_width)
             rate.sleep()
         self.send_status()
 
@@ -100,7 +99,7 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         rate = rospy.Rate(50)
         for i in range(90, aimed_angle+1, 1):
             pulse_width = self.angle_to_pulse_width(i)
-            self.pwm_pin.pulse_width = pulse_width
+            self.rotate_by_pulse_width(pulse_width)
             rate.sleep()
         self.send_status()
 
@@ -118,6 +117,15 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         """
         rospy.loginfo("Shutting Ackermann steering driver down")
 
+    def rotate_from_status(self, ros_msg: ClutchGearStatus):
+        """
+        Rotates the clutch gear based on the received status message from the physical twin.
+
+        :param ros_msg: The ROS message containing the clutch gear status.
+        :type ros_msg: ClutchGearStatus
+        """
+        self.rotate_by_pulse_width(ros_msg.pulsewidth)
+
     def start(self):
         """
         Starts the driver and initializes ROS node and publishers.
@@ -125,8 +133,9 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         rospy.init_node(self.name, anonymous=True)
         rospy.loginfo("Ackermann steering driver initialized")
         rospy.on_shutdown(self.stop)
-        self.command_subscriber = rospy.Subscriber(
-            rospy.get_param('~steering_topic'), Int8, callback=self.rotate)
+        rospy.Subscriber(rospy.get_param('~steering_topic'), Int8, callback=self.rotate)
+        rospy.Subscriber(rospy.get_param('~steering_topic')+'/from_status', ClutchGearStatus, self.rotate_from_status)
+
         self.status_publisher = rospy.Publisher(
             rospy.get_param('~steering_status_topic'), ClutchGearStatus, queue_size=5)
         rospy.spin()

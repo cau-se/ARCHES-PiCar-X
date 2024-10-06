@@ -8,4 +8,4 @@ uint8 MOTOR_RIGHT = 1
 
 uint8 location # motor left or motor right
 int8 direction # FORWARD or BACKWARD
-int16 speed
+int16 pulse_width
