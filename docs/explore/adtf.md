@@ -162,7 +162,7 @@ Note that the ROS message name occupies 23 bytes including the delimiter. To min
 This size is reduced to 24 bytes. However, for the PiCar-X example, the last reduction can be ignored, since it is not used.
 
 # References
-> [1] Alexander Barbie and Niklas Pech. ARCHES Digital Twin Framework. [Software]. 2022. [https://doi.org/10.3289/sw_arches_core_1.0.0](https://doi.org/10.3289/sw_arches_core_1.0.0)
+> [1] Alexander Barbie and Niklas Pech. ARCHES Digital Twin Framework. [Software]. 2022. [https://doi.org/10.3289/sw_arches_core_1.0.0](https://doi.org/10.3289/sw_arches_core_1.0.0) [Git Repository]: [https://git.geomar.de/open-source/arches/](https://git.geomar.de/open-source/arches/)
 
 > [2] Barbie, A., Pech, N., Hasselbring, W., Flögel, S., Wenzhöfer, F., Walter, M., ... & Sommer, S. (2021). Developing an Underwater Network of Ocean Observation Systems with Digital Twin Prototypes - A Field Report from the Baltic Sea. IEEE Internet Computing, 26(3), 33-42.  [https://doi.org/10.1109/mic.2021.3065245](https://doi.org/10.1109/mic.2021.3065245)
 
