@@ -101,7 +101,7 @@ nano unexport-pins.sh
 echo "echo 23 > /sys/class/gpio/unexport" >> unexport-pins.sh
 echo "echo 24 > /sys/class/gpio/unexport" >> unexport-pins.sh
 
-# make it executeable
+# make it executable
 chmod +x unexport-pins.sh
 
 # execute

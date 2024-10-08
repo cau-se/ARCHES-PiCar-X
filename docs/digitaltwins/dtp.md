@@ -56,7 +56,7 @@ Using the box model again, the digital twin prototype can replace the physical t
 <img src="../assets/images/DigitalTwinPrototype-Boxes.jpg" width="75%" style="margin: 0 auto;" />
 
 
-# Futher References
+# Further References
 >[3] Hanselmann, H. (1993). Hardware-in-the loop simulation as a standard approach for development, customization, and production test of ECU's (No. 931953). SAE Technical Paper. [https://doi.org/10.4271/930207](https://doi.org/10.4271/930207) 
 
 >[4] M. Heithoff, A. Hellwig, J. Michael, and B. Rumpe. Digital Twins for Sustainable Software Systems. In 2023 IEEE/ACM 7th International Workshop on Green And Sustainable Software (GREENS). IEEE, May 2023. [https://doi.org/10.1109/greens59328.2023](https://doi.org/10.1109/greens59328.2023)

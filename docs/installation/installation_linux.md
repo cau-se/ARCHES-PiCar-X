@@ -8,7 +8,7 @@ nav_order: 1
 # Installation on Linux Systems
 This project was developed on Ubuntu 20.04 but also runs on Ubuntu 22.04.
 
-**!!! The ARCHES PiCar-X will not work on Ubuntu 24.04, since the character devices fully replace the sysfs GPIO functionallity.**
+**!!! The ARCHES PiCar-X will not work on Ubuntu 24.04, since the character devices fully replace the sysfs GPIO functionality.**
 
 ## Build new Kernel if not all required modules are installed
 

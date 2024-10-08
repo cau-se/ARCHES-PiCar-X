@@ -243,8 +243,8 @@ rostopic pub /picarx/drive/command picarx_msgs/Drive "{speed: -80, angle: -20}" 
 </div>
 
 # Next Steps
-Visit the [Explore]({{ site.baseurl }}{% link digitaltwins/overview.md %}) page to get more information on the possibilties with the ARCHES PiCar-X.
+Visit the [Explore]({{ site.baseurl }}{% link digitaltwins/overview.md %}) page to get more information on the possibilities with the ARCHES PiCar-X.
 
 # Troubleshooting
-Sometimes there can be problems with the I2C devices (e.g. a folder was created upon mounting) or the GPIO pin was not removed properlly.
+Sometimes there can be problems with the I2C devices (e.g. a folder was created upon mounting) or the GPIO pin was not removedproperlly.
 See [Troubleshooting page]({{ site.baseurl }}{% link troubleshooting.md %}) for solutions.

@@ -9,9 +9,9 @@ parent: Explore
 <script src="{{ site.baseurl }}{% link assets/js/tabs.js %}"> </script>
 
 # Connecting the Physical Twin with a Digital Twin
-This example can be used to connect the PiCar-X's phyiscal twin with a digital twin. The communication between both is established via MQTT. The MQTT server is part of the digital twin and you have to allow connections to port 1883 on the system where the MQTT server runs. This may requires adjustments to your firewall.
+This example can be used to connect the PiCar-X's physical twin with a digital twin. The communication between both is established via MQTT. The MQTT server is part of the digital twin and you have to allow connections to port 1883 on the system where the MQTT server runs. This may requires adjustments to your firewall.
 
-## Adjust the environemnt files
+## Adjust the environment files
 
 There are three environment files with relevant variables:
 - picarx.env (on the Picar-X)

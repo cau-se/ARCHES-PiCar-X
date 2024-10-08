@@ -26,7 +26,7 @@ You can also create a [GitHub pull request](https://github.com/cau-se/arches-pic
 
 If you would like to get more involved in ARCHES PiCar-X development and maintenance, you may contact us as well.
 
-Relevant technologies, tools, and concepts your should be familar with:
+Relevant technologies, tools, and concepts your should be familiar with:
 - [Our digital twin concept]({{ site.baseurl }}{% link digitaltwins/overview.md %})
 - [The ARCHES Digital Twin Framework]({{ site.baseurl }}{% link explore/adtf.md %})
 - [Docker](https://docker.com)

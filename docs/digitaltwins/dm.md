@@ -41,7 +41,7 @@ The [*ros_control*](https://wiki.ros.org/ros_control) package is used to simulat
 
 ![Digital Model ROS](../assets/images/picarx-dm.png "ROS nodes of the digital model of the PiCar-X")
 
-We have deliberately chosen not to include a Docker compose file for testing here, as it would essentially only launch the GAZEBO simulation. Conintnue reading with [digital template]({{ site.baseurl }}{% link digitaltwins/digitaltemplate.md %}).
+We have deliberately chosen not to include a Docker compose file for testing here, as it would essentially only launch the GAZEBO simulation. Continue reading with [digital template]({{ site.baseurl }}{% link digitaltwins/digitaltemplate.md %}).
 
-# Futher References
+# Further References
 >[3] Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. Ifac-PapersOnline, 51(11), 1016-1022. [https://doi.org/10.1016/j.ifacol.2018.08.474](https://doi.org/10.1016/j.ifacol.2018.08.474)

@@ -9,7 +9,7 @@ parent: Replace the Physical Twin with a Digital Twin Prototype
 # Only the Digital Twin starts a simulation
 If you want to develop new features for the PiCar-X's digital twin and monitor the communication between the PiCar-X's digital twin and the digital twin prototype, you can start the digital twin and a reduced digital twin prototype, which does not include the GAZEBO simulation. In that case, you can just use inside a Docker container of the digital twin prototype the *echo* function provided by ROS on the topic you want to monitor.
 
-## Adjust the environemnt files
+## Adjust the environment files
 
 There are three environment files with relevant variables:
 - picarx.env (for the DTP)

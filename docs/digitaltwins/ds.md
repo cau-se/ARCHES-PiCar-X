@@ -31,11 +31,11 @@ By integrating the essential [ADTF]({{ site.baseurl }}{% link explore/adtf.md %}
 
 ![Digital Shadow](../assets/images/picarx-ds.png "Setup of the Digital Shadow") 
 
-A short [code inspection of the *Drive Monitor* skill](https://github.com/cau-se/ARCHES-PiCar-X/blob/main/PiCar-X/ros/skills/ackermann_drive/nodes/ackermann_monitor_ds.py) shows a problem with this approach. The code to move the PiCar-X in the GAZEBO simulation is more or less doubled. We took most parts from the emulators and adjusted them a little bit. Furthermore, we set a wrong joint velocity factor on purpose, which causes the PiCar-X in the simulation to drive slower than in reality. This can be quite a common bug, if you have to modify a value on several locations. Forgetting one on the digital twin, could lead to a complety wrong impression of the behavior of the real system.
+A short [code inspection of the *Drive Monitor* skill](https://github.com/cau-se/ARCHES-PiCar-X/blob/main/PiCar-X/ros/skills/ackermann_drive/nodes/ackermann_monitor_ds.py) shows a problem with this approach. The code to move the PiCar-X in the GAZEBO simulation is more or less doubled. We took most parts from the emulators and adjusted them a little bit. Furthermore, we set a wrong joint velocity factor on purpose, which causes the PiCar-X in the simulation to drive slower than in reality. This can be quite a common bug, if you have to modify a value on several locations. Forgetting one on the digital twin, could lead to a completely wrong impression of the behavior of the real system.
 
 [Test this part using docker compose]({{ site.baseurl }}{% link explore/ptds.md %}) or continue reading with [digital twin]({{ site.baseurl }}{% link digitaltwins/dt.md %}).
 
-# Futher References
+# Further References
 >[3] Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. Ifac-PapersOnline, 51(11), 1016-1022. [https://doi.org/10.1016/j.ifacol.2018.08.474](https://doi.org/10.1016/j.ifacol.2018.08.474)
 
 >[4] M. Heithoff, A. Hellwig, J. Michael, and B. Rumpe. Digital Twins for Sustainable Software Systems. In 2023 IEEE/ACM 7th International Workshop on Green And Sustainable Software (GREENS). IEEE, May 2023. [https://doi.org/10.1109/greens59328.2023](https://doi.org/10.1109/greens59328.2023)

@@ -35,7 +35,7 @@ The first part of a PiCar-X's physical twin is the PiCar-x itself:
 ![Physical Twin](../assets/images/picarx-pt.jpg "The PiCar-X by Sunfounder") 
 
 
-## List of Sensors/Aktuators and Connection Types
+## List of Sensors/Actuators and Connection Types
 | Module | Interface | Description |
 |--- |--- |--- |
 |2x Motor | GPIO & I2C | Each motor moves one back wheel

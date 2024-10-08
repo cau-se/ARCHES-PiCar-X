@@ -1,5 +1,5 @@
 ---
-title: Conncet Physical Twin and Digital Shadow
+title: Connect Physical Twin and Digital Shadow
 has_children: false
 nav_order: 2
 parent: Explore
@@ -30,7 +30,7 @@ docker compose -f docker-compose-ds.yml up
 ```
 
 
-## Start the Phyiscal Twin
+## Start the Physical Twin
 <div class="tab-container" id="activaterpi">
   <ul class="tab-list">
 <li class="tab active" data-tab="tab3-1">arm32v7 (RPi3)</li>

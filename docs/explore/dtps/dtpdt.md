@@ -6,13 +6,13 @@ parent: Replace the Physical Twin with a Digital Twin Prototype
 ---
 
 
-# Start Digital Twin Prototype and Digital Twin with Separate Gazebo Silumation
+# Start Digital Twin Prototype and Digital Twin with Separate Gazebo Simulation
 In general it is always possible to start the digital twin prototype and digital twin on two different systems. Just make sure that the MQTT port 1883 is open on the digital twin side and that the MQTT clients have the IP of the MQTT server configured.
 In the following, we assume that you want to start the digital twin prototype and the digital twin on the same system with separate GAZEBO simulations for both. We further assume, that you can only create one I2C-stub chip.
 
 In the [Getting Started Guide]({{ site.baseurl }}{% link getting_started.md %}), we create the I2C-stub with only one active address space (0x14). For this example, we have to register an additional address space (0x15). If you have already explored one of the other options, restart your system and execute:
 
-## Adjust the environemnt files
+## Adjust the environment files
 
 There are three environment files with relevant variables:
 - picarx.env (for the DTP)
@@ -35,7 +35,7 @@ i2cdetect -y 0      # the 0 represens /dev/i2c-0, insert the number of the stub 
 # The result should be something like -- 14 15 --
 ```
 
-Ofcourse the idea of the digital twin prototype is that you use the same configuration as the original system, however, since all containers share the kernel modules of the system this example is executed and in most cases you cannot create two I2C-stub devices, they need to share the I2C device. In examples with seriel or network protocols, this would be different.
+Of course the idea of the digital twin prototype is that you use the same configuration as the original system, however, since all containers share the kernel modules of the system this example is executed and in most cases you cannot create two I2C-stub devices, they need to share the I2C device. In examples with serial or network protocols, this would be different.
 
 The digital twin will use the address space `0x15` and two other GPIO pins.
 

@@ -12,7 +12,7 @@ Consider a simple stationary observation system equipped with several sensors th
 
 Observation systems, cyber-physical systems, or embedded systems in general can be viewed as distributed systems. Instead of business workflows spanning different data centers, these systems involve sensors and actuators as distinct processes that need integration into a modular core system. The objective is to develop an embedded software system where changing sensors or actuators does not impact other software components.
 
-The longstanding practice of developing embedded software using monolithic architectures has significantly influenced existing middleware and robotic systems. In these architectures, device drivers are often tightly coupled with the middleware used during the development of the embedded system~. This tight coupling creates challenges when attempting to generalize or adapt the software to other systems. For instance, when switching to a different middleware, the device driver must be redeveloped, even if the hardware logic remains unchanged. The same issue arises with algorithms that perform general tasks independent of the specific functions of the embedded system, such as pathfinding or image recognition.
+The longstanding practice of developing embedded software using monolithic architectures has significantly influenced existing middleware and robotic systems. In these architectures, device drivers are often tightly coupled with the middleware used during the development of the embedded system~. This tight coupling creates challenges when attempting to generalize or adapt the software to other systems. For instance, when switching to a different middleware, the device driver must be redeveloped, even if the hardware logic remains unchanged. The same issue arises with algorithms that perform general tasks independent of the specific functions of the embedded system, such as path finding or image recognition.
 
 We decided to use the middleware [Robot Operating System (ROS)](https://ros.org), which boasts a large and active community, a clear roadmap for long-term support (LTS) releases, bindings for all popular programming languages, and a straightforward publish-subscribe mechanism. It is important to note that when referring to ROS in this context, we mean ROS1. A successor, ROS2, is being developed concurrently and is set to replace ROS1.
 
@@ -22,7 +22,7 @@ ROS embodies five core concepts:
 
 2. **Peer-to-Peer:** Instead of relying on a central server, ROS-based embedded software systems consist of multiple processes connected at runtime in a peer-to-peer topology. The message broker facilitating this communication is called the ROS Master.
 
-3. **Tool-Based:** ROS features a microkernel design. Rather than using a monolithic structure with a master module providing all functions (such as a build system or global clock), ROS employs various tools to build and run different components. This approach reduces the complexity of the core library and provides developers with significant freedom in their choice of tools and libraries.
+3. **Tool-Based:** ROS features a micro-kernel design. Rather than using a monolithic structure with a master module providing all functions (such as a build system or global clock), ROS employs various tools to build and run different components. This approach reduces the complexity of the core library and provides developers with significant freedom in their choice of tools and libraries.
 
 4. **Multi-Lingual:** ROS is designed to be language-neutral, with its specification focused on the messaging layer. Connection negotiation and configuration between processes occur via XML-RPC. A language-neutral interface definition language describes the messages sent between modules, enabling cross-language development.
 
@@ -32,7 +32,7 @@ The ROS philosophy aligns with a service-oriented architecture strategy for embe
 
 # The Concept of Skills
 
-To comply with one of ROS's fundamental design principles, maintain minimalism, it is recommended to develop independent libraries that do not rely on ROS [5]. Keeping this in mind, the ARCHES Digital Twin Framework (ADTF) provides a library to develop the phyiscal twin and digital and connect them via the digital thread.
+To comply with one of ROS's fundamental design principles, maintain minimalism, it is recommended to develop independent libraries that do not rely on ROS [5]. Keeping this in mind, the ARCHES Digital Twin Framework (ADTF) provides a library to develop the physical twin and digital and connect them via the digital thread.
 
 The ADTF has three core principles [4]:
 - Data/status messages are automatically sent from the physical twin to the digital twin;
@@ -40,7 +40,7 @@ The ADTF has three core principles [4]:
 - All nodes are deployable in Docker containers;
 - Features should be developed as microservices
 
-In the following, microservices are referred to as *Skils**, drawing a metaphor similar to applications that can be installed on smart home devices like Amazon's Alexa.
+In the following, microservices are referred to as *Skills**, drawing a metaphor similar to applications that can be installed on smart home devices like Amazon's Alexa.
 
 ## Definition
 A **Skill** describes the capability that is added to the system by introducing a microservice. Services and drivers can be part of a Skill, but only the nodes that contain publishers or subscribers that are able to synchronize their messages with the physical twin or digital twin are referred to as **Skill**.
@@ -82,7 +82,7 @@ class SensorSkill(Skill):
     }
 ```
 
-Notice that device drivers are not forseen as skills. But any node that evaluates/transofrms/analyzes the interactions and data from the device drivers can be skills. 
+Notice that device drivers are not forseen as skills. But any node that evaluates/transforms/analyzes the interactions and data from the device drivers can be skills. 
 
 ## Examples
 Examples of Skills provided by ADTF include the [*DigitalShadow-Collector*](https://git.geomar.de/open-source/arches/arches_core/-/blob/main/src/arches_core/digitalthread/digitalshadow.py) and [*DigitalShadow-Distributor*](https://git.geomar.de/open-source/arches/arches_core/-/blob/main/src/arches_core/digitalthread/digitalshadow.py) services. The collector gathers data for its twin, while the distributor forwards received data to corresponding topics. 
