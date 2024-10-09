@@ -24,7 +24,7 @@ There are three environment files with relevant variables:
 ```console
 sudo modprobe gpio-mockup gpio_mockup_ranges=1,41
 sudo modprobe i2c-dev
-sudo modprobe i2c-stub chip_addr=[0x14, 0x15]
+sudo modprobe i2c-stub chip_addr=0x14,0x15
 ```
 
 With the `i2c-tools` installed, you can check whether both addresses are allocated now:
