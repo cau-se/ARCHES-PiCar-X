@@ -22,7 +22,7 @@ class AckermannDriveNode(AckermannDriveSkill):
             rospy.get_param('~motor_left_topic'), Int8, queue_size=5)
         self.motor_right_publisher = rospy.Publisher(
             rospy.get_param('~motor_right_topic'), Int8, queue_size=5)
-        self.clutchgeer_publisher = rospy.Publisher(
+        self.clutchgear_publisher = rospy.Publisher(
             rospy.get_param('~steering_topic'), Int8, queue_size=5)
         self.status_publisher = rospy.Publisher(
             rospy.get_param('~status_topic'), DriveStatus, queue_size=5)

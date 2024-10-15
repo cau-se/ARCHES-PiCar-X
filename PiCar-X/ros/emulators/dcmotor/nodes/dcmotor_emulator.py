@@ -128,6 +128,12 @@ class DCMotorEmulator(AbstractMotorEmulator):
             "~controller_publisher_topic"), Float64, queue_size=5)
 
         while not rospy.is_shutdown():
+            pin_value = self.direction_pin.value
+            if pin_value == 0:
+                self.direction = TravelDirection.FORWARD
+            else:
+                self.direction = TravelDirection.BACKWARD
+                
             try:
                 if self.direction is not None:
                     self.drive_with_speed(self.pwm_pin.duty_cycle)

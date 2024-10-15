@@ -80,7 +80,7 @@ class TestDCMotor(unittest.TestCase):
             self.dcmotor.pwm_pin.channel, int('P12'[1:]))
         self.assertEqual(self.dcmotor.pwm_pin.i2c_port, '/dev/i2c-1')
         self.assertEqual(self.dcmotor.motor_side, MotorSide.LEFT)
-        self.assertEqual(self.dcmotor.direction, TravelDirection.FORWARD.value)
+        self.assertEqual(self.dcmotor.direction, 1)
 
     @parameterized.expand([
         (65039, "Moving with {} percent speed\n".format(100)),

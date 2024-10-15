@@ -125,10 +125,23 @@ class AbstractMotorEmulator(metaclass=ABCMeta):
 
         :param direction: The travel direction of the motor.
         """
-        if direction.value != self.motor_side.value:
-            self.__direction = 1  # forward
-        else:
+        if direction.value == 1 and self.motor_side.value == 1:
+            self.__direction = -1  # forward
+            
+        if direction.value == 0 and self.motor_side.value == 1:
+            self.__direction = 1  # backward
+            
+        if direction.value == 1 and self.motor_side.value == 0:
             self.__direction = -1  # backward
+            
+        if direction.value == 0 and self.motor_side.value == 0:
+            self.__direction = 1  # forward
+            
+        
+        # if direction.value != self.motor_side.value:
+        #     self.__direction = -1  # backward
+        # else:
+        #     self.__direction = 1  # forward
 
     @property
     def speed(self):

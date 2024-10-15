@@ -5,8 +5,8 @@ from typing import Union
 
 
 class TravelDirection(Enum):
-    FORWARD = 1
-    BACKWARD = 0
+    FORWARD = 0
+    BACKWARD = 1
 
 
 class MotorSide(Enum):

@@ -152,8 +152,8 @@ class PWM(I2C):
             prescaler (int): The PWM prescaler.
         """
         self.__prescaler = prescaler
-        if prescaler > 0:
-            self.register_prescaler.write(prescaler)
+        #if prescaler > 0:
+        #    self.register_prescaler.write(prescaler)
 
     @property
     def frequency(self):
@@ -174,8 +174,8 @@ class PWM(I2C):
             frequency (int): The PWM frequency.
         """
         self.__frequency = frequency
-        if frequency > 0:
-            self.register_frequency.write(frequency)
+        #if frequency > 0:
+        #    self.register_frequency.write(frequency)
 
     @property
     def register_channel(self):
@@ -216,8 +216,9 @@ class PWM(I2C):
         Args:
             register_address (int): The register address for the frequency.
         """
-        self.__register_frequency = self.create_register(
-            register_address + self.channel, 2)
+        self.__register_frequency = register_address
+        #self.__register_frequency = self.create_register(
+        #    register_address + self.channel, 2)
 
     @property
     def register_prescaler(self):
@@ -237,8 +238,9 @@ class PWM(I2C):
         Args:
             register_address (int): The register address for the prescaler.
         """
-        self.__register_prescaler = self.create_register(
-            register_address + self.channel, 2)
+        self.__register_prescaler = register_address
+        #self.__register_prescaler = self.create_register(
+        #    register_address + self.channel, 2)
 
     @property
     def pulse_width(self):

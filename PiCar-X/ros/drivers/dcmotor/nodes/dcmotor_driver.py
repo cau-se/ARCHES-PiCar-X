@@ -101,7 +101,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
         :param ros_msg: ROS message containing the speed data.
         :type ros_msg: Int8
         """
-        self.direction = TravelDirection.FORWARD if ros_msg.direction == 0 else TravelDirection.BACKWARD
+        self.direction = TravelDirection.FORWARD if ros_msg.direction == TravelDirection.FORWARD.value else TravelDirection.BACKWARD
         self.drive_with_pulse_width(ros_msg.pulse_width)
 
     def send_status(self):

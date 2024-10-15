@@ -18,7 +18,7 @@ class AckermanMonitorNode(AckermannMonitorSkill):
             rospy.get_param('~motor_left_topic')+'/from_status', MotorStatus, queue_size=5)
         self.motor_right_publisher = rospy.Publisher(
             rospy.get_param('~motor_right_topic')+'/from_status', MotorStatus, queue_size=5)
-        self.clutchgeer_publisher = rospy.Publisher(
+        self.clutchgear_publisher = rospy.Publisher(
             rospy.get_param('~steering_topic')+'/from_status', ClutchGearStatus, queue_size=5)
         rospy.Subscriber(rospy.get_param('~status_topic'),
                          DriveStatus, self.drive_from_status)

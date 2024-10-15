@@ -13,7 +13,7 @@ class AckermannStartOptions(object):
         an autoincrement value will be used as id.
 
         Note:
-            If you use Docker, we recommand to set the ids.
+            If you use Docker, we recommend to set the ids.
     """
 
     def __init__(self, argv):
@@ -39,7 +39,7 @@ class AckermannMonitorSkill(Skill):
     Attributes:
         motor_left_publisher (rospy.Publisher): Publisher for the left motor.
         motor_right_publisher (rospy.Publisher): Publisher for the right motor.
-        clutchgeer_publisher (rospy.Publisher): Publisher for the clutch gear.
+        clutchgear_publisher (rospy.Publisher): Publisher for the clutch gear.
     """
 
     def __init__(self, name: str, uid: str = None) -> None:
@@ -53,7 +53,7 @@ class AckermannMonitorSkill(Skill):
         super(AckermannMonitorSkill, self).__init__(name, 'Monitoring', uid)
         self.motor_left_publisher = None
         self.motor_right_publisher = None
-        self.clutchgeer_publisher = None
+        self.clutchgear_publisher = None
 
     @property
     def motor_left_publisher(self) -> Union[None, rospy.Publisher]:
@@ -114,17 +114,17 @@ class AckermannMonitorSkill(Skill):
                 "Publisher has to be of type rospy.Publisher or None, but {} was given.".format(type(publisher)))
 
     @property
-    def clutchgeer_publisher(self) -> Union[None, rospy.Publisher]:
+    def clutchgear_publisher(self) -> Union[None, rospy.Publisher]:
         """
         Get the clutch gear publisher.
 
         Returns:
             Union[None, rospy.Publisher]: The clutch gear publisher.
         """
-        return self.__clutchgeer_publisher
+        return self.__clutchgear_publisher
 
-    @clutchgeer_publisher.setter
-    def clutchgeer_publisher(self, publisher: Union[None, rospy.Publisher]) -> Union[None, rospy.Publisher]:
+    @clutchgear_publisher.setter
+    def clutchgear_publisher(self, publisher: Union[None, rospy.Publisher]) -> Union[None, rospy.Publisher]:
         """
         Set the clutch gear publisher.
 
@@ -135,9 +135,9 @@ class AckermannMonitorSkill(Skill):
             ValueError: If the publisher is not of type rospy.Publisher or None.
         """
         if publisher is None:
-            self.__clutchgeer_publisher = None
+            self.__clutchgear_publisher = None
         elif isinstance(publisher, rospy.Publisher):
-            self.__clutchgeer_publisher = publisher
+            self.__clutchgear_publisher = publisher
         else:
             raise ValueError(
                 "Publisher has to be of type rospy.Publisher or None, but {} was given.".format(type(publisher)))
@@ -151,7 +151,7 @@ class AckermannMonitorSkill(Skill):
         """
         self.motor_left_publisher.publish(ros_msg.motor_left)
         self.motor_right_publisher.publish(ros_msg.motor_left)
-        self.clutchgeer_publisher.publish(ros_msg.clutchgear)
+        self.clutchgear_publisher.publish(ros_msg.clutchgear)
 
     def stop(self):
         """

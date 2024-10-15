@@ -21,7 +21,7 @@ services:
     env_file:
       - ./env/picarx.env
     tty: true
-    command: /bin/bash -c "roslaunch arches_core digitalshadow_dt.launch"
+    command: /bin/bash -c "roslaunch arches_core digitalshadow_pt.launch"
     depends_on:
       picarx:
         condition: service_healthy
@@ -31,8 +31,9 @@ services:
       dockerfile: Dockerfile
       context: ./ros/drivers/dcmotor/
       args:
-        - TAG=${TAG}
-    image: ghcr.io/cau-se/arches-picar-x/drivers/clutchgear:${TAG:-latest}
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
+    image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
     env_file:
       - ./env/picarx.env
     tty: true
@@ -49,7 +50,7 @@ services:
         condition: service_healthy
 
   motor_right-pt:
-    image: ghcr.io/cau-se/arches-picar-x/drivers/clutchgear:${TAG:-latest}
+    image: ghcr.io/cau-se/arches-picar-x/drivers/dcmotor:${TAG:-latest}
     tty: true
     env_file:
       - ./env/picarx.env
@@ -70,7 +71,8 @@ services:
       dockerfile: Dockerfile
       context: ./ros/drivers/clutchgear
       args:
-        - TAG=${TAG}
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
     image: ghcr.io/cau-se/arches-picar-x/drivers/clutchgear:${TAG:-latest}
     env_file:
       - ./env/picarx.env
@@ -92,7 +94,8 @@ services:
       dockerfile: Dockerfile
       context: ./ros/skills/ackermann_drive
       args:
-        - TAG=${TAG}
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
     image: ghcr.io/cau-se/arches-picar-x/skills/ackermann:${TAG:-latest}
     env_file:
       - ./env/picarx.env
@@ -115,7 +118,8 @@ services:
       dockerfile: Dockerfile-arches-mqtt-bridge
       context: ./ros
       args:
-        - TAG=${TAG}
+        - TAG=${TAG:-latest}
+        - ARCH=${ARCH:-}
     env_file:
       - ./env/picarx.env
     tty: true

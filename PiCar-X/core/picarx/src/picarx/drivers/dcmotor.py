@@ -127,9 +127,9 @@ class AbstractDCMotorDriver(DCMotorInterface):
         """
         self.__direction = direction
         if direction.value != self.motor_side.value:
-            self.direction_pin.on()  # forward
+            self.direction_pin.on()  # backward
         else:
-            self.direction_pin.off()  # backward
+            self.direction_pin.off()  # forward
 
     @property
     def speed(self):

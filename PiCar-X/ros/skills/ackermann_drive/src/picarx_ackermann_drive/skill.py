@@ -43,7 +43,7 @@ class AckermannDriveSkill(Skill):
         command_subscriber (rospy.Subscriber): Subscriber for receiving commands.
         motor_left_publisher (rospy.Publisher): Publisher for the left motor.
         motor_right_publisher (rospy.Publisher): Publisher for the right motor.
-        clutchgeer_publisher (rospy.Publisher): Publisher for the clutch gear.
+        clutchgear_publisher (rospy.Publisher): Publisher for the clutch gear.
         status_publisher (rospy.Publisher): Publisher for the drive status.
     """
 
@@ -59,7 +59,7 @@ class AckermannDriveSkill(Skill):
         self.command_subscriber = None
         self.motor_left_publisher = None
         self.motor_right_publisher = None
-        self.clutchgeer_publisher = None
+        self.clutchgear_publisher = None
         self.status_publisher = None
 
     @property
@@ -181,17 +181,17 @@ class AckermannDriveSkill(Skill):
                 "Publisher has to be of type rospy.Publisher or None, but {} was given.".format(type(publisher)))
 
     @property
-    def clutchgeer_publisher(self) -> Union[None, rospy.Publisher]:
+    def clutchgear_publisher(self) -> Union[None, rospy.Publisher]:
         """
         Get the clutch gear publisher.
 
         Returns:
             Union[None, rospy.Publisher]: The clutch gear publisher.
         """
-        return self.__clutchgeer_publisher
+        return self.__clutchgear_publisher
 
-    @clutchgeer_publisher.setter
-    def clutchgeer_publisher(self, publisher: Union[None, rospy.Publisher]) -> Union[None, rospy.Publisher]:
+    @clutchgear_publisher.setter
+    def clutchgear_publisher(self, publisher: Union[None, rospy.Publisher]) -> Union[None, rospy.Publisher]:
         """
         Set the clutch gear publisher.
 
@@ -202,9 +202,9 @@ class AckermannDriveSkill(Skill):
             ValueError: If the publisher is not of type rospy.Publisher or None.
         """
         if publisher is None:
-            self.__clutchgeer_publisher = None
+            self.__clutchgear_publisher = None
         elif isinstance(publisher, rospy.Publisher):
-            self.__clutchgeer_publisher = publisher
+            self.__clutchgear_publisher = publisher
         else:
             raise ValueError(
                 "Publisher has to be of type rospy.Publisher or None, but {} was given.".format(type(publisher)))
@@ -235,7 +235,7 @@ class AckermannDriveSkill(Skill):
 
         self.motor_left_publisher.publish(Int8(ros_msg.speed))
         self.motor_right_publisher.publish(Int8(ros_msg.speed))
-        self.clutchgeer_publisher.publish(Int8(angle))
+        self.clutchgear_publisher.publish(Int8(angle))
 
     def drive_from_status(self, ros_msg: DriveStatus) -> None:
         """

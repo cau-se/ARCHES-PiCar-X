@@ -34,6 +34,7 @@ install(PROGRAMS
   nodes/ackermann_drive_skill.py
   nodes/ackermann_monitor_ds.py
   nodes/ackermann_monitor_skill.py
+  nodes/drive_executor_dm.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 if(CATKIN_ENABLE_TESTING)
