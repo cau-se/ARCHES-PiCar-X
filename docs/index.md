@@ -5,6 +5,10 @@ nav_order: 1
 permalink: /
 ---
 
+<a style="border-width:0" href="https://doi.org/10.21105/joss.07179">
+  <img src="https://joss.theoj.org/papers/10.21105/joss.07179/status.svg" alt="DOI badge" >
+</a>
+
 While digital twins are becoming increasingly important in fields like Industry 4.0 and the Internet of Things (IIoT), there is a significant gap in terms of reproducibility and validation in current digital twin research.
 Despite the increasing interest in digital twin technology, many existing studies fail to provide detailed, reusable, and reproducible specifications and source code, making it difficult for researchers and engineers to replicate or extend these concepts independently.
 

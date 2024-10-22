@@ -1,0 +1,36 @@
+cff-version: "1.2.0"
+authors:
+- family-names: Barbie
+  given-names: Alexander
+  orcid: "https://orcid.org/0000-0001-5352-6039"
+- family-names: Hasselbring
+  given-names: Wilhelm
+  orcid: "https://orcid.org/0000-0001-6625-4335"
+contact:
+- family-names: Barbie
+  given-names: Alexander
+  orcid: "https://orcid.org/0000-0001-5352-6039"
+doi: 10.5281/zenodo.13937454
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Barbie
+    given-names: Alexander
+    orcid: "https://orcid.org/0000-0001-5352-6039"
+  - family-names: Hasselbring
+    given-names: Wilhelm
+    orcid: "https://orcid.org/0000-0001-6625-4335"
+  date-published: 2024-10-16
+  doi: 10.21105/joss.07179
+  issn: 2475-9066
+  issue: 102
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 7179
+  title: "ARCHES PiCar-X: Software for Digital Twin Research"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.07179"
+  volume: 9
+title: "ARCHES PiCar-X: Software for Digital Twin Research"
