@@ -5,7 +5,7 @@ import argparse
 import rospy
 from picarx.drivers.clutchgear import AbstractClutchGearDriver
 from picarx_msgs.msg import ClutchGearStatus
-from std_msgs.msg import Int8
+from std_msgs.msg import Int8, Header
 
 
 class Options(object):
@@ -81,8 +81,8 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         :type angle: int
         """
         aimed_angle = angle + 90
-        rate = rospy.Rate(50)
-        for i in range(90, aimed_angle-1, -1):
+        rate = rospy.Rate(100)
+        for i in range(90, aimed_angle-1, -2):
             pulse_width = self.angle_to_pulse_width(i)
             self.rotate_by_pulse_width(pulse_width)
             rate.sleep()
@@ -96,8 +96,8 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         :type angle: int
         """
         aimed_angle = angle + 90
-        rate = rospy.Rate(50)
-        for i in range(90, aimed_angle+1, 1):
+        rate = rospy.Rate(100)
+        for i in range(90, aimed_angle+1, 2):
             pulse_width = self.angle_to_pulse_width(i)
             self.rotate_by_pulse_width(pulse_width)
             rate.sleep()
@@ -107,9 +107,10 @@ class AckermannClutchGearDriver(AbstractClutchGearDriver):
         """
         Sends the current status of the clutch gear.
         """
+        header = Header(stamp=rospy.get_rostime())
         current_pulse_width = self.pwm_pin.register_channel.read()
         self.status_publisher.publish(
-            ClutchGearStatus(pulsewidth=current_pulse_width))
+            ClutchGearStatus(header=header, pulsewidth=current_pulse_width))
 
     def stop(self):
         """

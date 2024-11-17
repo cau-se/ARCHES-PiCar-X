@@ -4,7 +4,7 @@ import rospy
 from typing import Union
 from picarx.drivers.dcmotor import AbstractDCMotorDriver
 from picarx.interfaces.actuators import MotorSide, TravelDirection
-from std_msgs.msg import Int8
+from std_msgs.msg import Int8, Header
 from picarx.gpio import GPIO
 from picarx_msgs.msg import MotorStatus
 import argparse
@@ -91,7 +91,7 @@ class DCMotorDriver(AbstractDCMotorDriver):
         speed = int(ros_msg.data)
         self.direction = TravelDirection.FORWARD if speed >= 0 else TravelDirection.BACKWARD
         self.speed = abs(speed)
-        time.sleep(0.05)
+        time.sleep(1/50)
         self.send_status()
 
     def drive_pulse_width(self, ros_msg: MotorStatus):
@@ -108,7 +108,8 @@ class DCMotorDriver(AbstractDCMotorDriver):
         """
         Sends the current status of the motor.
         """
-        status_message = MotorStatus(
+        header = Header(stamp=rospy.get_rostime())
+        status_message = MotorStatus(header=header,
             location=self.motor_side.value, direction=self.direction.value, pulse_width=self.speed)
         self.status_publisher.publish(status_message)
 

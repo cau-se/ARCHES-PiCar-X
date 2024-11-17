@@ -270,7 +270,7 @@ class AckermannDriveSkill(Skill):
             steering_filter: Filter for the steering status.
         """
         ts = message_filters.ApproximateTimeSynchronizer(
-            [motor_left_filter, motor_right_filter, steering_filter], queue_size=3, slop=0.5, allow_headerless=True)
+            [motor_left_filter, motor_right_filter, steering_filter], queue_size=9, slop=0.05, allow_headerless=False)
         ts.registerCallback(self.send_status)
 
     def stop(self):

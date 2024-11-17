@@ -21,7 +21,7 @@ services:
     env_file:
       - ./env/picarx.env
     tty: true
-    command: /bin/bash -c "roslaunch arches_core digitalshadow_pt.launch"
+    command: /bin/bash -c "rosparam set /options/topic_mapping \"['/picarx/drive/command<-', '/drive/status->']\" && roslaunch arches_core digitalshadow_pt.launch"
     depends_on:
       picarx:
         condition: service_healthy

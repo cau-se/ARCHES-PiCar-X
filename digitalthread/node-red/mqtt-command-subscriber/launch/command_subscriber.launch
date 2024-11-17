@@ -1,0 +1,59 @@
+<launch>
+    <!-- SKILL CONFIG -->
+    <arg name="name" default="MQTTCommandSubscriber" />
+    <arg name="uid" default="None" />
+
+    <!-- MQTT CLIENT CONFIG -->
+    <arg name="client_id" default="" />
+    <arg name="clean_session" default="True" />
+    <arg name="userdata" default="None" />
+    <arg name="protocol" default="MQTTv311" />
+    <arg name="transport" default="tcp" />
+
+    <!-- CONNECTION CONFIG -->
+    <arg name="host" default="172.18.0.5" />
+    <arg name="port" default="1883" />
+    <arg name="keepalive" default="60" />
+    <arg name="bind_address" default="" />
+
+    <!-- TLS CONFIG-->
+    <arg name="ca_certs" default="None" />
+    <arg name="certfile" default="None" />
+    <arg name="keyfile" default="None" />
+    <arg name="cert_reqs" default="true" />
+    <arg name="tls_version" default="true" />
+    <arg name="ciphers" default="None" />
+
+    <!-- USERNAME AND PW -->
+    <arg name="username" default="None" />
+    <arg name="password" default="None" />
+
+    <!-- PiCar-X topics -->
+    <arg name="command_topic" default="/picarx/drive/command" />
+
+    <node name="$(arg name)" type="command_subscriber.py" pkg="picarx_command_subscriber_mqtt"
+        args="$(arg name) $(arg uid) $(arg command_topic)">
+        <param name="config/client/client_id" value="$(arg client_id)" />
+        <param name="config/client/clean_session" value="$(arg clean_session)" />
+        <param name="config/client/userdata" value="$(arg userdata)" />
+        <param name="config/client/protocol" value="$(arg protocol)" />
+        <param name="config/client/transport" value="$(arg transport)" />
+        <param name="config/connect/host" value="$(arg host)" />
+        <param name="config/connect/port" value="$(arg port)" />
+        <param name="config/connect/keepalive" value="$(arg keepalive)" />
+        <param name="config/connect/bind_address" value="$(arg bind_address)" />
+        <param name="config/tls/ca_certs" value="$(arg ca_certs)" />
+        <param name="config/tls/certfile" value="$(arg certfile)" />
+        <param name="config/tls/keyfile" value="$(arg keyfile)" />
+        <param name="config/tls/cert_reqs" value="$(arg cert_reqs)" />
+        <param name="config/tls/tls_version" value="$(arg tls_version)" />
+        <param name="config/tls/ciphers" value="$(arg ciphers)" />
+        <param name="config/credentials/username" value="$(arg username)" />
+        <param name="config/credentials/password" value="$(arg password)" />
+        <param name="command_topic" type="str" value="$(arg command_topic)" />
+
+    </node>
+
+</launch>
+    
+    

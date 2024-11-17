@@ -6,6 +6,7 @@ uint8 BACKWARD = 1
 uint8 MOTOR_LEFT = 0
 uint8 MOTOR_RIGHT = 1
 
+Header header
 uint8 location # motor left or motor right
 int8 direction # FORWARD or BACKWARD
 int16 pulse_width
